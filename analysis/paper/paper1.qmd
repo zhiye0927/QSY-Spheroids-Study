@@ -1,0 +1,6 @@
+---
+title: "Test"
+format: html
+bibliography: references.bib
+---
+这是 Wadell 的研究引用示例 [@Wadell1935]

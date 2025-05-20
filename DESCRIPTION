@@ -1,0 +1,17 @@
+Package: QSYSpheroidsStudy
+Title: Shaping strategy in core and flake industry：Standardized manufacturing of QSY (North China) faceted spheroids
+Version: 0.0.0.9000
+Authors@R:
+    person("Zhi", "Ye", "yezhi@ivpp.ac.cn", role = c("aut", "cre"))
+Description: What the package does (one paragraph).
+License: MIT + file LICENSE
+ByteCompile: true
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports:
+    tidyverse (>= 2.0.0),
+    here
+Suggests: devtools,
+    git2r
