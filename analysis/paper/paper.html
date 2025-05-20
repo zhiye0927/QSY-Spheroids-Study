@@ -284,9 +284,21 @@ window.Quarto = {
 <p>Based on this diacritical analysis and scar orientation analysis, we can summarize the technical strategy employed in the production of faceted spheroids in QSY. This strategy consists of a series of essential and sequential phases: a potential rough-out phase, volume exploitation aimed at forming a cubic shape, surface exploitation to approximate a spheroidal geometry, edge refinement, and potentially the repetition of earlier phases. The existence of a repetitive phase is supported by the observation that while the original cobble blanks in QSY display considerable size variation, the finished spheroids—although some are relatively large—mostly cluster around a diameter of 8–10 cm. This suggests that the production of spheroids may have involved multiple cycles of reduction, and further implies that a diameter of 8–10 cm was considered an optimal or intended size in the knapping process.</p>
 <!-- Here's some example analysis code: -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note the path that we need to use to access our data files when rendering this document</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">'analysis/data/raw_data/my_csv_file.csv'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="fu">here</span>(<span class="st">"analysis/figures/1.png"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-myfig" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-myfig-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/1.png" class="img-fluid figure-img">
 </div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-myfig-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: the text of the captions.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><a href="#fig-myfig" class="quarto-xref">Figure&nbsp;1</a> shows…</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">rnorm</span>(<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -296,13 +308,13 @@ window.Quarto = {
 <img src="paper_files/figure-html/fig-demo-plot-1.png" class="img-fluid figure-img" width="4200">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-demo-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: A plot of random numbers
+Figure&nbsp;2: A plot of random numbers
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p><a href="#fig-demo-plot" class="quarto-xref">Figure&nbsp;1</a> shows how we can have a caption and cross-reference for a plot. Note that figure label and cross-references must both be prefixed with <code>fig-</code></p>
+<p><a href="#fig-demo-plot" class="quarto-xref">Figure&nbsp;2</a> shows how we can have a caption and cross-reference for a plot. Note that figure label and cross-references must both be prefixed with <code>fig-</code></p>
 <p>Here is an example of inline code 3.14 in the middle of a sentence.</p>
 </section>
 </section>
@@ -349,7 +361,7 @@ Wadell, Hakon. 1935. <span>“Volume, <span>Shape</span>, and <span>Roundness</s
 <div style="page-break-after: always;"></div>
 <section id="colophon" class="level3">
 <h3 class="anchored" data-anchor-id="colophon">Colophon</h3>
-<p>This report was generated on 2025-05-20 10:05:54.502178 using the following computational environment and dependencies:</p>
+<p>This report was generated on 2025-05-20 11:18:39.04781 using the following computational environment and dependencies:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># which R packages and versions?</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="st">"devtools"</span> <span class="sc">%in%</span> <span class="fu">installed.packages</span>()) devtools<span class="sc">::</span><span class="fu">session_info</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -405,6 +417,7 @@ Wadell, Hakon. 1935. <span>“Volume, <span>Shape</span>, and <span>Roundness</s
  glue           1.8.0    2024-09-30 [1] CRAN (R 4.4.3)
  gridExtra      2.3      2017-09-09 [1] CRAN (R 4.4.3)
  gtable         0.3.6    2024-10-25 [1] CRAN (R 4.4.3)
+ here         * 1.0.1    2020-12-13 [1] CRAN (R 4.4.3)
  hexbin         1.28.5   2024-11-13 [1] CRAN (R 4.4.3)
  htmltools      0.5.8.1  2024-04-04 [1] CRAN (R 4.4.3)
  htmlwidgets    1.6.4    2023-12-06 [1] CRAN (R 4.4.3)
@@ -443,6 +456,7 @@ Wadell, Hakon. 1935. <span>“Volume, <span>Shape</span>, and <span>Roundness</s
  rlang          1.1.5    2025-01-17 [1] CRAN (R 4.4.3)
  rmarkdown      2.29     2024-11-04 [1] CRAN (R 4.4.3)
  robustbase     0.99-4-1 2024-09-27 [1] CRAN (R 4.4.3)
+ rprojroot      2.0.4    2023-11-05 [1] CRAN (R 4.4.3)
  rstatix        0.7.2    2023-02-01 [1] CRAN (R 4.4.3)
  rstudioapi     0.17.1   2024-10-22 [1] CRAN (R 4.4.3)
  Rttf2pt1       1.3.12   2023-01-22 [1] CRAN (R 4.4.0)
@@ -475,8 +489,9 @@ Wadell, Hakon. 1935. <span>“Volume, <span>Shape</span>, and <span>Roundness</s
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># what commit is this file at? </span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="st">"git2r"</span> <span class="sc">%in%</span> <span class="fu">installed.packages</span>() <span class="sc">&amp;</span> git2r<span class="sc">::</span><span class="fu">in_repository</span>(<span class="at">path =</span> <span class="st">"."</span>)) git2r<span class="sc">::</span><span class="fu">repository</span>(here<span class="sc">::</span><span class="fu">here</span>())  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Local:    E:/Lithic Analysis/QSYSpheroidsStudy
-Head:     nothing commited (yet)</code></pre>
+<pre><code>Local:    main E:/Lithic Analysis/QSYSpheroidsStudy
+Remote:   main @ origin (https://github.com/zhiye0927/QSY-Spheroids-Study.git)
+Head:     [89afa20] 2025-05-20: update file paths</code></pre>
 </div>
 </div>
 </section>
