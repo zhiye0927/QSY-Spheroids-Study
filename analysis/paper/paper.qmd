@@ -248,7 +248,7 @@ ggtern(data = benn.output, aes(Z, IS, EL, color = type)) +
     "spheroid" = "red"
   ))
 
-ggsave(here("analysis/figures/benn_ternary_plot.jpg"), 
+ggsave(here("analysis/paper/figures/benn_ternary_plot.jpg"), 
        width = 8, 
        height = 6, 
        dpi = 300)
@@ -260,29 +260,14 @@ Based on this diacritical analysis and scar orientation analysis, we can summari
 <!-- Here's some example analysis code: -->
 
 ```{r}
-#| label: fig-myfig
-#| fig-cap: "the text of the captions. "
+#| label: fig-m
+#| fig-cap: "the"
+#| out-width: "100%"
 
-knitr::include_graphics(here("analysis/figures/1.png"))
+knitr::include_graphics(here("analysis/paper/figures/1.png"))
 ```
 
-@fig-myfig shows...
-
-```{r}
-#| label: fig-demo-plot
-#| fig-cap: "A plot of random numbers"
-plot(rnorm(10))
-```
-
-@fig-demo-plot shows how we can have a caption and cross-reference for a plot. Note that figure label and cross-references must both be prefixed with `fig-`
-
-```{r}
-#| label: demo-inline-code
-#| echo: false
-x <- round(pi, 2)
-```
-
-Here is an example of inline code `r x` in the middle of a sentence.
+@fig-m shows...
 
 # Discussion
 
