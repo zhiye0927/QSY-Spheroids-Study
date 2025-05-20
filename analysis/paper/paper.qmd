@@ -46,11 +46,10 @@ library(ggplot2)
 library(stringr)
 library(ggtern)
 library(dplyr)
-source('McPherron_2018.r')
-source('get_coordinates.r')
-source('vector_stats.r')
-
-
+library(here)
+source(here('analysis/paper/scripts/McPherron_2018.r'))
+source(here('analysis/paper/scripts/get_coordinates.r'))
+source(here('analysis/paper/scripts/vector_stats.r'))
 ```
 
 # Introduction
@@ -195,7 +194,7 @@ get_coordinates <- function(filename) {
 }
 
 # 遍历文件夹中的文本文件
-folder_path <- "C:/Users/27086/Desktop/Sam Lin-orientation analysis/Lin_et_al_Core_scar_orientation_Data_and_R_code/Data_and_R_code/QSY_A"
+folder_path <- here("analysis/data/QSY_A")
 temp_file_list <- list.files(folder_path, pattern = "\\.txt$")  # 只列出 .txt 文件
 
 std <- list()
@@ -216,7 +215,8 @@ colnames(benn.output) <- c('Scar_count', 'E1', 'E2', 'E3', 'IS', 'EL', 'type', '
 print(head(benn.output))
 
 # 保存为 CSV
-write.csv(benn.output, "benn_output.csv", row.names = FALSE)
+write.csv(benn.output,
+          here("analysis/data/benn_output.csv"), row.names = FALSE)
 ```
 
 
@@ -249,7 +249,10 @@ ggtern(data = benn.output, aes(Z, IS, EL, color = type)) +
     "spheroid" = "red"
   ))
 
-ggsave("benn_ternary_plot.jpg", width = 8, height = 6, dpi = 300)
+ggsave(here("analysis/figures/benn_ternary_plot.jpg"), 
+       width = 8, 
+       height = 6, 
+       dpi = 300)
 
 ```
 
@@ -257,6 +260,14 @@ Based on this diacritical analysis and scar orientation analysis, we can summari
 
 
 <!-- Here's some example analysis code: -->
+
+```{r}
+#| label: fig-myfig
+#| fig-cap: "the text of the captions. "
+#| fig-height: 4
+
+knitr::include_graphics(here::here("analysis/figures/thefigure.png"))
+```
 
 ```{r}
 #| label: get-data
