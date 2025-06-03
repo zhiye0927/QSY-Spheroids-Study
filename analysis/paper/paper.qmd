@@ -109,13 +109,13 @@ To investigate the production strategies of spheroids in QSY, this part aims to 
 
 ### Diacritical analysis
 
-We applied diacritical analysis to reconstruct the reduction sequence based on superimposition relationships among scars on spheroids. This method enables the identification of scars order, allowing us to figure out the organization of removals. All spheroids, polyhedron and multifacial cores are included in the analysis to assess whether removals organization differs systematically within these groups.
+We applied diacritical analysis to reconstruct the reduction sequence based on superimposition relationships among scars on spheroids [@Titton2020; @Cabanès2024]. This method enables the identification of scars order, allowing us to figure out the organization of removals. All spheroids, polyhedron and multifacial cores are included in the analysis to assess whether removals organization differs systematically within these groups.
 
 Following the reconstruction of reduction sequences, we adopted an inductive approach to infer exploitation models of spheroids—that is, the removal patterns and associated stages employed in a spheroid. Ideally, the goal is to reconstruct the complete chaîne opératoire of spheroids—from the selection of raw material and initial blank to the final product. If consistent patterns are observed, they may indicate shared reduction schemes or conceptual templates. Furthermore, we explore whether multifacial cores and polyhedrons may represent earlier stages in spheroid reduction sequences, contributing to understanding the technological relationship between these types.
 
 ### Orientation analysis
 
-To further investigate technological strategies, we incorporated orientation statistics as a complementary approach. This method derives from fabric analysis originally used in sedimentology and has since been adapted to study the arrangement of flake scars on lithic artifacts. We followed the protocol developed by Sam Lin, extracting scar vectors from each core and calculating eigenvalues to derive the isotropic ratio and elongation ratio, these steps are finished in Geomagic Wrap, Rhino8 and R.
+To further investigate technological strategies, we incorporated orientation statistics as a complementary approach. This method derives from fabric analysis originally used in sedimentology and has since been adapted to study the arrangement of flake scars on lithic artifacts. We followed the protocol developed by Sam Lin [@Lin2024], extracting scar vectors from each core and calculating eigenvalues to derive the isotropic ratio and elongation ratio, these steps are finished in Geomagic Wrap, Rhino8 and R.
 
 Results are visualized using ternary plots to compare orientation statistics between spheroids and other core types. Based on our hypothesis, if spheroids were shaped following a consistent reduction sequence, they should exhibit similar and patterned orientation results. In contrast, if they merely represent exhausted cores, the orientation patterns would appear random and highly variable, similar to those of undirected polyhedron and multifacial cores.
 
