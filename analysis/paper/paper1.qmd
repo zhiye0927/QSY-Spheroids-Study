@@ -4,3 +4,129 @@ format: html
 bibliography: references.bib
 ---
 这是 Wadell 的研究引用示例 [@Wadell1935]
+
+
+```{r, Fig, benn_ternary_plot, echo=FALSE}
+# 加载必要包
+library(readxl)
+library(Hmisc)       # 用于计算相关系数和p值
+library(ggcorrplot)  # 用于相关性热图绘制
+
+# 读取 Excel 文件
+file_path <- "E:/Lithic Analysis/QSYSpheroidsStudy/analysis/data/derived_data/flaking_intensity_and_shape.xlsx"
+data <- read_excel(file_path)
+
+# 标准化列名
+colnames(data) <- make.names(colnames(data))
+
+# 选定分析的列
+selected_names <- c("Scar.number", "Removal.ratio", "SDI",
+                    "Edge.angle.mean", "Curvature", "Sphericity", "SPHARM.power")
+
+# 只选取实际存在于数据中的列
+selected_cols <- data[, selected_names[selected_names %in% colnames(data)]]
+
+# 显示维度和列名确认
+print(dim(selected_cols))
+print(colnames(selected_cols))
+
+# 计算 Spearman 相关系数和对应的 p 值
+rcorr_result <- rcorr(as.matrix(selected_cols), type = "spearman")
+cor_matrix <- rcorr_result$r
+p_matrix <- rcorr_result$P
+
+# 替换 p_matrix 中的 NA 为 0，避免绘图报错
+p_matrix[is.na(p_matrix)] <- 0
+
+# 打印结果查看
+print("Spearman correlation matrix:")
+print(round(cor_matrix, 2))
+print("P-value matrix:")
+print(round(p_matrix, 4))
+
+# 绘制相关性矩阵图，显著性水平 0.05
+ggcorrplot(cor_matrix,
+           p.mat = p_matrix,
+           sig.level = 0.05,
+           insig = "blank",
+           lab = TRUE,
+           lab_size = 3,
+           type = "full",
+           colors = c("blue", "white", "red"),
+           outline.color = "gray",
+           title = "Spearman Correlation Matrix with Significance")
+
+# 输出样本量
+cat("样本量：", nrow(selected_cols), "个。\n")
+
+
+```
+
+```{r, Fig, benn_ternary_plot, echo=FALSE}
+
+# 加载必要包
+library(readxl)
+library(Hmisc)       # 用于计算相关系数和p值
+library(ggcorrplot)  # 用于相关性热图绘制
+
+# 读取 Excel 文件
+file_path <- "E:/Lithic Analysis/QSYSpheroidsStudy/analysis/data/derived_data/flaking_intensity_and_shape.xlsx"
+data <- read_excel(file_path)
+
+# 标准化列名
+colnames(data) <- make.names(colnames(data))
+
+# 选定分析的列
+selected_names <- c("Scar.number", "Removal.ratio", "SDI",
+                    "Edge.angle.mean", "Curvature", "Sphericity", "SPHARM.power")
+
+# 只选取实际存在于数据中的列
+selected_cols <- data[, selected_names[selected_names %in% colnames(data)]]
+
+# 显示维度和列名确认
+print(dim(selected_cols))
+print(colnames(selected_cols))
+
+# 计算 Spearman 相关系数和对应的 p 值
+rcorr_result <- rcorr(as.matrix(selected_cols), type = "spearman")
+cor_matrix <- rcorr_result$r
+p_matrix <- rcorr_result$P
+
+# 打印结果查看
+print("Spearman correlation matrix:")
+print(round(cor_matrix, 2))
+print("P-value matrix:")
+print(round(p_matrix, 4))
+
+# 转换成长格式
+cor_long <- melt(cor_matrix)
+p_long <- melt(p_matrix)
+
+labels_long <- merge(cor_long, p_long, by = c("Var1", "Var2"))
+colnames(labels_long) <- c("Var1", "Var2", "cor", "p")
+
+# 调整因子顺序（让 y 轴从上往下）
+labels_long$Var1 <- factor(labels_long$Var1, levels = rev(rownames(cor_matrix)))
+labels_long$Var2 <- factor(labels_long$Var2, levels = colnames(cor_matrix))
+
+# 显著标记星号
+labels_long$star <- ifelse(labels_long$p < 0.1 & labels_long$Var1 != labels_long$Var2, "*", "")
+
+# 相关系数文本，保留2位小数
+labels_long$cor_label <- sprintf("%.5f", labels_long$cor)
+
+# 自己绘图
+ggplot(labels_long, aes(x = Var2, y = Var1, fill = cor)) +
+  geom_tile(color = "gray") +
+  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
+  geom_text(aes(label = cor_label), size = 3) +          
+# 相关系数字符串
+  geom_text(aes(label = star), color = "red", size = 6, nudge_y = 0.25) + # 星号
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title = "Spearman Correlation Matrix with Significance",
+       fill = "Correlation")
+
+
+
+```
