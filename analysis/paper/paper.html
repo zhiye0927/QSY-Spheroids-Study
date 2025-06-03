@@ -212,6 +212,7 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="spherical-harmonic-energy">Spherical Harmonic energy</h3>
 <p>Additionally, we compute the spherical harmonic energy (SHE), defined as the sum of squared spherical harmonic coefficients for each degree. This provides a rotation-invariant measure of shape complexity across spatial frequencies. For normalized shapes, this total energy approaches 1 for an ideal sphere, while more irregular forms yield higher values.</p>
 <p>Notably, classic sphericity metrics <span class="citation" data-cites="Wadell1935">(<a href="#ref-Wadell1935" role="doc-biblioref">Wadell 1935</a>)</span> exhibit critical limitations in differentiating morphotypes with equivalent surface-area-to-volume ratios. For instance, rough spheres and smooth ellipsoids may achieve comparable Wadell values despite fundamentally distinct geometries. SHE overcomes this constraint through spherical harmonic decomposition of surface morphology, and this allows it to distinguish localized irregularities (like core edge or concave) from global shape deviations (e.g., elongation) – differences that classic sphericity metrics often fail to capture.</p>
+<p>We computed the total energy at degree 20, a resolution high enough to capture surface details. Lower energy values indicate smoother and more regular surfaces, while higher values reflect more irregular or angular geometries. Unlike sphericity, which may overestimate sphericality in irregular objects, spherical harmonic energy better captures fine-scale shape deviations.</p>
 </section>
 <section id="centroid-offset" class="level3">
 <h3 class="anchored" data-anchor-id="centroid-offset">Centroid offset</h3>
@@ -232,23 +233,31 @@ window.Quarto = {
 <p>Results are visualized using ternary plots to compare orientation statistics between spheroids and other core types. Based on our hypothesis, if spheroids were shaped following a consistent reduction sequence, they should exhibit similar and patterned orientation results. In contrast, if they merely represent exhausted cores, the orientation patterns would appear random and highly variable, similar to those of undirected polyhedron and multifacial cores.</p>
 </section>
 </section>
-<section id="core-type-and-typology-1" class="level2">
-<h2 class="anchored" data-anchor-id="core-type-and-typology-1">Core Type and Typology</h2>
+<section id="efficiency-of-shaping-strategy" class="level2">
+<h2 class="anchored" data-anchor-id="efficiency-of-shaping-strategy">Efficiency of shaping strategy</h2>
 <p>This section aims to investigate how the morphology of spheroids evolves during the reduction process. We hypothesize that, as reduction intensity increases, spheroids will progressively approximate a perfect sphere. This would indicate a high-efficiency shaping strategy, where each step is directed toward achieving a predefined morphological goal. To test this hypothesis, we established a set of quantitative indicators for reduction intensity and spheroid morphology.</p>
 <section id="degree-of-reduction" class="level3">
-<h3 class="anchored" data-anchor-id="degree-of-reduction">degree of reduction</h3>
-<p><u>Scar Number</u> The total number of flake scars visible on the spheroid surface.</p>
-<p><u>Removal Ratio</u> Calculated as 1 minus cortex ratio, where the cortex ratio represents the proportion of cortical surface area to total surface area. We used the Removal Ratio instead of the traditional cortex ratio in order to maintain a positive correlation with other reduction intensity indicators.</p>
-<p><u>Scar Density Index (SDI)</u> Defined as the number of flake scars divided by the total 3D surface area, the Scar Density Index (SDI) serves as a robust indicator of core reduction intensity, following Clarkson (2013). It has been demonstrated to effectively capture the dynamic nature of the reduction process.</p>
-<p>In all three metrics, higher values represent more advanced stages of reduction. Scar counts and surface area measurements were extracted using Geomagic Wrap.</p>
+<h3 class="anchored" data-anchor-id="degree-of-reduction">Degree of reduction</h3>
+<p>To compute the degree of reduction we collected data on three metrics: scar number, removal ratio and scar density index (SDI). We measured scar number as total number of flake scars visible on the spheroid surface. Removal ratio was calculated as 1 minus cortex ratio, where the cortex ratio represents the proportion of cortical surface area to total surface area. [BM: add a sentence to define cortex ratio and give citation.] We used the removal ratio instead of the traditional cortex ratio in order to maintain a positive correlation with other reduction intensity indicators. SDI is defined as the number of flake scars divided by the total 3D surface area, the SDI serves as a robust indicator of core reduction intensity, following <span class="citation" data-cites="clarksonMeasuringCoreReduction2013">Clarkson (<a href="#ref-clarksonMeasuringCoreReduction2013" role="doc-biblioref">2013</a>)</span>. It has been demonstrated to effectively capture the dynamic nature of the reduction process.In all three metrics, higher values represent more advanced stages of reduction. Scar counts and surface area measurements were extracted using Geomagic Wrap.</p>
 </section>
-<section id="shape-of-spheroids" class="level3">
-<h3 class="anchored" data-anchor-id="shape-of-spheroids">shape of spheroids</h3>
-<p><u>Mean Edge Angle</u> Higher average edge angles suggest a more spherical geometry. Ten edge intersections were randomly sampled per spheroid. Angles were calculated by constructing triangles at ridge intersections, extracting vertex coordinates in Geomagic Wrap, and computing angles using trigonometric functions in R.</p>
-<p><u>Mean Surface Curvature</u> A proxy for surface roughness, and higher mean surface curvature leads to a smoother surface. We estimated local curvature using the k-nearest neighbors method to fit a best-fit plane at each vertex. The deviation between actual surface points and this fitted plane reflects surface roughness. The calculation steps are completed in Python.</p>
-<p><u>Sphericity</u> Calculated from surface area and volume. Values closer to 1 indicate a shape approaching a geometrically perfect sphere.</p>
-<p><u>Spherical Harmonic Energy </u> Used to quantify shape sysmmtry and regularity, especially at fine scales. We computed the total energy at degree 20, a resolution high enough to capture surface details. Lower energy values indicate smoother and more regular surfaces, while higher values reflect more irregular or angular geometries. Unlike sphericity, which may overestimate sphericality in irregular objects, spherical harmonic energy better captures fine-scale shape deviations.</p>
-<p>Together, these variables allow us to assess whether more extensively reduced spheroids display more standardized, symmetrical, and regular morphologies—characteristics expected in deliberate shaping strategies. We conducted Spearman’s rank correlation analysis between two sets of variables—reduction intensity indicators and morphological attributes. This non-parametric method is appropriate for small sample sizes and data that do not follow a normal distribution. A total of 13 spheroids and sub-spheroids from the site were included in the analysis.</p>
+<section id="spheroid-shape" class="level3">
+<h3 class="anchored" data-anchor-id="spheroid-shape">Spheroid shape</h3>
+<p>We measured spheroid shape with four metrics: sphericity, and spherical harmonic energy, along with mean edge angle, mean surface curvature. Higher average edge angles suggest a more spherical geometry. Ten edge intersections were randomly sampled per spheroid. Angles were calculated following <span class="citation" data-cites="tittonSubspheroidsLithicAssemblage2020">Titton et al. (<a href="#ref-tittonSubspheroidsLithicAssemblage2020" role="doc-biblioref">2020</a>)</span> by constructing triangles at ridge intersections, extracting vertex coordinates in Geomagic Wrap, and computed angles from the coordinates using trigonometric functions in R. Mean surface curvature is a proxy for surface roughness, and higher mean surface curvature indicates a smoother surface. We estimated local curvature using the k-nearest neighbors method to fit a best-fit plane at each vertex <span class="citation" data-cites="Muller2023">(<a href="#ref-Muller2023" role="doc-biblioref">Muller et al. 2023</a>)</span>. The deviation between actual surface points and this fitted plane reflects surface roughness. The calculation steps were completed in Python.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 读取 Excel 文件</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>file_path <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">"analysis/data/derived_data/flaking_intensity_and_shape.xlsx"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(file_path)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>data_clean <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>n_of_artefacts <span class="ot">&lt;-</span> <span class="fu">nrow</span>(data_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Together, these four variables allowed us to assess whether more extensively reduced spheroids display more standardized, symmetrical, and regular morphologies—characteristics expected in deliberate shaping strategies. We conducted Spearman’s rank correlation analysis between two sets of variables—reduction intensity indicators and morphological attributes. This non-parametric method is appropriate for small sample sizes and data that do not follow a normal distribution. A total of 13 spheroids and sub-spheroids from the site were included in the analysis.</p>
 <p>Ideally, all artifacts involved in the spheroid shaping sequence should be considered. However, due to the difficulty in identifying which cores at the site were part of this specific shaping sequence, only the final-stage spheroids were analyzed. This limitation may have influenced the outcomes of the correlation analysis.</p>
 </section>
 </section>
@@ -369,7 +378,7 @@ SPHARM.power        0.2974           NA</code></pre>
 </div>
 <!-- Here's some example analysis code: -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="fu">here</span>(<span class="st">"analysis/paper/figures/1.png"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="fu">here</span>(<span class="st">"analysis/paper/figures/1.png"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-m" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -404,6 +413,9 @@ Figure&nbsp;1: the
 <div id="ref-Van2023" class="csl-entry" role="listitem">
 Bavel, Casper van, Wim Thiels, and Rob Jelier. 2023. <span>“Cell Shape Characterization, Alignment, and Comparison Using FlowShape.”</span> <em>Bioinformatics</em> 39 (6): btad383.
 </div>
+<div id="ref-clarksonMeasuringCoreReduction2013" class="csl-entry" role="listitem">
+Clarkson, Chris. 2013. <span>“Measuring Core Reduction Using 3D Flake Scar Density: A Test Case of Changing Core Reduction at Klasies River Mouth, South Africa.”</span> <em>Journal Of Archaeological Science</em> 40 (12): 4348–57.
+</div>
 <div id="ref-Harper2022" class="csl-entry" role="listitem">
 Harper, Christine M, Deanna M Goldstein, and Adam D Sylvester. 2022. <span>“Comparing and Combining Sliding Semilandmarks and Weighted Spherical Harmonics for Shape Analysis.”</span> <em>Journal of Anatomy</em> 240 (4): 678–87.
 </div>
@@ -422,6 +434,9 @@ Muller, Antoine, Deborah Barsky, Robert Sala-Ramos, Gonen Sharon, Stefania Titto
 <div id="ref-Noshita2025" class="csl-entry" role="listitem">
 Noshita, Koji, Tomomi Nakagawa, Akihiro Kaneda, Kohei Tamura, and Hisashi Nakao. 2025. <span>“The Cultural Transmission of Ongagawa Style Pottery in the Prehistoric Japan: Quantitative Analysis on Three-Dimensional Data of Archaeological Pottery in the Early Yayoi Period.”</span> <em>Journal of the Royal Society Interface</em> 22 (223): 20240889.
 </div>
+<div id="ref-tittonSubspheroidsLithicAssemblage2020" class="csl-entry" role="listitem">
+Titton, Stefania, Deborah Barsky, Amèlia Bargalló, Alexia Serrano-Ramos, Josep Maria Vergès, Isidro Toro-Moyano, Robert Sala-Ramos, José García Solano, and Juan Manuel Jimenez Arenas. 2020. <span>“Subspheroids in the Lithic Assemblage of Barranco León (Spain): Recognizing the Late Oldowan in Europe.”</span> <em>PLOS ONE</em> 15 (1): e0228290. <a href="https://doi.org/10.1371/journal.pone.0228290">https://doi.org/10.1371/journal.pone.0228290</a>.
+</div>
 <div id="ref-Wadell1935" class="csl-entry" role="listitem">
 Wadell, Hakon. 1935. <span>“Volume, <span>Shape</span>, and <span>Roundness</span> of <span>Quartz</span> <span>Particles</span>.”</span> <em>The Journal of Geology</em> 43 (3): 250–80. <a href="https://doi.org/10.1086/624298">https://doi.org/10.1086/624298</a>.
 </div>
@@ -429,10 +444,10 @@ Wadell, Hakon. 1935. <span>“Volume, <span>Shape</span>, and <span>Roundness</s
 <div style="page-break-after: always;"></div>
 <section id="colophon" class="level3">
 <h3 class="anchored" data-anchor-id="colophon">Colophon</h3>
-<p>This report was generated on 2025-06-03 10:33:43.282768 using the following computational environment and dependencies:</p>
+<p>This report was generated on 2025-06-03 11:13:08.576216 using the following computational environment and dependencies:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># which R packages and versions?</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="st">"devtools"</span> <span class="sc">%in%</span> <span class="fu">installed.packages</span>()) devtools<span class="sc">::</span><span class="fu">session_info</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># which R packages and versions?</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="st">"devtools"</span> <span class="sc">%in%</span> <span class="fu">installed.packages</span>()) devtools<span class="sc">::</span><span class="fu">session_info</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>─ Session info ───────────────────────────────────────────────────────────────
  setting  value
@@ -478,6 +493,7 @@ Wadell, Hakon. 1935. <span>“Volume, <span>Shape</span>, and <span>Roundness</s
  extrafontdb    1.0      2012-06-11 [1] CRAN (R 4.5.0)
  farver         2.1.2    2024-05-13 [1] CRAN (R 4.5.0)
  fastmap        1.2.0    2024-05-15 [1] CRAN (R 4.5.0)
+ forcats      * 1.0.0    2023-01-29 [1] CRAN (R 4.5.0)
  foreign        0.8-90   2025-03-31 [1] CRAN (R 4.5.0)
  Formula        1.2-5    2023-02-24 [1] CRAN (R 4.5.0)
  fs             1.6.6    2025-04-12 [1] CRAN (R 4.5.0)
@@ -494,6 +510,7 @@ Wadell, Hakon. 1935. <span>“Volume, <span>Shape</span>, and <span>Roundness</s
  here         * 1.0.1    2020-12-13 [1] CRAN (R 4.5.0)
  hexbin         1.28.5   2024-11-13 [1] CRAN (R 4.5.0)
  Hmisc        * 5.2-3    2025-03-16 [1] CRAN (R 4.5.0)
+ hms            1.1.3    2023-03-21 [1] CRAN (R 4.5.0)
  htmlTable      2.4.3    2024-07-21 [1] CRAN (R 4.5.0)
  htmltools      0.5.8.1  2024-04-04 [1] CRAN (R 4.5.0)
  htmlwidgets    1.6.4    2023-12-06 [1] CRAN (R 4.5.0)
@@ -506,6 +523,7 @@ Wadell, Hakon. 1935. <span>“Volume, <span>Shape</span>, and <span>Roundness</s
  latex2exp      0.9.6    2022-11-28 [1] CRAN (R 4.5.0)
  lattice        0.22-6   2024-03-20 [1] CRAN (R 4.5.0)
  lifecycle      1.0.4    2023-11-07 [1] CRAN (R 4.5.0)
+ lubridate    * 1.9.4    2024-12-08 [1] CRAN (R 4.5.0)
  magrittr       2.0.3    2022-03-30 [1] CRAN (R 4.5.0)
  maps           3.4.2.1  2024-11-10 [1] CRAN (R 4.5.0)
  MASS           7.3-65   2025-02-28 [1] CRAN (R 4.5.0)
@@ -524,10 +542,11 @@ Wadell, Hakon. 1935. <span>“Volume, <span>Shape</span>, and <span>Roundness</s
  proj4          1.0-15   2025-03-21 [1] CRAN (R 4.5.0)
  promises       1.3.2    2024-11-28 [1] CRAN (R 4.5.0)
  proto          1.0.0    2016-10-29 [1] CRAN (R 4.5.0)
- purrr          1.0.4    2025-02-05 [1] CRAN (R 4.5.0)
+ purrr        * 1.0.4    2025-02-05 [1] CRAN (R 4.5.0)
  R6             2.6.1    2025-02-15 [1] CRAN (R 4.5.0)
  RColorBrewer   1.1-3    2022-04-03 [1] CRAN (R 4.5.0)
  Rcpp           1.0.14   2025-01-12 [1] CRAN (R 4.5.0)
+ readr        * 2.1.5    2024-01-10 [1] CRAN (R 4.5.0)
  readxl       * 1.4.5    2025-03-07 [1] CRAN (R 4.5.0)
  remotes        2.5.0    2024-03-17 [1] CRAN (R 4.5.0)
  reshape2     * 1.4.4    2020-04-09 [1] CRAN (R 4.5.0)
@@ -545,9 +564,12 @@ Wadell, Hakon. 1935. <span>“Volume, <span>Shape</span>, and <span>Roundness</s
  stringi        1.8.7    2025-03-27 [1] CRAN (R 4.5.0)
  stringr      * 1.5.1    2023-11-14 [1] CRAN (R 4.5.0)
  tensorA        0.36.2.1 2023-12-13 [1] CRAN (R 4.5.0)
- tibble         3.2.1    2023-03-20 [1] CRAN (R 4.5.0)
- tidyr          1.3.1    2024-01-24 [1] CRAN (R 4.5.0)
+ tibble       * 3.2.1    2023-03-20 [1] CRAN (R 4.5.0)
+ tidyr        * 1.3.1    2024-01-24 [1] CRAN (R 4.5.0)
  tidyselect     1.2.1    2024-03-11 [1] CRAN (R 4.5.0)
+ tidyverse    * 2.0.0    2023-02-22 [1] CRAN (R 4.5.0)
+ timechange     0.3.0    2024-01-18 [1] CRAN (R 4.5.0)
+ tzdb           0.5.0    2025-03-15 [1] CRAN (R 4.5.0)
  urlchecker     1.0.1    2021-11-30 [1] CRAN (R 4.5.0)
  usethis        3.1.0    2024-11-26 [1] CRAN (R 4.5.0)
  vctrs          0.6.5    2023-12-01 [1] CRAN (R 4.5.0)
@@ -564,12 +586,12 @@ Wadell, Hakon. 1935. <span>“Volume, <span>Shape</span>, and <span>Roundness</s
 </div>
 <p>The current Git commit details are:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># what commit is this file at? </span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="st">"git2r"</span> <span class="sc">%in%</span> <span class="fu">installed.packages</span>() <span class="sc">&amp;</span> git2r<span class="sc">::</span><span class="fu">in_repository</span>(<span class="at">path =</span> <span class="st">"."</span>)) git2r<span class="sc">::</span><span class="fu">repository</span>(here<span class="sc">::</span><span class="fu">here</span>())  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># what commit is this file at? </span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="st">"git2r"</span> <span class="sc">%in%</span> <span class="fu">installed.packages</span>() <span class="sc">&amp;</span> git2r<span class="sc">::</span><span class="fu">in_repository</span>(<span class="at">path =</span> <span class="st">"."</span>)) git2r<span class="sc">::</span><span class="fu">repository</span>(here<span class="sc">::</span><span class="fu">here</span>())  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Local:    main /Users/bmarwick/Downloads/QSY-Spheroids-Study
 Remote:   main @ origin (https://github.com/zhiye0927/QSY-Spheroids-Study)
-Head:     [1b5968c] 2025-06-03: update about efficiency of shaping spheroids</code></pre>
+Head:     [52d583b] 2025-06-03: editing the text</code></pre>
 </div>
 </div>
 </section>
