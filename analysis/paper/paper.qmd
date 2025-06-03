@@ -1,5 +1,5 @@
 ---
-title: "Shaping strategy in core and flake industry：Standardized manufacturing of QSY (North China) faceted spheroids"
+title: "Shaping strategies and standardisation of faceted spheroids from Qianshangying (North China)"
 institute:
   - fosg:
       name: Formatting Open Science Group
@@ -61,7 +61,7 @@ Here is a citation [@Marwick2017]
 
 # Methods
 
-In this study, the 3d models of the cores were collected and used for morphometric and technological analysis, ~~which not only improved the accuracy of the data but also facilitated scholars to verify and replicate the results~~. Digital data were captured using Artec Spider, and post-processing was carried out with Artec Studio \[version number\]. The 3D scan files and all the R and Python code used in the analyses reported here are openly available online at https://doi.org/xxxx/xxxx/.
+In this study, the 3d models of the cores were collected and used for morphometric and technological analysis. Digital data were captured using Artec Spider, and post-processing was carried out with Artec Studio \[version number\]. The 3D scan files and all the R and Python code used in the analyses reported here are openly available online at https://doi.org/xxxx/xxxx/.
 
 ## Core Type and Typology
 
@@ -304,7 +304,7 @@ library(ggcorrplot)  # 用于相关性热图绘制
 library(reshape2)
 
 # 读取 Excel 文件
-file_path <- "E:/Lithic Analysis/QSYSpheroidsStudy/analysis/data/derived_data/flaking_intensity_and_shape.xlsx"
+file_path <- here("analysis/data/derived_data/flaking_intensity_and_shape.xlsx")
 data <- read_excel(file_path)
 
 # 标准化列名
