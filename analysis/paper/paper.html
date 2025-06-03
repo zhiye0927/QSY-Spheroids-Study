@@ -177,6 +177,7 @@ window.Quarto = {
 <!-- The actual document text starts here: -->
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
+<p>…Qianshangying (QSY) ….</p>
 <p>Here is a citation <span class="citation" data-cites="Marwick2017">(<a href="#ref-Marwick2017" role="doc-biblioref">Marwick 2017</a>)</span></p>
 </section>
 <section id="background" class="level1">
@@ -190,6 +191,20 @@ window.Quarto = {
 </section>
 <section id="morphometric-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="morphometric-analysis">Morphometric Analysis</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 读取 Excel 文件</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>file_path <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">"analysis/data/derived_data/flaking_intensity_and_shape.xlsx"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(file_path)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>data_clean <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>n_of_artefacts <span class="ot">&lt;-</span> <span class="fu">nrow</span>(data_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Based on typological study, we identify 13 rounded faceted sub-spheroids/spheroids in QSY site. Inevitably, the classification of stone artifacts under the guidance of typology relies on subjective judgment, and the identification of stone core types may vary with researchers. [BM: feels like this belongs in results section]</p>
 <p><del>To avoid preconceptions and self-justification,</del> We <del>try to</del> applied quantitative methods to <del>help confirm the spheroids in site. These morphological measurements designed to</del> indicate <del>whether these identified spheroids are spherical and</del> the degree of difference between the archaeological spheroids and a perfect sphere. This included computing the sphericity index, 3D spherical harmonics, spherical harmonic energy and the centroid offset for each artefact. We <del>will</del> also examined the degree of standardization of the spheroids by comparing coefficients of variation [citation] of sphericity [and what else].</p>
 <p>In addition to the archaeological spheroids, we included other multidirectional-multifacial cores in the morphological study to explore whether they can be distinguished from the spheroids. Furthermore, we compared the results of the typological and our new morphometric analyses to investigate the validity of the traditional typological approach.</p>
@@ -224,12 +239,12 @@ window.Quarto = {
 <p>To investigate the production strategies of spheroids in QSY, this part aims to determine whether these artifacts were intentionally shaped and whether their manufacture followed standardized procedures. Addressing this question is crucial for evaluating whether spheroids represent a distinct technological category, separate from exhausted cores.</p>
 <section id="diacritical-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="diacritical-analysis">Diacritical analysis</h3>
-<p>We applied diacritical analysis to reconstruct the reduction sequence based on superimposition relationships among scars on spheroids. This method enables the identification of scars order, allowing us to figure out the organization of removals. All spheroids, polyhedron and multifacial cores are included in the analysis to assess whether removals organization differs systematically within these groups.</p>
+<p>We applied diacritical analysis to reconstruct the reduction sequence based on superimposition relationships among scars on spheroids <span class="citation" data-cites="tittonSubspheroidsLithicAssemblage2020 Cabanes2024">(<a href="#ref-tittonSubspheroidsLithicAssemblage2020" role="doc-biblioref">Titton et al. 2020</a>; <a href="#ref-Cabanes2024" role="doc-biblioref">Cabanès et al. 2024</a>)</span>. This method enables the identification of scars order, allowing us to figure out the organization of removals. All spheroids, polyhedron and multifacial cores are included in the analysis to assess whether removals organization differs systematically within these groups.</p>
 <p>Following the reconstruction of reduction sequences, we adopted an inductive approach to infer exploitation models of spheroids—that is, the removal patterns and associated stages employed in a spheroid. Ideally, the goal is to reconstruct the complete chaîne opératoire of spheroids—from the selection of raw material and initial blank to the final product. If consistent patterns are observed, they may indicate shared reduction schemes or conceptual templates. Furthermore, we explore whether multifacial cores and polyhedrons may represent earlier stages in spheroid reduction sequences, contributing to understanding the technological relationship between these types.</p>
 </section>
 <section id="orientation-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="orientation-analysis">Orientation analysis</h3>
-<p>To further investigate technological strategies, we incorporated orientation statistics as a complementary approach. This method derives from fabric analysis originally used in sedimentology and has since been adapted to study the arrangement of flake scars on lithic artifacts. We followed the protocol developed by Sam Lin, extracting scar vectors from each core and calculating eigenvalues to derive the isotropic ratio and elongation ratio, these steps are finished in Geomagic Wrap, Rhino8 and R.</p>
+<p>To further investigate technological strategies, we incorporated orientation statistics as a complementary approach. This method derives from fabric analysis originally used in sedimentology and has since been adapted to study the arrangement of flake scars on lithic artifacts. We followed the protocol developed by Sam Lin <span class="citation" data-cites="Lin2024">(<a href="#ref-Lin2024" role="doc-biblioref">Lin 2024</a>)</span>, extracting scar vectors from each core and calculating eigenvalues to derive the isotropic ratio and elongation ratio, these steps are finished in Geomagic Wrap, Rhino8 and R.</p>
 <p>Results are visualized using ternary plots to compare orientation statistics between spheroids and other core types. Based on our hypothesis, if spheroids were shaped following a consistent reduction sequence, they should exhibit similar and patterned orientation results. In contrast, if they merely represent exhausted cores, the orientation patterns would appear random and highly variable, similar to those of undirected polyhedron and multifacial cores.</p>
 </section>
 </section>
@@ -243,31 +258,452 @@ window.Quarto = {
 <section id="spheroid-shape" class="level3">
 <h3 class="anchored" data-anchor-id="spheroid-shape">Spheroid shape</h3>
 <p>We measured spheroid shape with four metrics: sphericity, and spherical harmonic energy, along with mean edge angle, mean surface curvature. Higher average edge angles suggest a more spherical geometry. Ten edge intersections were randomly sampled per spheroid. Angles were calculated following <span class="citation" data-cites="tittonSubspheroidsLithicAssemblage2020">Titton et al. (<a href="#ref-tittonSubspheroidsLithicAssemblage2020" role="doc-biblioref">2020</a>)</span> by constructing triangles at ridge intersections, extracting vertex coordinates in Geomagic Wrap, and computed angles from the coordinates using trigonometric functions in R. Mean surface curvature is a proxy for surface roughness, and higher mean surface curvature indicates a smoother surface. We estimated local curvature using the k-nearest neighbors method to fit a best-fit plane at each vertex <span class="citation" data-cites="Muller2023">(<a href="#ref-Muller2023" role="doc-biblioref">Muller et al. 2023</a>)</span>. The deviation between actual surface points and this fitted plane reflects surface roughness. The calculation steps were completed in Python.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 读取 Excel 文件</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>file_path <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">"analysis/data/derived_data/flaking_intensity_and_shape.xlsx"</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(file_path)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>data_clean <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>n_of_artefacts <span class="ot">&lt;-</span> <span class="fu">nrow</span>(data_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Together, these four variables allowed us to assess whether more extensively reduced spheroids display more standardized, symmetrical, and regular morphologies—characteristics expected in deliberate shaping strategies. We conducted Spearman’s rank correlation analysis between two sets of variables—reduction intensity indicators and morphological attributes. This non-parametric method is appropriate for small sample sizes and data that do not follow a normal distribution. A total of 13 spheroids and sub-spheroids from the site were included in the analysis.</p>
-<p>Ideally, all artifacts involved in the spheroid shaping sequence should be considered. However, due to the difficulty in identifying which cores at the site were part of this specific shaping sequence, only the final-stage spheroids were analyzed. This limitation may have influenced the outcomes of the correlation analysis.</p>
+<p>Together, these four variables allowed us to assess whether more extensively reduced spheroids display more standardized, symmetrical, and regular morphologies—characteristics expected in deliberate shaping strategies. We conducted Spearman’s rank correlation analysis between two sets of variables—reduction intensity indicators and morphological attributes. This non-parametric method is appropriate for small sample sizes and data that do not follow a normal distribution. A total of 13 final-stage spheroids and sub-spheroids from the site were included in the analysis.</p>
 </section>
 </section>
 </section>
 <section id="results" class="level1">
 <h1>Results</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># multifacial and polyhedron cores</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>cores <span class="ot">&lt;-</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="fu">here</span>(<span class="st">"analysis/data/derived_data/core technological parameters.xlsx"</span>)) </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>multifacial_and_polyhedron_cores <span class="ot">&lt;-</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    cores <span class="sc">%&gt;%</span> </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>Typology <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Spheroid"</span>, </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                          <span class="st">"Subspheroid"</span>, </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                          <span class="st">"Subsperoid"</span>))</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>n_multifacial_and_polyhedron_cores <span class="ot">&lt;-</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nrow</span>(multifacial_and_polyhedron_cores)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <section id="results-of-morphometric-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="results-of-morphometric-analysis">Results of Morphometric analysis</h2>
-<p>We applied spherical harmonics analysis, sphericity index, and centroid offset measurements to both the spheroids and all other multifacial and polyhedron cores in the assemblage of QSY. These analyses aim to assess whether spheroids are morphologically distinct from other cores, and whether they exhibit standardized shapes—an essential criterion for evaluating the existence of deliberate shaping strategies and a goal product. In addition, we compare quantitative outcomes with traditional typological classifications to assess their consistency. We present a summary table listing each core’s prototype, initial and final shapes, and cortex coverage here.</p>
-<p>Sphericity analysis reveals a clear difference between spheroids and multifacial cores/polyhedron. The mean sphericity of spheroids (0.906) is notably higher than that of multifacial cores and polyhedron (0.861), with a Mann-Whitney U test yielding U = 37.0, p = 3.99 × 10⁻⁵. This result indicates that spheroids possess a more spherical geometry overall, supporting their typological classification.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(multifacial_and_polyhedron_cores)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="tbl-cores" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cores-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Our table
+</figcaption>
+<div aria-describedby="tbl-cores-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell table table-sm table-striped small">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 8%">
+<col style="width: 13%">
+<col style="width: 7%">
+<col style="width: 9%">
+<col style="width: 11%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">ID</th>
+<th style="text-align: left;">Blank type</th>
+<th style="text-align: left;">Blank morphology</th>
+<th style="text-align: left;">Final morphology</th>
+<th style="text-align: left;">Typology</th>
+<th style="text-align: left;">typology by SPHARM</th>
+<th style="text-align: right;">Sphericity</th>
+<th style="text-align: right;">SPHARM power</th>
+<th style="text-align: right;">Centroid offset</th>
+<th style="text-align: left;">Cortex covered</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">QSY_A_0256</td>
+<td style="text-align: left;">Cobble</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Polyhedral</td>
+<td style="text-align: left;">Polyhedron</td>
+<td style="text-align: left;">Ellipsoid</td>
+<td style="text-align: right;">0.8658388</td>
+<td style="text-align: right;">1.020296</td>
+<td style="text-align: right;">1.571368</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">QSY_A_0562</td>
+<td style="text-align: left;">Nodule</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Cubical</td>
+<td style="text-align: left;">Polyhedron</td>
+<td style="text-align: left;">Discoid-like</td>
+<td style="text-align: right;">0.8269944</td>
+<td style="text-align: right;">1.042784</td>
+<td style="text-align: right;">1.490442</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">QSY_A_0570</td>
+<td style="text-align: left;">Cobble</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Cubical</td>
+<td style="text-align: left;">Polyhedron</td>
+<td style="text-align: left;">Discoid-like</td>
+<td style="text-align: right;">0.8255318</td>
+<td style="text-align: right;">1.079571</td>
+<td style="text-align: right;">1.282095</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">QSY_A_0576</td>
+<td style="text-align: left;">Flake</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Pyramidal</td>
+<td style="text-align: left;">Multifacial</td>
+<td style="text-align: left;">Discoid-like</td>
+<td style="text-align: right;">0.8091313</td>
+<td style="text-align: right;">1.049576</td>
+<td style="text-align: right;">2.104250</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">QSY_A_0579</td>
+<td style="text-align: left;">Nodule</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Pyramidal</td>
+<td style="text-align: left;">Polyhedron</td>
+<td style="text-align: left;">Box</td>
+<td style="text-align: right;">0.7988300</td>
+<td style="text-align: right;">1.054399</td>
+<td style="text-align: right;">1.161040</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">QSY_A_0680</td>
+<td style="text-align: left;">Nodule</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Pyramidal</td>
+<td style="text-align: left;">Polyhedron</td>
+<td style="text-align: left;">Box</td>
+<td style="text-align: right;">0.8032364</td>
+<td style="text-align: right;">1.039023</td>
+<td style="text-align: right;">1.285673</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">QSY_A_0682</td>
+<td style="text-align: left;">Cobble</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Polyhedral</td>
+<td style="text-align: left;">Polyhedron</td>
+<td style="text-align: left;">Rounded cube</td>
+<td style="text-align: right;">0.9166715</td>
+<td style="text-align: right;">1.010390</td>
+<td style="text-align: right;">6.530839</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">QSY_A_0699</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Cubical</td>
+<td style="text-align: left;">Polyhedron</td>
+<td style="text-align: left;">Box</td>
+<td style="text-align: right;">0.8807450</td>
+<td style="text-align: right;">1.024810</td>
+<td style="text-align: right;">2.363453</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">QSY_A_0700</td>
+<td style="text-align: left;">Cobble</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Pyramidal</td>
+<td style="text-align: left;">Polyhedron</td>
+<td style="text-align: left;">Rounded cube</td>
+<td style="text-align: right;">0.8933988</td>
+<td style="text-align: right;">1.017122</td>
+<td style="text-align: right;">1.039335</td>
+<td style="text-align: left;">Y</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">QSY_A_0702</td>
+<td style="text-align: left;">Cobble</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Pyramidal</td>
+<td style="text-align: left;">Multifacial</td>
+<td style="text-align: left;">Ellipsoid</td>
+<td style="text-align: right;">0.8419195</td>
+<td style="text-align: right;">1.042415</td>
+<td style="text-align: right;">6.912960</td>
+<td style="text-align: left;">Y</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">QSY_A_0735</td>
+<td style="text-align: left;">Cobble</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Pyramidal</td>
+<td style="text-align: left;">Polyhedron</td>
+<td style="text-align: left;">Rounded cube</td>
+<td style="text-align: right;">0.8678116</td>
+<td style="text-align: right;">1.019932</td>
+<td style="text-align: right;">2.539858</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">QSY_A_0938</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Pyramidal</td>
+<td style="text-align: left;">Polyhedron</td>
+<td style="text-align: left;">Box</td>
+<td style="text-align: right;">0.8690457</td>
+<td style="text-align: right;">1.027144</td>
+<td style="text-align: right;">4.001371</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">QSY_A_1111</td>
+<td style="text-align: left;">Nodule</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Pyramidal</td>
+<td style="text-align: left;">Polyhedron</td>
+<td style="text-align: left;">Ellipsoid</td>
+<td style="text-align: right;">0.8717981</td>
+<td style="text-align: right;">1.022741</td>
+<td style="text-align: right;">1.109560</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">QSY_A_1304</td>
+<td style="text-align: left;">Cobble</td>
+<td style="text-align: left;">Cubical</td>
+<td style="text-align: left;">Pyramidal</td>
+<td style="text-align: left;">Multifacial</td>
+<td style="text-align: left;">Rounded cube</td>
+<td style="text-align: right;">0.9274082</td>
+<td style="text-align: right;">1.012530</td>
+<td style="text-align: right;">3.038120</td>
+<td style="text-align: left;">Y</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">QSY_A_1307</td>
+<td style="text-align: left;">Nodule</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Cubical</td>
+<td style="text-align: left;">Polyhedron</td>
+<td style="text-align: left;">Discoid-like</td>
+<td style="text-align: right;">0.8675301</td>
+<td style="text-align: right;">1.036793</td>
+<td style="text-align: right;">3.550725</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">QSY_A_1333</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Cubical</td>
+<td style="text-align: left;">Polyhedron</td>
+<td style="text-align: left;">Box</td>
+<td style="text-align: right;">0.8606773</td>
+<td style="text-align: right;">1.031251</td>
+<td style="text-align: right;">2.519639</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">QSY_A_1517</td>
+<td style="text-align: left;">Flake</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Pyramidal</td>
+<td style="text-align: left;">Multifacial</td>
+<td style="text-align: left;">Discoid-like</td>
+<td style="text-align: right;">0.7955195</td>
+<td style="text-align: right;">1.075345</td>
+<td style="text-align: right;">3.171066</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">QSY_A_1584</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Pyramidal</td>
+<td style="text-align: left;">Polyhedron</td>
+<td style="text-align: left;">Rounded cube</td>
+<td style="text-align: right;">0.8547083</td>
+<td style="text-align: right;">1.018949</td>
+<td style="text-align: right;">7.942392</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">QSY_A_2049</td>
+<td style="text-align: left;">Cobble</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Pyramidal</td>
+<td style="text-align: left;">Multifacial</td>
+<td style="text-align: left;">Box</td>
+<td style="text-align: right;">0.8688198</td>
+<td style="text-align: right;">1.031176</td>
+<td style="text-align: right;">1.426403</td>
+<td style="text-align: left;">Y</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">QSY_A_2381</td>
+<td style="text-align: left;">Cobble</td>
+<td style="text-align: left;">Pyramidal</td>
+<td style="text-align: left;">Pyramidal</td>
+<td style="text-align: left;">Multifacial</td>
+<td style="text-align: left;">Box</td>
+<td style="text-align: right;">0.8757082</td>
+<td style="text-align: right;">1.027697</td>
+<td style="text-align: right;">4.231788</td>
+<td style="text-align: left;">Y</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">QSY_A_2599</td>
+<td style="text-align: left;">Cobble</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Polyhedral</td>
+<td style="text-align: left;">Polyhedron</td>
+<td style="text-align: left;">Ellipsoid</td>
+<td style="text-align: right;">0.9021322</td>
+<td style="text-align: right;">1.016534</td>
+<td style="text-align: right;">4.845816</td>
+<td style="text-align: left;">Y</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">QSY_A_2611</td>
+<td style="text-align: left;">Nodule</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Polyhedral</td>
+<td style="text-align: left;">Multifacial</td>
+<td style="text-align: left;">Box</td>
+<td style="text-align: right;">0.8203610</td>
+<td style="text-align: right;">1.040002</td>
+<td style="text-align: right;">1.144922</td>
+<td style="text-align: left;">Y</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">QSY_B_136</td>
+<td style="text-align: left;">Cobble</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Polyhedral</td>
+<td style="text-align: left;">Polyhedron</td>
+<td style="text-align: left;">Ellipsoid</td>
+<td style="text-align: right;">0.8791311</td>
+<td style="text-align: right;">1.018891</td>
+<td style="text-align: right;">1.867975</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">QSY_B_140</td>
+<td style="text-align: left;">Nodule</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Polyhedral</td>
+<td style="text-align: left;">Polyhedron</td>
+<td style="text-align: left;">Box</td>
+<td style="text-align: right;">0.8858050</td>
+<td style="text-align: right;">1.024280</td>
+<td style="text-align: right;">4.030924</td>
+<td style="text-align: left;">Y</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">QSY_B_159</td>
+<td style="text-align: left;">Cobble</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Pyramidal</td>
+<td style="text-align: left;">Multifacial</td>
+<td style="text-align: left;">Box</td>
+<td style="text-align: right;">0.8631108</td>
+<td style="text-align: right;">1.024487</td>
+<td style="text-align: right;">4.939933</td>
+<td style="text-align: left;">Y</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">QSY_B_168</td>
+<td style="text-align: left;">Cobble</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Cubical</td>
+<td style="text-align: left;">Polyhedron</td>
+<td style="text-align: left;">Box</td>
+<td style="text-align: right;">0.8992439</td>
+<td style="text-align: right;">1.023644</td>
+<td style="text-align: right;">3.083931</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">QSY_B_186</td>
+<td style="text-align: left;">Nodule</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Polyhedral</td>
+<td style="text-align: left;">Polyhedron</td>
+<td style="text-align: left;">Box</td>
+<td style="text-align: right;">0.8688678</td>
+<td style="text-align: right;">1.026525</td>
+<td style="text-align: right;">2.674256</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">QSY_B_320</td>
+<td style="text-align: left;">Cobble</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Cubical</td>
+<td style="text-align: left;">Polyhedron</td>
+<td style="text-align: left;">Discoid-like</td>
+<td style="text-align: right;">0.8589857</td>
+<td style="text-align: right;">1.052747</td>
+<td style="text-align: right;">1.606183</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">QSY_B_435</td>
+<td style="text-align: left;">Nodule</td>
+<td style="text-align: left;">Cubical</td>
+<td style="text-align: left;">Cubical</td>
+<td style="text-align: left;">Polyhedron</td>
+<td style="text-align: left;">Ellipsoid</td>
+<td style="text-align: right;">0.8578307</td>
+<td style="text-align: right;">1.020420</td>
+<td style="text-align: right;">2.279425</td>
+<td style="text-align: left;">Y</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>We applied spherical sphericity index, harmonics analysis, and centroid offset measurements to both the spheroids (n = 13) and all other multifacial and polyhedron cores (n = 29) in the assemblage of QSY. These analyses aim to assess whether spheroids are morphologically distinct from other cores, and whether they exhibit standardized shapes—an essential criterion for evaluating the existence of deliberate shaping strategies and a goal product. In addition, we compare quantitative outcomes with traditional typological classifications to assess their consistency. We present a summary table listing each core’s blank morphology and type, final morphology, and cortex coverage here in <a href="#tbl-cores" class="quarto-xref">Table&nbsp;1</a>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># code for basic morphometry</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>mean_sphercity_tbl <span class="ot">&lt;-</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>cores <span class="sc">%&gt;%</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">grouped_types =</span> <span class="fu">case_when</span>(</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    Typology <span class="sc">==</span> <span class="st">"Polyhedron"</span> <span class="sc">~</span>  <span class="st">"Multifacial"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    Typology <span class="sc">==</span> <span class="st">"Subspheroid"</span> <span class="sc">~</span> <span class="st">"Spheroid"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">.default =</span> Typology</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  )) </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># summary values for Sphericity</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>mean_sphercity_tbl_summary <span class="ot">&lt;-</span> </span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  mean_sphercity_tbl <span class="sc">%&gt;%</span> </span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(grouped_types) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_sphercity =</span> <span class="fu">mean</span>(Sphericity))</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>mean_sphercity_tbl_sph <span class="ot">&lt;-</span> </span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  mean_sphercity_tbl_summary <span class="sc">%&gt;%</span> </span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(grouped_types <span class="sc">==</span> <span class="st">"Spheroid"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(mean_sphercity) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="dv">3</span>)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>mean_sphercity_tbl_mult <span class="ot">&lt;-</span> </span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  mean_sphercity_tbl_summary <span class="sc">%&gt;%</span> </span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(grouped_types <span class="sc">==</span> <span class="st">"Multifacial"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(mean_sphercity) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="dv">3</span>)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Mann-Whitney U test</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Sphericity analysis reveals a clear difference between spheroids and multifacial cores/polyhedra. The mean sphericity of spheroids (0.906) is notably higher than that of multifacial cores and polyhedron (0.861), with a Mann-Whitney U test yielding U = 37.0, p = 3.99 × 10⁻⁵. This result indicates that spheroids possess a more spherical geometry overall, supporting their typological classification.</p>
 <p>We conducted shape analysis based on spherical harmonic decomposition, setting the maximum degree to 20 (lmax=20). This choice ensures that sufficient geometric detail is captured while avoiding high-frequency noise and overfitting artifacts such as the Gibbs phenomenon. After normalization, all models have their degree 0 (l=0) coefficient set to 1, allowing for meaningful comparison across different models.</p>
 <p>A Variance Analysis was performed on the power of each harmonic degree. The results indicate that l= 2 and l=3 exhibit the highest variance across the sample, suggesting that these low-order terms capture the most significant shape variation. Specifically, l=2 reflects global asymmetries—such as elongation or flattening—while degree 3 is more sensitive to localized features like curvature and edge protrusions.</p>
 <p>To visualize the structure of shape variation, we applied UMAP to the normalized power spectrum. The UMAP projection reveals distinct clusters in the first two dimensions of the shape space. These clusters correspond to reference models, sphere, rounded cube, ellipsoid, rounded rectangular prism and disc-shaped core. This demonstrates that these cores occupy distinguishable regions in the harmonic shape space, with proximity to the sphere or elongation/flattening along specific axes emerging as key differentiating features. Most artifacts typologically classified as spheroids or sub-spheroids were grouped into the “rounded cube” and “sphere” clusters, indicating their consistent, near-spherical shapes. However, some Multifacial cores and Polyhedron also appeared in the near-spherical region. This can be attributed to their high cortex coverage or limited flake removals, which likely preserved their originally rounded forms and led to their grouping alongside more intentionally shaped spheroids.</p>
@@ -378,7 +814,7 @@ SPHARM.power        0.2974           NA</code></pre>
 </div>
 <!-- Here's some example analysis code: -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="fu">here</span>(<span class="st">"analysis/paper/figures/1.png"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="fu">here</span>(<span class="st">"analysis/paper/figures/1.png"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-m" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -413,11 +849,17 @@ Figure&nbsp;1: the
 <div id="ref-Van2023" class="csl-entry" role="listitem">
 Bavel, Casper van, Wim Thiels, and Rob Jelier. 2023. <span>“Cell Shape Characterization, Alignment, and Comparison Using FlowShape.”</span> <em>Bioinformatics</em> 39 (6): btad383.
 </div>
+<div id="ref-Cabanes2024" class="csl-entry" role="listitem">
+Cabanès, Julia, Antony Borel, Javier Baena Preysler, Antoine Lourdeau, Dominique Cliquet, David Colonge, and Marie-Hélène Moncel. 2024. <span>“Exploring the Technological and Functional Diversity of Polyhedrons, Spheroids and Bolas: An Integrated and Comparative Analysis of Cases from France and North Africa.”</span> <em>Journal of Paleolithic Archaeology</em> 7 (1): 30. <a href="https://doi.org/10.1007/s41982-024-00195-x">https://doi.org/10.1007/s41982-024-00195-x</a>.
+</div>
 <div id="ref-clarksonMeasuringCoreReduction2013" class="csl-entry" role="listitem">
 Clarkson, Chris. 2013. <span>“Measuring Core Reduction Using 3D Flake Scar Density: A Test Case of Changing Core Reduction at Klasies River Mouth, South Africa.”</span> <em>Journal Of Archaeological Science</em> 40 (12): 4348–57.
 </div>
 <div id="ref-Harper2022" class="csl-entry" role="listitem">
 Harper, Christine M, Deanna M Goldstein, and Adam D Sylvester. 2022. <span>“Comparing and Combining Sliding Semilandmarks and Weighted Spherical Harmonics for Shape Analysis.”</span> <em>Journal of Anatomy</em> 240 (4): 678–87.
+</div>
+<div id="ref-Lin2024" class="csl-entry" role="listitem">
+Lin, Sam C. 2024. <span>“A New Method for Quantifying Flake Scar Organisation on Cores Using Orientation Statistics.”</span> <em>Journal of Archaeological Science</em>.
 </div>
 <div id="ref-Link2024" class="csl-entry" role="listitem">
 Link, Rabea, Mona Jaggy, Martin Bastmeyer, and Ulrich S Schwarz. 2024. <span>“Modelling Cell Shape in 3D Structured Environments: A Quantitative Comparison with Experiments.”</span> <em>PLOS Computational Biology</em> 20 (4): e1011412.
@@ -444,10 +886,10 @@ Wadell, Hakon. 1935. <span>“Volume, <span>Shape</span>, and <span>Roundness</s
 <div style="page-break-after: always;"></div>
 <section id="colophon" class="level3">
 <h3 class="anchored" data-anchor-id="colophon">Colophon</h3>
-<p>This report was generated on 2025-06-03 11:13:08.576216 using the following computational environment and dependencies:</p>
+<p>This report was generated on 2025-06-03 12:06:30.361269 using the following computational environment and dependencies:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># which R packages and versions?</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="st">"devtools"</span> <span class="sc">%in%</span> <span class="fu">installed.packages</span>()) devtools<span class="sc">::</span><span class="fu">session_info</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># which R packages and versions?</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="st">"devtools"</span> <span class="sc">%in%</span> <span class="fu">installed.packages</span>()) devtools<span class="sc">::</span><span class="fu">session_info</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>─ Session info ───────────────────────────────────────────────────────────────
  setting  value
@@ -586,12 +1028,12 @@ Wadell, Hakon. 1935. <span>“Volume, <span>Shape</span>, and <span>Roundness</s
 </div>
 <p>The current Git commit details are:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># what commit is this file at? </span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="st">"git2r"</span> <span class="sc">%in%</span> <span class="fu">installed.packages</span>() <span class="sc">&amp;</span> git2r<span class="sc">::</span><span class="fu">in_repository</span>(<span class="at">path =</span> <span class="st">"."</span>)) git2r<span class="sc">::</span><span class="fu">repository</span>(here<span class="sc">::</span><span class="fu">here</span>())  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># what commit is this file at? </span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="st">"git2r"</span> <span class="sc">%in%</span> <span class="fu">installed.packages</span>() <span class="sc">&amp;</span> git2r<span class="sc">::</span><span class="fu">in_repository</span>(<span class="at">path =</span> <span class="st">"."</span>)) git2r<span class="sc">::</span><span class="fu">repository</span>(here<span class="sc">::</span><span class="fu">here</span>())  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Local:    main /Users/bmarwick/Downloads/QSY-Spheroids-Study
 Remote:   main @ origin (https://github.com/zhiye0927/QSY-Spheroids-Study)
-Head:     [52d583b] 2025-06-03: editing the text</code></pre>
+Head:     [45f0c35] 2025-06-03: conflicts</code></pre>
 </div>
 </div>
 </section>

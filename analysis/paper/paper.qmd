@@ -128,7 +128,7 @@ To investigate the production strategies of spheroids in QSY, this part aims to 
 
 ### Diacritical analysis
 
-We applied diacritical analysis to reconstruct the reduction sequence based on superimposition relationships among scars on spheroids [@Titton2020; @Cabanès2024]. This method enables the identification of scars order, allowing us to figure out the organization of removals. All spheroids, polyhedron and multifacial cores are included in the analysis to assess whether removals organization differs systematically within these groups.
+We applied diacritical analysis to reconstruct the reduction sequence based on superimposition relationships among scars on spheroids [@tittonSubspheroidsLithicAssemblage2020; @Cabanes2024]. This method enables the identification of scars order, allowing us to figure out the organization of removals. All spheroids, polyhedron and multifacial cores are included in the analysis to assess whether removals organization differs systematically within these groups.
 
 Following the reconstruction of reduction sequences, we adopted an inductive approach to infer exploitation models of spheroids—that is, the removal patterns and associated stages employed in a spheroid. Ideally, the goal is to reconstruct the complete chaîne opératoire of spheroids—from the selection of raw material and initial blank to the final product. If consistent patterns are observed, they may indicate shared reduction schemes or conceptual templates. Furthermore, we explore whether multifacial cores and polyhedrons may represent earlier stages in spheroid reduction sequences, contributing to understanding the technological relationship between these types.
 
@@ -154,11 +154,81 @@ Together, these four variables allowed us to assess whether more extensively red
 
 # Results
 
+```{r}
+# multifacial and polyhedron cores
+cores <- 
+read_excel(here("analysis/data/derived_data/core technological parameters.xlsx")) 
+  
+multifacial_and_polyhedron_cores <- 
+    cores %>% 
+  filter(!Typology %in% c("Spheroid", 
+                          "Subspheroid", 
+                          "Subsperoid"))
+
+n_multifacial_and_polyhedron_cores <-
+  nrow(multifacial_and_polyhedron_cores)
+```
+
 ## Results of Morphometric analysis
 
-We applied spherical sphericity index, harmonics analysis, and centroid offset measurements to both the spheroids (n = `r n_of_artefacts`) and all other multifacial and polyhedron cores (n = ) in the assemblage of QSY. These analyses aim to assess whether spheroids are morphologically distinct from other cores, and whether they exhibit standardized shapes—an essential criterion for evaluating the existence of deliberate shaping strategies and a goal product. In addition, we compare quantitative outcomes with traditional typological classifications to assess their consistency. We present a summary table listing each core’s prototype, initial and final shapes, and cortex coverage here.
+```{r}
+#| label: tbl-cores
+#| tbl-cap: "Our table"
 
-Sphericity analysis reveals a clear difference between spheroids and multifacial cores/polyhedron. The mean sphericity of spheroids (0.906) is notably higher than that of multifacial cores and polyhedron (0.861), with a Mann-Whitney U test yielding U = 37.0, p = 3.99 × 10⁻⁵. This result indicates that spheroids possess a more spherical geometry overall, supporting their typological classification.
+knitr::kable(multifacial_and_polyhedron_cores)
+```
+
+
+We applied spherical sphericity index, harmonics analysis, and centroid offset measurements to both the spheroids (n = `r n_of_artefacts`) and all other multifacial and polyhedron cores (n = `r n_multifacial_and_polyhedron_cores`) in the assemblage of QSY. These analyses aim to assess whether spheroids are morphologically distinct from other cores, and whether they exhibit standardized shapes—an essential criterion for evaluating the existence of deliberate shaping strategies and a goal product. In addition, we compare quantitative outcomes with traditional typological classifications to assess their consistency. We present a summary table listing each core's blank morphology and type, final morphology, and cortex coverage here in [@tbl-cores].
+
+```{r}
+
+# code for basic morphometry
+mean_sphercity_tbl <- 
+cores %>% 
+  mutate(grouped_types = case_when(
+    Typology == "Polyhedron" ~  "Multifacial",
+    Typology == "Subspheroid" ~ "Spheroid",
+    .default = Typology
+  )) 
+
+# summary values for Sphericity
+mean_sphercity_tbl_summary <- 
+  mean_sphercity_tbl %>% 
+  group_by(grouped_types) %>% 
+  summarise(mean_sphercity = mean(Sphericity))
+
+mean_sphercity_tbl_sph <- 
+  mean_sphercity_tbl_summary %>% 
+  filter(grouped_types == "Spheroid") %>% 
+  pull(mean_sphercity) %>% 
+  round(3)
+
+mean_sphercity_tbl_mult <- 
+  mean_sphercity_tbl_summary %>% 
+  filter(grouped_types == "Multifacial") %>% 
+  pull(mean_sphercity) %>% 
+  round(3)
+
+# Mann-Whitney U test
+# Convert to scientific text
+pretty_print_sci <- function(num){
+  scientific_text <- paste0(gsub("e", " x 10^",  
+                                 # Replace 'e' with ' x 10^'
+                          sprintf("%.2e", num)), "^") 
+  # round to 2 sf
+  return(scientific_text)
+}
+
+# example usage:
+# `r pretty_print_sci(journal_summary_metrics_ranks_test$p.value)
+# convert 3.993e-5 to 3.99 × 10⁻⁵ for pretty printing in your paper
+
+
+
+```
+
+Sphericity analysis reveals a clear difference between spheroids and multifacial cores/polyhedra. The mean sphericity of spheroids (`r mean_sphercity_tbl_sph`) is notably higher than that of multifacial cores and polyhedron (`r mean_sphercity_tbl_mult`), with a Mann-Whitney U test yielding U = 37.0, p = 3.99 × 10⁻⁵. This result indicates that spheroids possess a more spherical geometry overall, supporting their typological classification.
 
 We conducted shape analysis based on spherical harmonic decomposition, setting the maximum degree to 20 (lmax=20). This choice ensures that sufficient geometric detail is captured while avoiding high-frequency noise and overfitting artifacts such as the Gibbs phenomenon. After normalization, all models have their degree 0 (l=0) coefficient set to 1, allowing for meaningful comparison across different models.
 
