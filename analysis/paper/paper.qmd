@@ -107,7 +107,7 @@ group_counts <- data_clean |>
 
 n_poly_multi <- group_counts$n[group_counts$Group == "Polyhedron + Multifacial"]
 n_sub_spheroid <- group_counts$n[group_counts$Group == "Spheroid + Subspheroid"]
-n_poly_multi
+
 
 ```
 
@@ -268,6 +268,38 @@ p_value <- cor_test_pearson$p.value
 correlation <- cor_test_pearson$estimate
 
 p_value_pearson_sci <- pretty_print_sci(p_value)
+
+# 画图
+ggplot(data_clean, aes(x = Sphericity, y = `SPHARM power`)) +
+  # 散点（深红色）
+  geom_point(size = 3, alpha = 0.9, color = "#B22222") +
+  
+  # 拟合线（深蓝灰）
+  geom_smooth(method = "lm", se = TRUE, color = "#1C3041", fill = "#A3B1C6", linetype = "solid") +
+  
+   scale_x_continuous(breaks = seq(0.4, 1.0, by = 0.04)) +
+
+  # 自定义配色主题
+  theme_minimal(base_size = 15) +
+  theme(
+    panel.grid.major = element_line(color = "#DDDDDD"),
+    panel.grid.minor = element_blank(),
+    axis.title = element_text(color = "#333333"),
+    axis.text = element_text(color = "#333333")
+  ) +
+
+  # 标题与坐标轴标签
+  labs(
+    x = "Sphericity",
+    y = "SPHARM Power"
+  ) +
+  annotate("text",
+         x = Inf, y = Inf,
+         hjust = 1.1, vjust = 1.2,
+         label = paste0("r = ", round(correlation, 3),
+                        "\n", "p = ", pretty_print_sci(p_value),
+                        "\n", "n = ", nrow(data_clean)),
+         size = 5, color = "#1C3041")
 ```
 
 ```{r}
@@ -334,7 +366,156 @@ cv_she_sub_spheroids
 cv_she_poly_multi
 ```
 
+```{r fig, echo=FALSE}
 
+library(tidyverse)
+library(ggrepel)
+
+# read CSV 
+umap_data <- read_csv(here("analysis/data/derived_data/umap_lmax20.csv"))
+
+
+umap_data <- umap_data %>%
+  mutate(category_lower = tolower(category)) %>%
+  mutate(category_lower = fct_relevel(category_lower,
+    "polyhedron", "multifacial", "idealmodel", "subspheroid", "spheroid"
+  ))
+
+# set colors
+category_colors <- c(
+  "idealmodel" = "black",
+  "spheroid" = "red",
+  "subspheroid" = "orange",
+  "multifacial" = "lightgray",
+  "polyhedron" = "gray40"
+)
+
+# point size
+umap_data <- umap_data %>%
+  mutate(point_size = if_else(category_lower == "idealmodel", 4.5, 3))
+
+# label: idealmodel, spheroid, subspheroid
+label_data <- umap_data %>%
+  filter(category_lower %in% c("idealmodel", "spheroid", "subspheroid"))
+
+# plot
+ggplot(umap_data, aes(x = x, y = y)) +
+  geom_point(aes(color = category_lower, size = point_size), alpha = 0.9, shape = 16) +
+  geom_text_repel(
+    data = label_data,
+    aes(label = filename),
+    size = 3,
+    max.overlaps = 100,
+    show.legend = FALSE
+  ) +
+  scale_color_manual(values = category_colors, name = "Category") +
+  scale_size_identity() +
+  theme_minimal(base_size = 14) +
+  labs(
+    x = "UMAP 1",
+    y = "UMAP 2"
+  ) +
+  theme(
+    legend.position = "right",
+    plot.title = element_text(face = "bold")
+  )
+  
+```
+
+```{r umap_cluster_highlight, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(ggrepel)
+library(here)
+
+# 读取数据
+umap_data <- read_csv(here("analysis/data/derived_data/umap_lmax20.csv"))
+
+# KMeans 聚类（你可以根据 elbow method 先选 k）
+set.seed(123)
+kmeans_result <- kmeans(umap_data[, c("x", "y")], centers = 4)
+
+# 将聚类结果加入数据框
+umap_data <- umap_data %>%
+  mutate(cluster = factor(kmeans_result$cluster))
+
+# 可选：每个聚类颜色
+cluster_colors <- RColorBrewer::brewer.pal(4, "Set2")
+
+# 绘图：用 stat_ellipse 可视化每个簇的范围
+ggplot(umap_data, aes(x = x, y = y, color = cluster)) +
+  geom_point(alpha = 0.8, size = 3) +
+  stat_ellipse(type = "norm", level = 0.95, linetype = "dashed") +
+  scale_color_manual(values = cluster_colors, name = "Cluster") +
+  theme_minimal(base_size = 14) +
+  labs(
+    title = "UMAP Projection with KMeans Clustering",
+    x = "UMAP 1", y = "UMAP 2"
+  )
+```
+
+```{r umap_cluster_highlight, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(ggrepel)
+library(here)
+
+# Load data
+umap_data <- read_csv(here("analysis/data/derived_data/umap_lmax20.csv"))
+
+# KMeans clustering (k=4)
+set.seed(123)
+kmeans_result <- kmeans(umap_data[, c("x", "y")], centers = 4)
+
+# Add cluster labels and idealmodel identifier
+umap_data <- umap_data %>%
+  mutate(
+    cluster = factor(kmeans_result$cluster),
+    is_idealmodel = if_else(category == "idealmodel", "yes", "no")
+  )
+
+# Color palette
+cluster_colors <- RColorBrewer::brewer.pal(4, "Set2")
+
+# Create the plot
+ggplot(umap_data, aes(x = x, y = y)) +
+  # Regular points (more transparent)
+  geom_point(
+    data = filter(umap_data, is_idealmodel == "no"),
+    aes(color = cluster), 
+    alpha = 0.8, 
+    size = 2.5
+  ) +
+  # Highlight idealmodel points (darker, larger)
+  geom_point(
+    data = filter(umap_data, is_idealmodel == "yes"),
+    aes(color = cluster),
+    size = 3.5,
+    show.legend = FALSE
+  ) +
+  # Add cluster ellipses
+  stat_ellipse(
+    aes(color = cluster),
+    type = "norm", 
+    level = 0.95, 
+    linetype = "dashed",
+    show.legend = FALSE
+  ) +
+  # Color and theme settings
+  scale_color_manual(
+    values = cluster_colors,
+    name = "Cluster"
+  ) +
+  theme_minimal(base_size = 14) +
+  labs(
+    x = "UMAP 1", 
+    y = "UMAP 2",
+    caption = "Dashed ellipses show 95% confidence intervals"
+  ) +
+  # Legend customization
+  guides(
+    color = guide_legend(override.aes = list(alpha = 1, size = 3))
+  )
+```
+  
 We applied spherical sphericity index, harmonics analysis, and centroid offset measurements to both the spheroids (n = `r n_total_typology`) and all other multifacial and polyhedron cores (n = `r n_poly_multi`) in the assemblage of QSY. These analyses aim to assess whether spheroids are morphologically distinct from other cores, and whether they exhibit standardized shapes—an essential criterion for evaluating the existence of deliberate shaping strategies and a goal product. In addition, we compare quantitative outcomes with traditional typological classifications to assess their consistency. We present a summary table listing each core's blank morphology and type, final morphology, and cortex coverage here in [@tbl-1].
 
 Sphericity analysis reveals a clear difference between spheroids and multifacial cores/polyhedra. The mean sphericity of spheroids (`r mean_sphericity_sub_spheroid`) is notably higher than that of multifacial cores and polyhedron (`r mean_sphericity_poly_multi`), with a Mann-Whitney U test yielding U = `r U_value`, p = $`r p_value_Mann_sci`$. This result indicates that spheroids possess a more spherical geometry overall, supporting their typological classification.
