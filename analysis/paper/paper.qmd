@@ -55,19 +55,23 @@ source(here('analysis/paper/scripts/vector_stats.r'))
 
 # Introduction
 
-...Qianshangying (QSY) ....
+The pursuit of perfect geometric forms—particularly the ideal sphere—appears to transcend time, persisting from antiquity to the present. Spheroids may be kind of stone artifacts that embody this aspiration toward geometric perfection, reflecting Paleolithic humans’ spatial and navigational cognition, and their grasp of abstract concepts such as ''3D symmetry'' ([@Muller2023; @clark1955; @wynn2002]). This cognitive awareness may have emerged even earlier than the production of handaxes ([@beyene2013; @shipton2019; @white2018]). Consequently, the study of spheroids—including their manufacturing techniques and morphological characteristics—has become a key issue in interpreting early human technological behaviors and cognitive capacities ([@cabanès2022]).
 
-Here is a citation [@Marwick2017]
+Early descriptions of spheroids were provided by [@clark1955] and [@kleindienst1962], and [@leakey1971] later formally introduced the term spheroid, alongside polyhedron and bola, in his classification of the Developed Oldowan. Leakey’s definition of spheroids remains a widely cited typological standard: spheroids are rounded lithic objects whose entire surface is covered with flake scars, while subspheroids are generally less symmetrical and may retain portions of the original cortex. Compared to spheroids, polyhedrons are characterized by multiple intersecting flake removals, producing a distinctly angular morphology; bolas exhibit smoother and more rounded surfaces with no visible crests ([@leakey1971; @tittonSubspheroidsLithicAssemblage2020; @deweyer2017]).
 
-# Background
+Although these artifact types are frequently grouped under the category “PSB” (or “PSSB” when subspheroids are included) and are commonly interpreted as volumetrically reduced artifacts organized around a central point, this morphology-based classification has led to several interpretive challenges. Artifacts identified as spheroids in one study may be classified as bolas or attributed to entirely different technological categories in another. Furthermore, research has shown that these forms may not represent a unified *chaîne opératoire*. Differences in raw material selection suggest divergent technological strategies and potentially distinct functional purposes ([@deweyer2017; @jones1994]).
 
-... Core Type and Typology ...
+At present, the technological category and function of spheroids remain central topics of debate. Broadly, spheroids have been interpreted as hammerstones ([@mussi2025; @schick1994], cores ([@sahnouni1997]), or projectiles ([@leakey1979]). Closely tied to this debate is the question of their production strategy, which remains unclear. Experimental replication and site-specific diacritical analyses have produced divergent interpretations. One view suggests that spheroids emerged unintentionally as the by-products of core exhaustion, which represents a low-effort strategy aimed at flake production ([@sahnouni1997]). Another perspective holds that spheroids were naturally produced through high-intensity battering ([@schick1994]; [\@mora2005]; [@clark1955]). In contrast, a third view proposes that spheroids reflect a conceptual template and were produced through a deliberate shaping strategy ([@tittonSubspheroidsLithicAssemblage2020; @Muller2023; @texier2014]).
 
-<!--  introduce some key concepts that we use later such as SSDA -->
+Spheroids are a widely distributed type of stone artifact, appearing across a broad temporal and geographic range—from the Oldowan and Acheulean to the Middle Paleolithic—and in diverse archaeological assemblages ([@willoughby1985; @Cabanes2024]). This wide distribution is matched by considerable technological and morphological variability, which has fueled ongoing debates concerning their methods of production and functional significance. Site-specific studies are therefore essential for reconstructing the spatial and temporal distribution of spheroids, as well as for identifying their distinct technological traits and functions. Such analyses provide a foundation for situating spheroids within broader discussions of early human technological behavior.
+
+In this study, we analyzed material from the Middle Pleistocene Qianshangying site (QSY) in northern China. Among an assemblage previously classified as a simple core-flake industry, we identified a group of highly standardized spheroids and subspheroids. we observed notable differences between these artifacts and multifacial cores or polyhedrons, which are stone artifacts through typical flaking strategies. We proposed that their concept and manufacture reflect a distinct technological tradition, separate from conventional flake-based technology.
+
+We conducted quantitative morphological and technological analyses of the spheroids recovered from the QSY site. Our goal was to evaluate whether these spheroids exhibited standardized morphology and production patterns, and whether their tendency toward spherical form resulted from deliberate and systematic reduction processes. These analyses aimed to clarify the technological strategy behind spheroid production at QSY, within the broader context of Middle Pleistocene lithic practices in northern China.
 
 # Methods
 
-In this study, the 3d models of the cores were collected and used for morphometric and technological analysis. Digital data were captured using Artec Spider, and post-processing was carried out with Artec Studio \[version number\]. The 3D scan files and all the R and Python code used in the analyses reported here are openly available online at https://doi.org/xxxx/xxxx/.
+In this study, the 3d models of the cores were collected and used for morphometric and technological analysis. Digital data were captured using Artec Spider, and post-processing was carried out with Artec Studio \[version number\]. The 3D scan files and all the R and Python code used in the analyses reported here are openly available online at https://doi.org/xxxx/xxxx/./xxxx/.
 
 ## Morphometric Analysis
 
@@ -507,7 +511,6 @@ knitr::include_graphics(here("analysis/paper/figures/UMAP_SPHARM_clusters.png"))
 
 ```
 
-
 ```{r, echo=FALSE}
 #| label: fig-UMAP-SPHARM-samples
 #| fig-cap: "UMAP plot of SPHARM-derived shape features colored by types"
@@ -675,7 +678,6 @@ library(here)
 knitr::include_graphics(here("analysis/paper/figures/shaping_process.png"))
 
 ```
-
 
 Based on this diacritical analysis and scar orientation analysis, we can summarize the technical strategy employed in the production of faceted spheroids in QSY. This strategy consists of a series of sequential phases (@fig-shaping-process): a potential rough-out phase, volume exploitation aimed at forming a cubic shape, surface exploitation to approximate a spheroidal geometry, edge refinement, and potentially the repetition of earlier phases. The existence of a repetitive phase is supported by the observation that while the original cobble blanks in QSY display considerable size variation, the finished spheroids—although some are relatively large—mostly cluster around a diameter of 8–10 cm. This suggests that the production of spheroids may have involved multiple cycles of reduction, and further implies that a diameter of 8–10 cm was considered an optimal or intended size in the knapping process. <!-- BM: maybe move to discussion -->
 
