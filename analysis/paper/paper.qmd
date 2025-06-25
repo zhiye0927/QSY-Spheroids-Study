@@ -55,23 +55,38 @@ source(here('analysis/paper/scripts/vector_stats.r'))
 
 # Introduction
 
-...Qianshangying (QSY) ....
+The pursuit of perfect geometric forms—particularly the ideal sphere—appears to transcend time, persisting from antiquity to the present. Spheroids may be kind of stone artifacts that embody this aspiration toward geometric perfection, reflecting Paleolithic humans’ spatial and navigational cognition, and their grasp of abstract concepts such as ''3D symmetry'' ([@Muller2023; @clark1955; @wynn2002]). This cognitive awareness may have emerged even earlier than the production of handaxes ([@beyene2013; @shipton2019; @white2018]). Consequently, the study of spheroids—including their manufacturing techniques and morphological characteristics—has become a key issue in interpreting early human technological behaviors and cognitive capacities ([@cabanès2022]).
 
-Here is a citation [@Marwick2017]
+Early descriptions of spheroids were provided by [@clark1955] and [@kleindienst1962], and [@leakey1971] later formally introduced the term spheroid, alongside polyhedron and bola, in his classification of the Developed Oldowan. Leakey’s definition of spheroids remains a widely cited typological standard: spheroids are rounded lithic objects whose entire surface is covered with flake scars, while subspheroids are generally less symmetrical and may retain portions of the original cortex. Compared to spheroids, polyhedrons are characterized by multiple intersecting flake removals, producing a distinctly angular morphology; bolas exhibit smoother and more rounded surfaces with no visible crests ([@leakey1971; @tittonSubspheroidsLithicAssemblage2020; @deweyer2017]).
 
-# Background
+Although these artifact types are frequently grouped under the category “PSB” (or “PSSB” when subspheroids are included) and are commonly interpreted as volumetrically reduced artifacts organized around a central point, this morphology-based classification has led to several interpretive challenges. Artifacts identified as spheroids in one study may be classified as bolas or attributed to entirely different technological categories in another. Furthermore, research has shown that these forms may not represent a unified *chaîne opératoire*. Differences in raw material selection suggest divergent technological strategies and potentially distinct functional purposes ([@deweyer2017; @jones1994]).
 
-... Core Type and Typology ... 
+At present, the technological category and function of spheroids remain central topics of debate. Broadly, spheroids have been interpreted as hammerstones ([@mussi2025; @schick1994], cores ([@sahnouni1997]), or projectiles ([@leakey1979]). Closely tied to this debate is the question of their production strategy, which remains unclear. Experimental replication and site-specific diacritical analyses have produced divergent interpretations. One view suggests that spheroids emerged unintentionally as the by-products of core exhaustion, which represents a low-effort strategy aimed at flake production ([@sahnouni1997]). Another perspective holds that spheroids were naturally produced through high-intensity battering ([@schick1994]; \[\@mora2005\]; [@clark1955]). In contrast, a third view proposes that spheroids reflect a conceptual template and were produced through a deliberate shaping strategy ([@tittonSubspheroidsLithicAssemblage2020; @Muller2023; @texier2014]).
 
-<!--  introduce some key concepts that we use later such as SSDA -->
+Spheroids are a widely distributed type of stone artifact, appearing across a broad temporal and geographic range—from the Oldowan and Acheulean to the Middle Paleolithic—and in diverse archaeological assemblages ([@willoughby1985; @Cabanes2024]). This wide distribution is matched by considerable technological and morphological variability, which has fueled ongoing debates concerning their methods of production and functional significance. Site-specific studies are therefore essential for reconstructing the spatial and temporal distribution of spheroids, as well as for identifying their distinct technological traits and functions. Such analyses provide a foundation for situating spheroids within broader discussions of early human technological behavior.
 
-# Methods
+In this study, we analyzed material from the Middle Pleistocene Qianshangying site (QSY) in northern China. Among an assemblage previously classified as a simple core-flake industry, we identified a group of highly standardized spheroids and subspheroids. we observed notable differences between these artifacts and multifacial cores or polyhedrons, which are stone artifacts through typical flaking strategies. We proposed that their concept and manufacture reflect a distinct technological tradition, separate from conventional flake-based technology.
 
-In this study, the 3d models of the cores were collected and used for morphometric and technological analysis. Digital data were captured using Artec Spider, and post-processing was carried out with Artec Studio \[version number\]. The 3D scan files and all the R and Python code used in the analyses reported here are openly available online at https://doi.org/xxxx/xxxx/.
+We conducted quantitative morphological and technological analyses, including the novel spherical harmonic analysis, on the spheroids recovered from the QSY site. Our goal was to evaluate whether these spheroids exhibited standardized morphology and production patterns, and whether their tendency toward spherical form resulted from deliberate and systematic reduction processes. These analyses aimed to clarify the technological strategy behind spheroid production at QSY, within the broader context of Middle Pleistocene lithic practices in northern China.
+
+# Context of QSY and its spheroids
+
+The QSY lies in the Nihewan Basin, a region in northern China situated between the Chinese Loess Plateau and the Inner Mongolian Plateau. The basin preserves extensive Quaternary fluvio-lacustrine and loess deposits ([@li2000; @yuan2009]), hosts the highest concentrations of Pleistocene Paleolithic sites in East Asia, and is especially significant for preserving evidence of early hominin activities outside Africa dating back over one million years ([@yang2020; @yang2017; @pei2019; @pei2017; @zhu2001; @zhu2004]). In recent years, nearly 20 Middle Pleistocene sites—including Jijiazhuang and Caijiagou—have been identified in the southeastern part of the basin ([@yuwei2023; @ye2024]), within the Yuxian Sub-basin, thereby completing the regional cultural sequence of the Nihewan Basin.
+
+Qianshangying site complex consisting of 4 localities from QSY-A to QSY-D, discovered in 2015, is among the region’s most artifact-rich archaeological sites. Geomorphological and sedimentological evidence indicates that the stratigraphy at the site records a full cycle of lake expansion, retreat, re-expansion, and eventually disappearance of the ancient Nihewan lake, and hominin occupation occurred in a marginal lacustrine setting during a low lake-level episode.
+
+The stratigraphic context of QSY indicates a short-term occupation resulting from a single hominin activity event. The assemblage appears to be largely in situ, exhibiting minimal disturbance after deposition and well-preserved patterns of technological combination. ESR dating of the cultural layer places hominin activity at approximately 429 ± 39 ka.
+
+A total of 957 stone artifacts were recovered from four localities at the QSY site, with QSY-A and QSY-B yielding the most abundant assemblages. Following a widely used techno-typological framework (Isaac, 1981, 1986; de la Torre and Mora, 2005, 2018; de la Torre et al., 2011; Pei et al., 2017), the assemblage was classified into four general categories: flaked pieces (n = 247, 25.9%), detached pieces (n = 686, 71.9%), pounded pieces (n = 4, 0.4%), and unmodified materials (n = 17, 1.8%).
+
+
+# Method
+
+In this study, the 3d models of the cores were collected and used for morphometric and technological analysis. Digital data were captured using Artec Spider, and post-processing was carried out with Artec Studio \[version number\]. The 3D scan files and all the R and Python code used in the analyses reported here are openly available online at https://doi.org/xxxx/xxxx/./xxxx/.
 
 ## Morphometric Analysis
 
-```{r}
+```{r, echo=FALSE}
 # 读取表格
 library(tidyverse)
 library(readxl)
@@ -109,7 +124,7 @@ group_counts <- data_clean |>
 
 n_poly_multi <- group_counts$n[group_counts$Group == "Polyhedron + Multifacial"]
 n_sub_spheroid <- group_counts$n[group_counts$Group == "Spheroid + Subspheroid"]
-n_poly_multi
+
 
 ```
 
@@ -129,7 +144,7 @@ Where V is the volume and A is the surface area of the object. This dimensionles
 
 ### 3D spherical harmonics analysis
 
-Spherical Harmonic (SPHARM) analysis is a method for describing 3D shapes using a series of mathematical functions defined on the surface of a sphere. It works like a 3D version of Fourier analysis, breaking down complex shapes into components of different spatial frequencies. Each shape is first mapped onto a unit sphere and then expressed as a combination of spherical harmonic functions $Y_l^m(\theta, \phi)$. The shape is represented by a set of coefficients $\hat{f}(l, m)$, which capture how much each function contributes. Here, θ and ϕ are angles in spherical coordinates, l and m are order and degree respectively. Lower-order terms describe the general shape, while higher-order terms capture finer details.
+Spherical Harmonic (SPHARM) analysis is a method for describing 3D shapes using a series of mathematical functions defined on the surface of a sphere. It works like a 3D version of Fourier analysis, breaking down complex shapes into components of different spatial frequencies. Each shape is first mapped onto a unit sphere and then expressed as a combination of spherical harmonic functions $Y_l^m(\theta, \phi)$. The shape is represented by a set of coefficients $\hat{f}(l, m)$, which capture how much each function contributes. Here, θ and ϕ are angles in spherical coordinates, l and m are order and degree respectively. Lower-order terms describe the general shape, while higher-order terms capture finer details (@fig-SPHARM-Reconstruction-by-Degree).
 
 This method is widely used in the field of biology, such as the analysis of skull morphology and cell morphology [@Link2024; @Medyukhina2020; @Harper2022; @Hewitt2024; @Grieb2022]. However, there are currently very few application of SPHARM to archaeological artifacts [@Muller2023; @Noshita2025]. Our work aims to demonstrate the usefulness of SPHARM for shape analysis of objects that are roughly spherical in shape, such as the spheroids and cores studied in this research.
 
@@ -137,7 +152,7 @@ We first imported, cleaned, and simplified the STL files of spheroids and cores 
 
 From the normalized spherical harmonic coefficients, we computed the rotation-invariant power spectrum by summing the squared magnitudes of the coefficients at each degree. Each 3D shape is thus represented by its unique power spectrum, which serves as a multidimensional descriptor. To explore variation between models, we applied UMAP for dimensionality reduction and visualization [@Van2023].All these were conducted in python.
 
-This study represents the first attempt in archaeology to apply SPHARM for the classification of spheroids and cores. Specifically, we included a set of standard geometric models—such as sphere, rounded cube, ellipsoid (1.2:1:0.8) rounded rectangular prism (1.2:1:1), and disc-like (flattened, and like discoid core)—in the SPHARM analysis and UMAP. Spheroids and cores were positioned in this position based on their morphological similarity to these reference models: individuals that cluster more closely to a specific standard form exhibit corresponding shape characteristics.
+This study represents the first attempt in archaeology to apply SPHARM for the classification of spheroids and cores. Specifically, we included a set of standard geometric models—such as sphere, rounded cube, ellipsoid (1.2:1:0.8) and box (1.2:1:1), and disc-like (flattened, and like discoid core)—in the SPHARM analysis and UMAP. Spheroids and cores were positioned in this position based on their morphological similarity to these reference models: individuals that cluster more closely to a specific standard form exhibit corresponding shape characteristics.
 
 ### Spherical Harmonic Energy
 
@@ -195,7 +210,7 @@ knitr::kable(data_raw, caption = "Summary of core typology and morphological par
 
 ```
 
-```{r}
+```{r, echo=FALSE}
 
 # Groups
 
@@ -220,7 +235,7 @@ mean_sphericity_poly_multi <- mean_sphericity_summary$mean_sphericity[mean_spher
 mean_sphericity_sub_spheroid <- mean_sphericity_summary$mean_sphericity[mean_sphericity_summary$Group == "Spheroid + Subspheroid"] |> round(3)
 ```
 
-```{r}
+```{r, echo=FALSE}
 
 # Mann-Whitney U test
 # between sphericity_poly_multi and sphericity_sub_spheroid
@@ -245,7 +260,7 @@ p_value_Mann_sci <- pretty_print_sci(p_value)
 
 ```
 
-```{r}
+```{r, echo=FALSE}
 
 # Kruskal–Wallis test
 # on sphericity among 4 core types
@@ -258,7 +273,7 @@ p_value_kruskal <- kruskal_result$p.value
 p_value_kruskal_sci <- pretty_print_sci(p_value_kruskal)
 ```
 
-```{r}
+```{r, include=FALSE}
 # Pearson correlation test
 
 cor_test_pearson <- cor.test(data_clean$Sphericity, data_clean$`SPHARM power`, method = "pearson")
@@ -270,9 +285,41 @@ p_value <- cor_test_pearson$p.value
 correlation <- cor_test_pearson$estimate
 
 p_value_pearson_sci <- pretty_print_sci(p_value)
+
+# 画图
+ggplot(data_clean, aes(x = Sphericity, y = `SPHARM power`)) +
+  # 散点（深红色）
+  geom_point(size = 3, alpha = 0.9, color = "#B22222") +
+  
+  # 拟合线（深蓝灰）
+  geom_smooth(method = "lm", se = TRUE, color = "#1C3041", fill = "#A3B1C6", linetype = "solid") +
+  
+   scale_x_continuous(breaks = seq(0.4, 1.0, by = 0.04)) +
+
+  # 自定义配色主题
+  theme_minimal(base_size = 15) +
+  theme(
+    panel.grid.major = element_line(color = "#DDDDDD"),
+    panel.grid.minor = element_blank(),
+    axis.title = element_text(color = "#333333"),
+    axis.text = element_text(color = "#333333")
+  ) +
+
+  # 标题与坐标轴标签
+  labs(
+    x = "Sphericity",
+    y = "SPHARM Power"
+  ) +
+  annotate("text",
+         x = Inf, y = Inf,
+         hjust = 1.1, vjust = 1.2,
+         label = paste0("r = ", round(correlation, 3),
+                        "\n", "p = ", pretty_print_sci(p_value),
+                        "\n", "n = ", nrow(data_clean)),
+         size = 5, color = "#1C3041")
 ```
 
-```{r}
+```{r, echo=FALSE}
 # Mean SHE
 
 mean_spharm_power_summary <- mean_sphericity_tbl |>
@@ -290,7 +337,7 @@ mean_spharm_power_sub_spheroid <- mean_spharm_power_summary$mean_spharm_power[me
 sd_spharm_power_sub_spheroid <- mean_spharm_power_summary$sd_spharm_power[mean_spharm_power_summary$Group == "Spheroid + Subspheroid"] |> round(3)
 ```
 
-```{r}
+```{r, echo=FALSE}
 # Kruskal–Wallis test2
 # on SHE among 4 core types
 
@@ -303,7 +350,7 @@ p_value_kruskal2 <- kruskal_result2$p.value
 p_value_kruskal2_sci <- pretty_print_sci(p_value_kruskal2)
 ```
 
-```{r}
+```{r, echo=FALSE}
 
 # CV of sphericity and SHE
 
@@ -312,12 +359,14 @@ group_sub_spheroids <- mean_sphericity_tbl %>% filter(Group == "Spheroid + Subsp
 # sphericity on spheroids
 mean_sph_sub_spheroids <- mean(group_sub_spheroids$Sphericity, na.rm = TRUE)
 sd_sph_sub_spheroids <- sd(group_sub_spheroids$Sphericity, na.rm = TRUE)
-cv_sph_sub_spheroids <- sd_sph_sub_spheroids / mean_sph_sub_spheroids
+cv_sph_sub_spheroids <- sd_sph_sub_spheroids / 
+mean_sph_sub_spheroids
 
 # SHE on spheroids
 mean_she_sub_spheroids <- mean(group_sub_spheroids$`SPHARM power`, na.rm = TRUE)
 sd_she_sub_spheroids <- sd(group_sub_spheroids$`SPHARM power`, na.rm = TRUE)
-cv_she_sub_spheroids <- sd_she_sub_spheroids / mean_she_sub_spheroids
+cv_she_sub_spheroids <- sd_she_sub_spheroids /
+mean_she_sub_spheroids
 
 
 group_poly_multi <- mean_sphericity_tbl %>% filter(Group == "Polyhedron + Multifacial")
@@ -332,22 +381,176 @@ sd_she_poly_multi <- sd(group_poly_multi$`SPHARM power`, na.rm = TRUE)
 cv_she_poly_multi <- sd_she_poly_multi / mean_she_poly_multi
 
 
-cv_she_sub_spheroids
-cv_she_poly_multi
 ```
 
+```{r setup_umap_data, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(ggrepel)
+library(here)
+
+# Load data
+umap_data <- read_csv(here("analysis/data/derived_data/umap_lmax20.csv"))
+
+# Lowercase category and set factor levels
+umap_data <- umap_data %>%
+  mutate(category_lower = tolower(category)) %>%
+  mutate(category_lower = fct_relevel(category_lower,
+    "polyhedron", "multifacial", "idealmodel", "subspheroid", "spheroid"
+  ))
+
+# Set point size (highlight idealmodel)
+umap_data <- umap_data %>%
+  mutate(point_size = if_else(category_lower == "idealmodel", 4.5, 3))
+
+# KMeans clustering (k=4)
+set.seed(123)
+kmeans_result <- kmeans(umap_data[, c("x", "y")], centers = 4)
+
+# Add clustering results
+umap_data <- umap_data %>%
+  mutate(
+    cluster = factor(kmeans_result$cluster),
+    is_idealmodel = if_else(category_lower == "idealmodel", "yes", "no")
+  )
+
+# Save x/y limits for consistent plotting
+x_limits <- range(umap_data$x)
+y_limits <- range(umap_data$y)
+
+expand_range <- function(lim, ratio) {
+  range_width <- diff(lim)
+  return(c(lim[1] - range_width * ratio, lim[2] + range_width * ratio))
+}
+
+# 原始坐标范围
+x_limits <- range(umap_data$x)
+y_limits <- range(umap_data$y)
+
+# 分别扩展 x 和 y
+x_limits_expanded <- expand_range(x_limits, 0.10)  # 横轴扩展 10%
+y_limits_expanded <- expand_range(y_limits, 0.15)  # 纵轴扩展 15%
+
+# Subset for labeling
+label_data <- umap_data %>%
+  filter(category_lower %in% c("idealmodel", "spheroid", "subspheroid"))
+```
+
+```{r umap_by_category, include=FALSE}
+category_colors <- c(
+  "idealmodel" = "black",
+  "spheroid" = "red",
+  "subspheroid" = "orange",
+  "multifacial" = "lightgray",
+  "polyhedron" = "gray40"
+)
+
+ggplot(umap_data, aes(x = x, y = y)) +
+  geom_point(aes(color = category_lower, size = point_size), alpha = 0.9, shape = 16) +
+  #geom_text_repel(
+    #data = label_data,
+    #aes(label = filename),
+    #size = 3,
+    #max.overlaps = 100,
+    #show.legend = FALSE
+  #) +
+  scale_color_manual(values = category_colors, name = "Category") +
+  scale_size_identity() +
+  coord_cartesian(xlim = x_limits_expanded, ylim = y_limits_expanded)+ #确保范围一致
+  theme_minimal(base_size = 14) +
+  labs(
+    x = "UMAP 1",
+    y = "UMAP 2"
+  ) +
+  theme(
+    legend.position = "non",
+    # plot.title = element_text(face = "bold")
+  )
+```
+
+```{r umap_by_cluster, include=FALSE}
+cluster_colors <- RColorBrewer::brewer.pal(4, "Set2")
+
+ggplot(umap_data, aes(x = x, y = y)) +
+  geom_point(
+    data = filter(umap_data, is_idealmodel == "no"),
+    aes(color = cluster),
+    alpha = 0.8,
+    size = 2.5
+  ) +
+  geom_point(
+    data = filter(umap_data, is_idealmodel == "yes"),
+    aes(color = cluster),
+    size = 3.5,
+    show.legend = FALSE
+  ) +
+  stat_ellipse(
+    aes(color = cluster),
+    type = "norm",
+    level = 0.95,
+    linetype = "dashed",
+    show.legend = FALSE
+  ) +
+  scale_color_manual(
+    values = cluster_colors,
+    name = "Cluster"
+  ) +
+  coord_cartesian(xlim = x_limits_expanded, ylim = y_limits_expanded) +  # 保证坐标一致
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "none") +
+  labs(
+    x = "UMAP 1",
+    y = "UMAP 2",
+    #caption = "Dashed ellipses show 95% confidence intervals"
+  )
+```
+
+```{r, echo=FALSE}
+#| label: fig-SPHARM-Reconstruction-by-Degree
+#| fig-cap: "Shape reconstruction of archaeological spheroids using SPHARM (various lmax levels)"
+
+library(here)
+knitr::include_graphics(here("analysis/paper/figures/SPHARM_reconstruction.png"))
+
+```
+
+```{r, echo=FALSE}
+#| label: fig-UMAP-SPHARM-clusters
+#| fig-cap: "UMAP plot showing distinct clusters of shapes derived from SPHARM"
+
+library(here)
+knitr::include_graphics(here("analysis/paper/figures/UMAP_SPHARM_clusters.png"))
+
+```
+
+```{r, echo=FALSE}
+#| label: fig-UMAP-SPHARM-samples
+#| fig-cap: "UMAP plot of SPHARM-derived shape features colored by types"
+
+library(here)
+knitr::include_graphics(here("analysis/paper/figures/UMAP_SPHARM_samples.png"))
+
+```
+
+```{r, echo=FALSE}
+#| label: fig-Correlation-SPHARMpower-Sphericity
+#| fig-cap: "Correlation analysis between SPHARMpower and Sphericity"
+
+library(here)
+knitr::include_graphics(here("analysis/paper/figures/Correlation_SPHARMpower_Sphericity.png"))
+
+```
 
 We applied spherical sphericity index, harmonics analysis, and centroid offset measurements to both the spheroids (n = `r n_total_typology`) and all other multifacial and polyhedron cores (n = `r n_poly_multi`) in the assemblage of QSY. These analyses aim to assess whether spheroids are morphologically distinct from other cores, and whether they exhibit standardized shapes—an essential criterion for evaluating the existence of deliberate shaping strategies and a goal product. In addition, we compare quantitative outcomes with traditional typological classifications to assess their consistency. We present a summary table listing each core's blank morphology and type, final morphology, and cortex coverage here in [@tbl-1].
 
 Sphericity analysis reveals a clear difference between spheroids and multifacial cores/polyhedra. The mean sphericity of spheroids (`r mean_sphericity_sub_spheroid`) is notably higher than that of multifacial cores and polyhedron (`r mean_sphericity_poly_multi`), with a Mann-Whitney U test yielding U = `r U_value`, p = $`r p_value_Mann_sci`$. This result indicates that spheroids possess a more spherical geometry overall, supporting their typological classification.
 
-We conducted shape analysis based on spherical harmonic decomposition, setting the maximum degree to 20 (lmax=20). This choice ensures that sufficient geometric detail is captured while avoiding high-frequency noise and overfitting artifacts such as the Gibbs phenomenon. After normalization, all models have their degree 0 (l=0) coefficient set to 1, allowing for meaningful comparison across different models.
+We conducted shape analysis based on spherical harmonic decomposition, setting the maximum degree to 20 (lmax=20,@fig-SPHARM-Reconstruction-by-Degree). This choice ensures that sufficient geometric detail is captured while avoiding high-frequency noise and overfitting artifacts such as the Gibbs phenomenon. After normalization, all models have their degree 0 (l=0) coefficient set to 1, allowing for meaningful comparison across different models.
 
 A Variance Analysis was performed on the power of each harmonic degree. The results indicate that l= 2 and l=3 exhibit the highest variance across the sample, suggesting that these low-order terms capture the most significant shape variation. Specifically, l=2 reflects global asymmetries—such as elongation or flattening—while degree 3 is more sensitive to localized features like curvature and edge protrusions.
 
-To visualize the structure of shape variation, we applied UMAP to the normalized power spectrum. The UMAP projection reveals distinct clusters in the first two dimensions of the shape space. These clusters correspond to reference models, sphere, rounded cube, ellipsoid, rounded rectangular prism and disc-shaped core. This demonstrates that these cores occupy distinguishable regions in the harmonic shape space, with proximity to the sphere or elongation/flattening along specific axes emerging as key differentiating features. Most artifacts typologically classified as spheroids or sub-spheroids were grouped into the “rounded cube” and “sphere” clusters, indicating their consistent, near-spherical shapes. However, some Multifacial cores and Polyhedron also appeared in the near-spherical region. This can be attributed to their high cortex coverage or limited flake removals, which likely preserved their originally rounded forms and led to their grouping alongside more intentionally shaped spheroids.
+To visualize the structure of shape variation, we applied UMAP to the normalized power spectrum. The UMAP projection reveals distinct clusters in the first two dimensions of the shape space. These clusters correspond to reference models, sphere, rounded cube, ellipsoid, box and disc-shaped core (@fig-UMAP-SPHARM-clusters). This demonstrates that these cores occupy distinguishable regions in the harmonic shape space, with proximity to the sphere or elongation/flattening along specific axes emerging as key differentiating features. Most artifacts typologically classified as spheroids or sub-spheroids were grouped into the “sphere” , “cube” and "ellipsoid" clusters, indicating their consistent, near-spherical shapes (@fig-UMAP-SPHARM-samples). However, some Multifacial cores and Polyhedron also appeared in the near-spherical region. This can be attributed to their high cortex coverage or limited flake removals, which likely preserved their originally rounded forms and led to their grouping alongside more intentionally shaped spheroids.
 
-We then tested whether the UMAP-based groupings also correspond to differences in sphericity using a Kruskal–Wallis test, which yielded $\chi^2$ = `r round(H_value, 2)`, df = `r df_kruskal`, p = $`r p_value_kruskal_sci`$. The result shows statistically significant differences in sphericity among the shape clusters, further supporting the effectiveness of the spherical harmonic approach in capturing meaningful morphological variation.
+We then tested whether the UMAP-based groupings also correspond to differences in sphericity using a Kruskal–Wallis test, which yielded $\chi^2$ = `r round(H_value, 2)`, df = `r df_kruskal`, p = $`r p_value_kruskal_sci`$. The result shows statistically significant differences in sphericity among the shape clusters, further supporting the effectiveness of the spherical harmonic approach in capturing meaningful morphological variation (@fig-Correlation-SPHARMpower-Sphericity).
 
 The spherical harmonic energy (SHE), a novel metric introduced herein, quantifies the geometric approximation of core morphology to an ideal sphere. Normalized SHE approaching unity indicates progressively spherical configurations, while deviations from unity reflect morphological irregularity. Our analysis demonstrates significant negative correlation between SHE and classic sphericity measures (r = `r round(correlation, 2)`, df = `r df_value`, p = $`r p_value_pearson_sci`$)), validating its efficacy as a proxy of sphericity.
 
@@ -357,9 +560,9 @@ The pursuit of a standardized spherical form among spheroids is further supporte
 
 ## Results of technological analysis
 
-The diacritical analysis of spheroid surfaces reveals a structured and recurrent reduction sequence comprising the following phases. Phase 1 was a unidirectional or bidirectional total exploitation, belonging to one kind of volume exploitation. Large and flat surfaces of the cobble were selected as platforms for striking toward the opposite surface. Knapping proceeded until the peripheral volume was fully exploited, resulting in an approximately cubic form. Phase 2 was peripheral centripetal exploitation. In this phase, previous removals in phase 1 serve as platforms for centripetal flaking around the core periphery. This represents a surface exploitation strategy. A notable feature is the angle between the face's ventral surface and platform (i.e. core edge angle), which often exceeds 90°, forming a secant plan [citation] rather than parallel planes. This phase contributes significantly to the increasingly spherical shape of the artefact. Phase 3 was the production of small scars on ridges or intersections of previous flake scars, resulting in a rounding and smoother surface, further enhancing sphericality. It is important to note that due to the high degree of reduction intensity observed in most spheroids, phases prior to the visible sequence were often obliterated. We hypothesize the existence of a Phase 0, potentially involving roughing-out of the cobble or an earlier cycle of Phases 1–3.
+The diacritical analysis of spheroid surfaces reveals a structured and recurrent reduction sequence comprising the following phases (@fig-spheroids-2797-1098). Phase 1 was a unidirectional or bidirectional total exploitation, belonging to one kind of volume exploitation. Large and flat surfaces of the cobble were selected as platforms for striking toward the opposite surface. Knapping proceeded until the peripheral volume was fully exploited, resulting in an approximately cubic form. Phase 2 was peripheral centripetal exploitation. In this phase, previous removals in phase 1 serve as platforms for centripetal flaking around the core periphery. This represents a surface exploitation strategy. A notable feature is the angle between the face's ventral surface and platform (i.e. core edge angle), which often exceeds 90°, forming a secant plan \[citation\] rather than parallel plan. This phase contributes significantly to the increasingly spherical shape of the artefact. Phase 3 was the production of small scars on ridges or intersections of previous flake scars, resulting in a rounding and smoother surface, further enhancing sphericality. It is important to note that due to the high degree of reduction intensity observed in most spheroids, phases prior to the visible sequence were often obliterated. We hypothesize the existence of a Phase 0, potentially involving roughing-out of the cobble or an earlier cycle of Phases 1–3.
 
-<!-- insert QSYA-1098-4.png and QSYA-2797-0.png about here, with the texure paired with the phase annotations figures, like a 2x2 panel, add a legend to indicate the meaning of the colours --> 
+<!-- insert QSYA-1098-4.png and QSYA-2797-0.png about here, with the texure paired with the phase annotations figures, like a 2x2 panel, add a legend to indicate the meaning of the colours -->
 
 Scar orientation analysis further supports the interpretation of a systematic reduction sequence in the production of QSY spheroids. @fig-benn-ternary-plot shows that spheroids tend to cluster together, with elongation ratios ranging from 0.403 to 0.637 and isotropy ratios from 0.164 to 0.497. These elongation ratios suggest that the spheroids underwent unidirectional or bidirectional total exploitation, typical of Phase 1, resulting in relatively high elongation values. In addition, the peripheral centripetal exploitation, namely Phase 2, appears to have contributed to a certain degree of isotropy in scar arrangement—higher isotropy ratios are associated with more spherical shapes. Subspheroids exhibit greater variability in both elongation and isotropy ratios, indicating less consistent reduction intensity.
 
@@ -469,7 +672,25 @@ ggsave(here("analysis/paper/figures/benn_ternary_plot.jpg"),
 
 ```
 
-<!-- Based on this diacritical analysis and scar orientation analysis, we can summarize the technical strategy employed in the production of faceted spheroids in QSY. This strategy consists of a series of sequential phases: a potential rough-out phase, volume exploitation aimed at forming a cubic shape, surface exploitation to approximate a spheroidal geometry, edge refinement, and potentially the repetition of earlier phases. The existence of a repetitive phase is supported by the observation that while the original cobble blanks in QSY display considerable size variation, the finished spheroids—although some are relatively large—mostly cluster around a diameter of 8–10 cm. This suggests that the production of spheroids may have involved multiple cycles of reduction, and further implies that a diameter of 8–10 cm was considered an optimal or intended size in the knapping process. BM: maybe move to discussion -->
+```{r, echo=FALSE}
+#| label: fig-spheroids-2797-1098
+#| fig-cap: "Diacritical analysis of QSY spheroids"
+
+library(here)
+knitr::include_graphics(here("analysis/paper/figures/spheroids_2797_1098.png"))
+
+```
+
+```{r, echo=FALSE}
+#| label: fig-shaping-process
+#| fig-cap: "hypothesis of QSY spheroid shaping process"
+
+library(here)
+knitr::include_graphics(here("analysis/paper/figures/shaping_process.png"))
+
+```
+
+Based on this diacritical analysis and scar orientation analysis, we can summarize the technical strategy employed in the production of faceted spheroids in QSY. This strategy consists of a series of sequential phases (@fig-shaping-process): a potential rough-out phase, volume exploitation aimed at forming a cubic shape, surface exploitation to approximate a spheroidal geometry, edge refinement, and potentially the repetition of earlier phases. The existence of a repetitive phase is supported by the observation that while the original cobble blanks in QSY display considerable size variation, the finished spheroids—although some are relatively large—mostly cluster around a diameter of 8–10 cm. This suggests that the production of spheroids may have involved multiple cycles of reduction, and further implies that a diameter of 8–10 cm was considered an optimal or intended size in the knapping process. <!-- BM: maybe move to discussion -->
 
 <!-- consider to add a visualisation, such as a histogram of the diameter, to support this claim, maybe above we can have a panel of plots of several basic attributes just to introduce the assemblages to the reader, then refer to it here. Maybe also some representative photos-->
 
@@ -483,7 +704,7 @@ data_raw2 <-
   drop_na() %>% 
   mutate(across(where(is.numeric), \(x) round(x, 3)))
 
-knitr::kable(data_raw2, caption = "Summary of core typology and morphological parameters.")
+knitr::kable(data_raw2, caption = "Summary of spheroid shaping intensity and shape features.")
 
 ```
 
@@ -519,11 +740,6 @@ rcorr_result <- rcorr(as.matrix(selected_cols), type = "spearman")
 cor_matrix <- rcorr_result$r
 p_matrix <- rcorr_result$P
 
-# 打印结果查看
-# print("Spearman correlation matrix:")
-# print(round(cor_matrix, 4))
-# print("P-value matrix:")
-# print(round(p_matrix, 4))
 
 
 # 转换成长格式
@@ -590,7 +806,7 @@ ggplot(labels_long, aes(x = Var2, y = Var1, fill = cor)) +
 
 @fig-spearman-correlation-matrix shows significant positive correlations among the three variables representing reduction intensity: scar number, removal ratio, and SDI. Among them, scar counts show significant positive correlations with both removal ratio (ρ = `r cor_scar_removal`, p = $`r p_scar_removal`$) and SDI (ρ = `r cor_scar_sdi`, p = $`r p_scar_sdi`$). Removal ratio and SDI exhibit a stronger and more highly significant correlation (ρ = `r cor_removal_sdi`, p = $`r p_removal_sdi`$). These two variables incorporate surface area in their calculation, making them more effective in capturing the density and intensity of reduction, and therefore more reliable indicators of the shaping process in spheroids.
 
-Among the shape descriptors of spheroids, several significant correlations were observed. Mean edge angle was positively correlated with sphericity (ρ = `r cor_angle_sph`, p = $`r p_angle_sph`$) and negatively correlated with SPHARM power (ρ = `r cor_angle_she`, p = $`r p_angle_she`$), indicating that greater edge angles are associated with more spherical and regular forms. As noted in previous studies, mean edge angle is a key variable in capturing the morphology of spheroids [citation]. This correlation between edge angle and sphericity may help explain why spheroids were often interpreted as exhausted cores in earlier research [citation]. Indeed, spheroids must be significantly reduced, as achieving a near-perfect spherical shape typically results in increased edge angles, making further flake removal difficult. However, the reverse is not necessarily true—not all exhausted cores evolve into spheroids.
+Among the shape descriptors of spheroids, several significant correlations were observed. Mean edge angle was positively correlated with sphericity (ρ = `r cor_angle_sph`, p = $`r p_angle_sph`$) and negatively correlated with SPHARM power (ρ = `r cor_angle_she`, p = $`r p_angle_she`$), indicating that greater edge angles are associated with more spherical and regular forms. As noted in previous studies, mean edge angle is a key variable in capturing the morphology of spheroids \[citation\]. This correlation between edge angle and sphericity may help explain why spheroids were often interpreted as exhausted cores in earlier research \[citation\]. Indeed, spheroids must be significantly reduced, as achieving a near-perfect spherical shape typically results in increased edge angles, making further flake removal difficult. However, the reverse is not necessarily true—not all exhausted cores evolve into spheroids.
 
 Curvature was only significantly correlated with sphericity (ρ = `r cor_cur_sph`, p = $`r p_cur_sph`$), suggesting that smoother surfaces tend to approximate spheres more closely. Its lack of correlation with other variables may reflect its focus on local surface texture, while edge angle and SPHARM power capture broader aspects of shape regularity and symmetry. The weak correlation between sphericity and SPHARM power may result from the small sample size or their different sensitivities: sphericity, based on area and volume, tolerates surface variation, while SPHARM power responds more to asymmetry and surface irregularity. Thus, even in similarly spherical specimens, surface differences can produce substantial variation in SPHARM power. The analysis of spheroid shape variables indicates that mean edge angle, curvature, sphericity, and SPHARM power each capture distinct aspects of spheroid morphology, which explains the varying strengths of correlation observed among them.
 
