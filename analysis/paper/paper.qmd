@@ -1,21 +1,49 @@
 ---
 title: "Shaping strategies and standardisation of faceted spheroids from Qianshangying (North China)"
+author:
+  - Yi Zhe:
+      correspondence: "yes"
+      email: yezhi@ivpp.ac.cn
+      orcid: 
+      institute:
+        - ivpp
+  - Ben Marwick:
+      correspondence: "no"
+      email: bmarwick@uw.edu
+      orcid: 0000-0001-7879-4531
+      institute:
+        - uw
+  - Li Hao:
+      correspondence: "no"
+      orcid: 
+      institute:
+        - ivpp
+  - Shuwen Pei:
+      correspondence: "no"
+      orcid: 
+      institute:
+        - ivpp
 institute:
-  - fosg:
-      name: Formatting Open Science Group
-      address: 23 Science Street, Eureka, Mississippi, USA
-  - fop: Federation of Planets
+  - uw: Department of Anthropology, University of Washington, Seattle, USA
+  - ivpp: Institute of Vertebrate Palaeontology and Paleoanthropology, Chinese Academy of Science, Beijing, China
 title-block-published: "Last updated"  
 date: now
 date-format: long
-format: html
+format: 
+  docx:
+    reference-doc: "../templates/template.docx" # Insert path for the DOCX file
 execute:
   echo: true
   warning: false
   message: false
   comment: "#>"
   fig-dpi: 600
+filters:
+  - ../templates/scholarly-metadata.lua
+  - ../templates/author-info-blocks.lua
+  - ../templates/pagebreak.lua
 bibliography: references.bib
+csl: "../templates/journal-of-archaeological-science.csl" # Insert path for the bib-style
 abstract: |
   Text of abstract
 keywords: |
@@ -55,38 +83,33 @@ source(here('analysis/paper/scripts/vector_stats.r'))
 
 # Introduction
 
-Spheroids are a widely distributed type of stone artifact, appearing across a broad temporal and geographic range—from the Oldowan and Acheulean to the Middle Paleolithic—and in diverse archaeological assemblages.[@willoughby1985; @Cabanes2024].
+Spheroids are a widely distributed type of stone artifact, appearing across a broad temporal and geographic range—from the Oldowan and Acheulean to the Middle Paleolithic—and in diverse archaeological assemblages.[@willoughby1985; @Cabanes2024]. Early descriptions of spheroids were provided by @clark1955 and @kleindienst1962, and @leakey1971 later formally introduced the term spheroid, alongside polyhedron and bola, in his classification of the Developed Oldowan. Leakey’s definition of spheroids remains a widely cited typological standard: spheroids are rounded lithic objects whose entire surface is covered with flake scars, while subspheroids are generally less symmetrical and may retain portions of the original cortex. Compared to spheroids, polyhedrons are characterized by multiple intersecting flake removals, producing a distinctly angular morphology; bolas exhibit smoother and more rounded surfaces with no visible crests [@leakey1971; @tittonSubspheroidsLithicAssemblage2020; @deweyer2017].
 
-Early descriptions of spheroids were provided by [@clark1955] and [@kleindienst1962], and [@leakey1971] later formally introduced the term spheroid, alongside polyhedron and bola, in his classification of the Developed Oldowan. Leakey’s definition of spheroids remains a widely cited typological standard: spheroids are rounded lithic objects whose entire surface is covered with flake scars, while subspheroids are generally less symmetrical and may retain portions of the original cortex. Compared to spheroids, polyhedrons are characterized by multiple intersecting flake removals, producing a distinctly angular morphology; bolas exhibit smoother and more rounded surfaces with no visible crests [@leakey1971; @tittonSubspheroidsLithicAssemblage2020; @deweyer2017].
+Although these artifact types are frequently grouped under the category “PSB” of Polyhedron, Spheroid and Bolas (or “PSSB” when subspheroids are included) and are commonly interpreted as volumetrically reduced artifacts organized around a central point, this morphology-based classification has led to several interpretive challenges. Artifacts identified as spheroids in one study may be classified as bolas or attributed to entirely different technological categories in another. Furthermore, research has shown that these forms may not represent a unified *chaîne opératoire*: differences in raw material selection suggest divergent technological strategies and potentially distinct functional purposes [@deweyer2017; @jones1994].
 
-Although these artifact types are frequently grouped under the category “PSB” of Polyhedron, Spheroid and Bolas (or “PSSB” when subspheroids are included) and are commonly interpreted as volumetrically reduced artifacts organized around a central point, this morphology-based classification has led to several interpretive challenges. Artifacts identified as spheroids in one study may be classified as bolas or attributed to entirely different technological categories in another. Furthermore, research has shown that these forms may not represent a unified *chaîne opératoire* : differences in raw material selection suggest divergent technological strategies and potentially distinct functional purposes [@deweyer2017; @jones1994].
+At present, the technological category and function of spheroids remain central topics of debate. <!-- BM: excellent, it is good to introduce the debate very explicitly and early in the paper, this is engaging for the reader --> Broadly, spheroids have been interpreted as hammerstones [@mussi2025; @schick1994], cores [@sahnouni1997], or projectiles [@leakey1979]. Closely tied to this debate is the question of their production strategy, which remains unclear. Experimental replication and site-specific diacritical analyses have produced divergent interpretations. One view suggests that spheroids emerged unintentionally as the by-products of core exhaustion, which represents a low-effort strategy aimed at flake production [@sahnouni1997]. Another perspective holds that spheroids were naturally produced through high-intensity battering <!-- BM: this is a little unclear, does 'naturally' mean 'an unintentional side-effect of people using them to batter other materials', or 'entirely unrelated to human activity, resulting from natural processes'? can you edit to clarify -->   [@schick1994; @mora2005; @clark1955]. In contrast, a third view proposes that spheroids reflect a conceptual template and were produced through a deliberate shaping strategy [@tittonSubspheroidsLithicAssemblage2020; @Muller2023; @texier2014]. 
 
-At present, the technological category and function of spheroids remain central topics of debate. Broadly, spheroids have been interpreted as hammerstones [@mussi2025; @schick1994], cores [@sahnouni1997], or projectiles [@leakey1979]. Closely tied to this debate is the question of their production strategy, which remains unclear. Experimental replication and site-specific diacritical analyses have produced divergent interpretations. One view suggests that spheroids emerged unintentionally as the by-products of core exhaustion, which represents a low-effort strategy aimed at flake production [@sahnouni1997]. Another perspective holds that spheroids were naturally produced through high-intensity battering [@schick1994]; \[\@mora2005\]; [@clark1955]. In contrast, a third view proposes that spheroids reflect a conceptual template and were produced through a deliberate shaping strategy [@tittonSubspheroidsLithicAssemblage2020; @Muller2023; @texier2014]. \[BM: yes, this is great, good job, this is a very important paragraph for the introduction of the paper. We might need to expand it a bit\]
+Rather than reflecting a single functional or technological model, these varying interpretations may instead capture regional variability shaped by differences in raw materials, morphologies, and reduction strategies. As @Cabanes2024 noted, spheroids may not represent a homogenous category. This highlights the need to move beyond generalized typological categories and instead engage more directly with local contexts and specific assemblages. Site-specific studies are therefore essential for reconstructing the spatial and temporal distribution of spheroids, as well as for identifying their distinct technological traits and functions.
 
-Rather than reflecting a single functional or technological model, these varying interpretations may instead capture regional variability shaped by differences in raw materials, morphologies, and reduction strategies. As [@Cabanes2024] said, spheroids may not represent a homogenous category. \[BM: you have already mentioned debates in the previous paragraph, so it's seems a bit odd to mention debates again here without continuity with the previous paragraph. Maybe these two sentences are better as the opening sentences for the paper, setting the scene for more information about the debates\] This highlights the need to move beyond generalized typological categories and instead engage more directly with local contexts and specific assemblages. Site-specific studies are therefore essential for reconstructing the spatial and temporal distribution of spheroids, as well as for identifying their distinct technological traits and functions.
+In this study, we demonstrate a novel approach to investigating the technological status of spheroids with a case study from the Middle Pleistocene site of Qianshangying in northern China. Among an assemblage previously classified as a simple core-flake industry, we identified a group spheroids and subspheroids. We observed notable differences between these artifacts and multifacial cores or polyhedrons <!-- BM: not sure what this next phrase means, I recommend you delete or edit to clarify:  "which are stone artifacts through typical flaking strategies" --> and hypothesized distinct reduction sequences. Our goal was to quantitatively evaluate whether these spheroids exhibited standardized morphology and production patterns, and whether their tendency toward spherical forms resulted from deliberate and systematic reduction processes that were distinct from the multifacial cores in the assemblage. Our results contribute the debate about whether the concept and manufacture of spheroids represent a distinct technological tradition, separate from conventional flake-based strategies. To accomplish our goal we conducted quantitative morphological and technological analyses of the spheroids recovered from Qianshangying. Our approach includes the first open source and reproducible application of spherical harmonic analysis to a Paleolithic assemblage from East Asia. These analyses help clarify the technological strategy behind spheroid production at Qianshangying, within the broader context of Middle Pleistocene lithic practices in northern China.
 
-In this study, we analyzed material from the Middle Pleistocene Qianshangying site (QSY) in northern China. Among an assemblage previously classified as a simple core-flake industry, we identified a group of highly standardized spheroids and subspheroids. we observed notable differences between these artifacts and multifacial cores or polyhedrons, which are stone artifacts through typical flaking strategies. Our goal was to evaluate whether these spheroids exhibited standardized morphology and production patterns, and whether their tendency toward spherical form resulted from deliberate and systematic reduction processes. based on the results, further to answer the question of whether the concept and manufacture of these spheroids represent a distinct technological tradition, separate from conventional flake-based strategies.
-
-We conducted quantitative morphological and technological analyses of the spheroids recovered from the Qianshangying (QSY) site, including the novel application of spherical harmonic analysis to a Paleolithic assemblage from East Asia. These analyses help clarify the technological strategy behind spheroid production at QSY, within the broader context of Middle Pleistocene lithic practices in northern China.
-
-# Context of QSY and its spheroids
+# Context of Qianshangying and its spheroids
 
 ```{r, echo=FALSE}
 #| label: fig-QSY-geography-chronology
 #| fig-cap: "Geological Context and Chrono-Stratigraphy of the QSY Site)"
 
-library(here)
 knitr::include_graphics(here("analysis/paper/figures/QSY_geography_chronology.png"))
 
 ```
 
-QSY lies in the Nihewan Basin, a region in northern China situated between the Chinese Loess Plateau and the Inner Mongolian Plateau. The basin preserves extensive Quaternary fluvio-lacustrine and loess deposits [@li2000; @yuan2009], hosts the highest concentrations of Pleistocene Paleolithic sites in East Asia, and is especially significant for preserving evidence of early hominin activities outside Africa dating back over one million years [@yang2020; @yang2017; @pei2019; @pei2017; @zhu2001; @zhu2004]. In recent years, nearly 20 Middle Pleistocene sites—including Jijiazhuang and Caijiagou—have been identified in the southeastern part of the basin [@yuwei2023; @ye2024], within the Yuxian Sub-basin, thereby completing the regional cultural sequence of the Nihewan Basin (@fig-QSY-geography-chronology).
+Qianshangying lies in the Nihewan Basin, a region in northern China situated between the Chinese Loess Plateau and the Inner Mongolian Plateau. The basin preserves extensive Quaternary fluvio-lacustrine and loess deposits [@li2000; @yuan2009], hosts the highest concentrations of Pleistocene Paleolithic sites in East Asia, and is especially significant for preserving evidence of early hominin activities outside Africa dating back over one million years [@yang2020; @yang2017; @pei2019; @pei2017; @zhu2001; @zhu2004]. In recent years, nearly 20 Middle Pleistocene sites—including Jijiazhuang and Caijiagou—have been identified in the southeastern part of the basin [@yuwei2023; @ye2024], within the Yuxian Sub-basin, resulting in a long and detailed regional cultural sequence for the Nihewan Basin (@fig-QSY-geography-chronology).
 
-The QSY site complex consists of four localities from QSY-A to QSY-D, discovered in 2015. It is among the region’s most artifact-rich archaeological site. Geomorphological and sedimentological evidence indicates that the stratigraphy at the site records a full cycle of lake expansion, retreat, re-expansion, and eventually disappearance of the ancient Nihewan lake, and hominin occupation occurred in a marginal lacustrine setting during a low lake-level episode \[BM: citation needed\]. The stratigraphic context of QSY indicates a short-term occupation resulting from a single hominin activity event. The assemblage appears to be largely in situ, exhibiting minimal disturbance after deposition and well-preserved patterns of technological combination. ESR dating of the cultural layer places hominin activity at approximately 429 ± 39 ka \[BM: citation needed\].
+The Qianshangying site complex consists of four localities from QSY-A to QSY-D, discovered in 2015. It is among the region’s most artifact-rich archaeological site. Geomorphological and sedimentological evidence indicates that the stratigraphy at the site records a full cycle of lake expansion, retreat, re-expansion, and eventually disappearance of the ancient Nihewan lake, and hominin occupation occurred in a marginal lacustrine setting during a low lake-level episode <!-- BM: citation needed -->. The stratigraphic context of Qianshangying indicates a short-term occupation resulting from a single hominin activity event. The assemblage appears to be largely in situ, exhibiting minimal disturbance after deposition and well-preserved patterns of technological combination <!-- BM: I don't understand what you mean by 'patterns of technological combination' can you elaborate and re-phrase this? -->. ESR dating of the cultural layer places hominin activity at approximately 429 ± 39 ka <!-- BM: citation needed -->.
 
-A total of 955 stone artifacts were recovered from four localities at the QSY site. Following a widely used techno-typological framework [@Isaac1981; @Isaac1986; @delatorre2004; @de2018oldowan; \@pei2017], the assemblage was classified into four general categories: flaked pieces (n = 247, 26.0%), detached pieces (n = 686, 71.8%), pounded pieces (n = 4, 0.4%), and unmodified materials (n = 17, 1.8%). \[BM: is it possible to use inline R code for these numbers?\] Among these, 12 spheroids and subspheroids were identified, accounting for 1.3% of the total lithic assemblage.
+A total of 955 stone artifacts were recovered from four localities at Qianshangying. Following a widely used techno-typological framework [@Isaac1981; @Isaac1986; @delatorre2004; @de2018oldowan; @pei2017], the assemblage was classified into four general categories: flaked pieces (n = 247, 26.0%), detached pieces (n = 686, 71.8%), pounded pieces (n = 4, 0.4%), and unmodified materials (n = 17, 1.8%).<!-- BM:  is it possible to use inline R code for these numbers? --> Among these, 12 spheroids and subspheroids were identified, accounting for 1.3% of the total lithic assemblage.
 
-Raw materials at QSY were classified into four categories following @pei2002 and @pei2017: lava, siliceous dolomite, chert, and others. Lava rock dominates the assemblage (n=637, 66.7%), followed by siliceous dolomite (n=209, 21.9%), with chert and other materials comprising the remainder (n=53, 5.5% and n=56, 5.9% respectively). It seems that spheroids show no strong raw material preference. Of the 12 identified spheroids, 75.0% are lava (n = 9), 16.7% are siliceous dolomite (n = 2), and 8.3% is quartzite (n=1, classified under "other"), roughly mirroring the assemblage’s overall composition except for the absence of chert. However, when compared to cores, which are 66.0% lava (n = 62), 22.3% siliceous dolomite (n = 21), 4.3% chert (n = 4), and 7.4% other (n = 7), spheroids show a higher frequency of lava use, suggesting the different preferences in raw material selection for the spheroids and the cores. (pie chart in need?)
+Raw materials at Qianshangying. were classified into four categories following @pei2002 and @pei2017: lava, siliceous dolomite, chert, and others. Lava rock dominates the assemblage (n=637, 66.7%), followed by siliceous dolomite (n=209, 21.9%), with chert and other materials comprising the remainder (n=53, 5.5% and n=56, 5.9% respectively). It seems that spheroids show no strong raw material preference. Of the 12 identified spheroids, 75.0% are lava (n = 9), 16.7% are siliceous dolomite (n = 2), and 8.3% is quartzite (n=1, classified under "other"), roughly mirroring the assemblage’s overall composition except for the absence of chert. However, when compared to cores, which are 66.0% lava (n = 62), 22.3% siliceous dolomite (n = 21), 4.3% chert (n = 4), and 7.4% other (n = 7), spheroids show a higher frequency of lava use, suggesting the different preferences in raw material selection for the spheroids and the cores. (pie chart in need?) <!-- BM: in your R console, please run ?pie then read the text under the 'Note' heading to see what I and many other people think about pie charts ;) -->
 
 ```{r, echo=FALSE}
 #| label: fig-core-spheroid-size
