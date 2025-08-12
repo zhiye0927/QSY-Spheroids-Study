@@ -173,7 +173,7 @@ df_long <- df %>%
 p_raw_material <- 
 ggplot(df_long %>% 
          mutate(category = case_when(
-           category == "cores" ~ "Core",
+           category == "cores" ~ "Cores",
            category == "spheroids" ~ "Spheroid",
            category == "total" ~ "Total",
            category == "Polys_and_Multi_cores" ~ "Polys and Multi cores"
@@ -189,9 +189,9 @@ ggplot(df_long %>%
   ) +
   scale_y_continuous(labels = scales::percent_format(scale = 1)) +
     scale_fill_manual(values = c(
-    "Core" = "#66c2a5", 
     "Spheroid" = "orange", 
-    "Polys and Multi cores" = "lightgray",
+    "Polys and Multi cores" = "#66c2a5",
+    "Cores" = "lightgray", 
     "Total" = "gray"
   )) +
   theme_minimal(base_size = 8) +
@@ -268,7 +268,7 @@ long_data <- data %>%
   filter(!is.na(value)) %>%
   mutate(
     artifact = recode(artifact,
-                      "core" = "Core",
+                      "core" = "Cores",
                       "spheroid" = "Spheroid",
                       "multi_poly" = "Polys and Multi cores"),
     metric = factor(metric, levels = c("length", "width", "thickness"))
@@ -285,9 +285,9 @@ ggplot(long_data, aes(x = metric, y = value, fill = artifact)) +
     fill = "Technological Type"
   ) +
   scale_fill_manual(values = c(
-    "Core" = "#66c2a5", 
+    "Cores" = "lightgray", 
     "Spheroid" = "orange", 
-    "Polys and Multi cores" = "lightgray"
+    "Polys and Multi cores" = "#66c2a5"
   )) +
   theme_minimal(base_size = 8) +
   theme(
@@ -297,9 +297,10 @@ ggplot(long_data, aes(x = metric, y = value, fill = artifact)) +
     legend.box.background = element_rect(color = "black")  
   )
 
+p_dimensions
 ```
 
-In terms of dimensions, the average length, width, thickness, and mass of spheroids were `r round(summary_stats$spheroid_length_mean, 1)` mm (SD = `r round(summary_stats$spheroid_length_sd, 1)`), `r round(summary_stats$spheroid_width_mean, 1)` mm (SD = `r round(summary_stats$spheroid_width_sd, 1)`), `r round(summary_stats$spheroid_thickness_mean, 1)` mm (SD = `r round(summary_stats$spheroid_thickness_sd, 1)`), and `r round(summary_stats$spheroid_weight_mean, 1)` g (SD = `r round(summary_stats$spheroid_weight_sd, 1)`), respectively, as shown in @fig-basic-characteristics. Two spheroids showed outlier values in size, being either unusually large or small, while the rest exhibited relatively concentrated size distributions. In contrast, cores displayed greater variability in size, with standard deviations of `r round(summary_stats$core_length_sd, 1)` mm, `r round(summary_stats$core_width_sd, 1)` mm, and `r round(summary_stats$core_thickness_sd, 1)` mm for length, width, and thickness, respectively. The polyhedrons and multifacial cores showed less variation than the overall core group, but their dimensional variability remained substantially greater than that of the spheroids. Additionally, spheroids tend to have similar values across length, width, and thickness, reflecting their overall symmetry. In contrast, cores, including polyhedrons and multifacial cores show marked differences among these dimensions, indicating more irregular and elongated forms.
+In terms of dimensions, the average length, width, thickness, and mass of spheroids were `r round(summary_stats$spheroid_length_mean, 1)` mm (SD = `r round(summary_stats$spheroid_length_sd, 1)`), `r round(summary_stats$spheroid_width_mean, 1)` mm (SD = `r round(summary_stats$spheroid_width_sd, 1)`), `r round(summary_stats$spheroid_thickness_mean, 1)` mm (SD = `r round(summary_stats$spheroid_thickness_sd, 1)`), and `r round(summary_stats$spheroid_weight_mean, 1)` g (SD = `r round(summary_stats$spheroid_weight_sd, 1)`), respectively, as shown in @fig-basic-characteristics. Two spheroids showed outlier values in size, being either unusually large or small, while the rest exhibited relatively concentrated size distributions. In contrast, polyhedrons and multifacial cores displayed greater variability in size, with standard deviations of `r round(summary_stats$multi_poly_length_sd, 1)` mm, `r round(summary_stats$multi_poly_width_sd, 1)` mm, and `r round(summary_stats$multi_poly_thickness_sd, 1)` mm for length, width, and thickness, respectively. Additionally, spheroids tend to have similar values across length, width, and thickness, reflecting their overall symmetry. In contrast, polyhedrons and multifacial cores show marked differences among these dimensions, indicating more irregular and elongated forms.
 
 ```{r}
 #| label: fig-basic-characteristics
@@ -396,7 +397,9 @@ knitr::include_graphics(here("analysis/paper/figures/SPHARM_steps.png"))
 
 As shown in the @fig-SPHARM-steps, we first imported, cleaned, simplified and normalized the STL files of spheroids and cores to obtain 3D mesh vertices, which were then converted from Cartesian (x, y, z) to spherical coordinates (r, θ, φ) [@Link2024; @Medyukhina2020]. Next, we interpolated radial values onto a regular spherical grid  of N×N and then decomposed them using spherical harmonics based on the Driscoll–Healy sampling scheme [@Link2024; @Medyukhina2020]. The resulting coefficients were normalized for scale-invariant comparison across models.
 
-From the normalized spherical harmonic coefficients, we computed the rotation-invariant power spectrum by summing the squared magnitudes of the coefficients at each degree. Each 3D shape is thus represented by its unique power spectrum, which serves as a multidimensional descriptor. To explore variation between models, we applied UMAP for dimensionality reduction and visualization [@Van2023]. We included a set of standard geometric models—such as sphere, rounded cube, ellipsoid (1.2:1:0.8) and box (1.2:1:1), and disc-like (flattened, and like discoid core)—in the SPHARM analysis and UMAP as controls to aid in the interpretation of the results. Spheroids and cores were positioned in this morphospace based on their morphological similarity to these reference models: individuals that cluster more closely to a specific standard form exhibit corresponding shape characteristics. 
+From the normalized spherical harmonic coefficients, we computed the rotation-invariant power spectrum by summing the squared magnitudes of the coefficients at each degree. Each 3D shape is thus represented by its unique power spectrum, which serves as a multidimensional descriptor. To explore relationship between models, we applied Uniform Manifold Approximation and Projection (UMAP) for dimensionality reduction and visualization [@Van2023]. Unlike traditional linear dimensionality reduction methods such as Principal Component Analysis (PCA), which capture only global linear variance patterns, UMAP is a non-linear technique designed to preserve both local and global data structure. Its grouping is based on the local and global similarity of shape data. This makes UMAP particularly well suited for complex shape data represented by spherical harmonic coefficients, where morphological variations may manifest in subtle, non-linear ways across multiple degrees. By effectively capturing these non-linear relationships, UMAP yields a refined morphospace representation, enabling detection of complex shape differences that linear techniques may overlook.
+
+To better interpret the grouping revealed by UMAP, we included a set of standard geometric models—such as sphere, rounded cube, ellipsoid (1.2:1:0.8), box (1.2:1:1), and disc-like forms (flattened and discoid core)—in the SPHARM analysis and UMAP embedding as visual references. Spheroids and cores were positioned in this morphospace based on their morphological similarity to these reference models: individuals that cluster more closely to a specific standard form exhibit corresponding shape characteristics. 
 
 ### Spherical Harmonic Energy
 
@@ -406,9 +409,6 @@ Notably, classic sphericity metrics [@Wadell1935] exhibit critical limitations i
 
 We computed the total energy at degree 20, a resolution high enough to capture surface details. Lower energy values indicate more regular or rounded surfaces, while higher values reflect more irregular or angular geometries.
 
-### Centroid offset
-
-We also used the distance between its centre of mass (CoM) and the centre of its bounding box (CoBB) as a measure of volumetric symmetry [@Muller2023]. A perfect sphere will have its CoM and CoBB perfectly aligned, resulting in a zero offset. As the object becomes more irregular or asymmetric, this offset increases. For each 3D model, the CoBB is defined as the midpoint of the maximum orthogonal dimensions—length (y), width (x), and thickness (z)—of its minimum bounding box. The CoM, which approximates the true mass center for objects made of homogeneous materials, is computed by weighting each triangular face of the mesh by its surface area and normalizing the result. The distance between CoM and CoBB, normalized by the artifact’s volume, serves as a quantitative indicator of sphericity: lower values indicate more spherical forms. <!-- BM: delete all mentions of Centroid offset -->
 
 ## Technological Analysis
 
@@ -529,17 +529,10 @@ correlation <- cor_test_pearson$estimate
 
 p_value_pearson_sci <- pretty_print_sci(p_value)
 
-# 画图
 ggplot(data_clean, aes(x = Sphericity, y = `SPHARM power`)) +
-  # 散点（深红色）
-  geom_point(size = 3, alpha = 0.9, color = "#B22222") +
-  
-  # 拟合线（深蓝灰）
-  geom_smooth(method = "lm", se = TRUE, color = "#1C3041", fill = "#A3B1C6", linetype = "solid") +
-  
-   scale_x_continuous(breaks = seq(0.4, 1.0, by = 0.04)) +
-
-  # 自定义配色主题
+  geom_point(size = 3, alpha = 0.9, color = "#F28E2B") +
+  geom_smooth(method = "lm", se = TRUE, color = "#1C3041", fill = "#A6CEE3") +
+  scale_x_continuous(breaks = seq(0.4, 1.0, by = 0.04)) +
   theme_minimal(base_size = 15) +
   theme(
     panel.grid.major = element_line(color = "#DDDDDD"),
@@ -547,12 +540,7 @@ ggplot(data_clean, aes(x = Sphericity, y = `SPHARM power`)) +
     axis.title = element_text(color = "#333333"),
     axis.text = element_text(color = "#333333")
   ) +
-
-  # 标题与坐标轴标签
-  labs(
-    x = "Sphericity",
-    y = "SPHARM Power"
-  ) +
+  labs(x = "Sphericity", y = "SHE") +
   annotate("text",
          x = Inf, y = Inf,
          hjust = 1.1, vjust = 1.2,
@@ -560,6 +548,64 @@ ggplot(data_clean, aes(x = Sphericity, y = `SPHARM power`)) +
                         "\n", "p = ", pretty_print_sci(p_value),
                         "\n", "n = ", nrow(data_clean)),
          size = 5, color = "#1C3041")
+```
+
+
+```{r, include=FALSE}
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+
+# 把两个指标转成长格式，方便facet_wrap显示
+df_long <- mean_sphericity_tbl %>%
+  select(Group, Sphericity, `SPHARM power`) %>%
+  pivot_longer(cols = c(Sphericity, `SPHARM power`),
+               names_to = "Variable",
+               values_to = "Value")
+
+# 自定义Group名称映射，方便图例显示
+df_long <- df_long %>%
+  mutate(Group = factor(Group, levels = c("Spheroid + Subspheroid", "Polyhedron + Multifacial"),
+                        labels = c("Spheroid + Subspheroid", "Polyhedron + Multifacial")))
+
+# 画图
+ggplot(df_long, aes(x = Group, y = Value, fill = Group)) +
+  geom_boxplot(alpha = 0.7, outlier.shape = NA, width = 0.5) +
+  geom_jitter(width = 0.15, alpha = 1, size = 1) +
+  facet_wrap(~ Variable, scales = "free_y") +
+  scale_fill_manual(values = c("Spheroid + Subspheroid" = "orange", "Polyhedron + Multifacial" = "#66c2a5")) +
+  labs(x = "", y = "Value", fill = "Group", title = "Sphericity and SHE by Group") +
+  theme_minimal(base_size = 10) +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(angle = 0, hjust = 0.5)
+  )
+```
+
+```{r, include=FALSE}
+# 读取 CSV
+df <- read_csv(
+  here("analysis", "data", "derived_data", "variance_per_degree.csv")
+)
+
+ggplot(df, aes(x = degree, y = variance)) +
+  geom_line(color = "#1f78b4", size = 1.3, alpha = 0.8) +          
+  geom_point(color = "#ff7f00", size = 3, alpha = 0.9, shape = 21, fill = "#ffbb78", stroke = 1) +  # 橙色边框，填充浅橙
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 10)) +    
+  scale_y_continuous(breaks = scales::pretty_breaks(n = 8)) +      
+  labs(
+    title = "Variance per Degree",
+    x = "Spherical Harmonic Degree",
+    y = "Variance"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    axis.title = element_text(face = "bold"),
+    panel.grid.major = element_line(color = "#DDDDDD", size = 0.5),
+    panel.grid.minor = element_blank()
+  )
+
 ```
 
 ```{r, echo=FALSE}
@@ -784,8 +830,7 @@ knitr::include_graphics(here("analysis/paper/figures/Correlation_SPHARMpower_Sph
 ```
 
 ```{r, echo=FALSE}
-library(here)
-# 读取无列名的csv
+
 library(here)
 data_dir <- here("analysis", "data", "derived_data", "power_spectrum")
 csv_files <- list.files(data_dir, pattern = "\\.csv$", full.names = TRUE)
@@ -798,6 +843,13 @@ all_data <- map_dfr(csv_files, function(file) {
   return(df)
 })
 
+#l_2_3_power <- all_data %>%
+  #filter(degree %in% c(2, 3)) %>%
+  #select(file, degree, total_power) %>%
+  #pivot_wider(names_from = degree, values_from = total_power, names_prefix = "l_")
+
+# 查看结果
+#View(l_2_3_power)
 
 # 添加 group 列（可以多标签：Spheroid, Polyhedron, All）
 all_data <- all_data %>%
@@ -827,7 +879,7 @@ summary_df <- combined_data %>%
   )
 
 # 绘图，带误差带
-ggplot(summary_df_filtered, aes(x = degree, y = mean_power, color = group, fill = group)) +
+ggplot(summary_df, aes(x = degree, y = mean_power, color = group, fill = group)) +
   geom_line(linewidth = 1) +
   geom_ribbon(aes(
     ymin = pmax(mean_power - sd_power, 1e-10),
@@ -844,14 +896,14 @@ ggplot(summary_df_filtered, aes(x = degree, y = mean_power, color = group, fill 
   ) +
   coord_cartesian(clip = "on") +
   scale_color_manual(values = c(
-    "All specimens" = "#66c2a5",
+    "All specimens" = "lightgray",
     "Spheroid/Subspheroid" = "orange",
-    "Polyhedron/Multifacial" = "lightgray"
+    "Polyhedron/Multifacial" = "#66c2a5"
   )) +
   scale_fill_manual(values = c(
-    "All specimens" = "#66c2a5",
+    "All specimens" = "lightgray",
     "Spheroid/Subspheroid" = "orange",
-    "Polyhedron/Multifacial" = "lightgray"
+    "Polyhedron/Multifacial" = "#66c2a5"
   )) +
   labs(
     title = "Mean Power Spectrum with Standard Deviation",
@@ -861,23 +913,76 @@ ggplot(summary_df_filtered, aes(x = degree, y = mean_power, color = group, fill 
     fill = "Group"
   ) +
   theme_minimal() +
-  theme(plot.margin = margin(0, 0, 0, 0))
+  theme(plot.margin = margin(t = 10, r = 10, b = 10, l = 10),
+  legend.position = c(0.95, 0.95),
+  legend.justification = c("right", "top"),
+  legend.background = element_rect(fill = alpha("white", 0.8), color = NA),
+  legend.box.background = element_rect(color = "gray80"),
+  legend.box.margin = margin(5, 5, 5, 5)
+  )
 ```
 
 
-We calculated the spherical sphericity index, harmonics analysis, and centroid offset measurements to both the spheroids (n = `r n_total_typology`) and all other multifacial and polyhedron cores (n = `r n_poly_multi`) in the Qianshangying assemblage. These analyses aim to assess whether spheroids are morphologically distinct from other cores, and whether they exhibit standardized shapes—an essential criterion for evaluating the existence of deliberate shaping strategies and a goal product. In addition, we compare quantitative outcomes with traditional typological classifications to assess their consistency. We present a summary table listing each core's blank morphology and type, final morphology, and cortex coverage here in [@tbl-1].
+```{r, include=FALSE}
+library(readxl)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
 
-Our sphericity analysis reveals a clear difference between spheroids and multifacial cores/polyhedra. The mean sphericity of spheroids (`r mean_sphericity_sub_spheroid`) is notably higher than that of multifacial cores and polyhedron (`r mean_sphericity_poly_multi`), with a Mann-Whitney U test yielding U = `r U_value`, p = $`r p_value_Mann_sci`$. This result indicates that spheroids possess a more spherical geometry overall, supporting their typological classification as a distinct type.
+# 读取 Excel 文件
+file_path <- "E:/Lithic Analysis/QSYSpheroidsStudy/analysis/data/derived_data/umap_l2_l3.XLSX"
+df <- read_excel(file_path)
 
-We conducted shape analysis using spherical harmonic decomposition, setting the maximum degree to 20 (lmax=20, @fig-SPHARM-Reconstruction-by-Degree). This choice ensures that sufficient geometric detail is captured while avoiding high-frequency noise and overfitting artifacts. After normalization, all models have their degree 0 (l=0) coefficient set to 1, allowing for meaningful comparison across different models.
+# 查看数据结构
+print(head(df))
 
-We performed a Variance Analysis on the power of each harmonic degree. The results indicate that l=2 and l=3 exhibit the highest variance across the sample, suggesting that these low-order terms capture the most significant shape variation. Specifically, l=2 reflects global asymmetries—such as elongation or flattening—while degree 3 is more sensitive to localized features like curvature and edge protrusions. <!-- BM: can we show the results of this somehow, e.g. with a figure? -->
+# 计算相关系数矩阵
+correlations <- df %>%
+  select(UMPA1, UMAP2, degree1, degree2) %>%
+  cor()
+
+print("相关系数矩阵：")
+print(correlations)
+
+# 将数据长格式化方便绘图
+df_long <- df %>%
+  pivot_longer(cols = c(degree1, degree2), names_to = "degree", values_to = "degree_value")
+
+# 绘制 UMAP1 和 degree的散点图
+p1 <- ggplot(df_long, aes(x = UMPA1, y = degree_value, color = degree)) +
+  geom_point(size = 3) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(title = "UMAP1 vs degree1 (l=2) and degree2 (l=3)",
+       x = "UMAP1",
+       y = "Degree Power") +
+  theme_minimal()
+
+# 绘制 UMAP2 和 degree的散点图
+p2 <- ggplot(df_long, aes(x = UMAP2, y = degree_value, color = degree)) +
+  geom_point(size = 3) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(title = "UMAP2 vs degree1 (l=2) and degree2 (l=3)",
+       x = "UMAP2",
+       y = "Degree Power") +
+  theme_minimal()
+
+print(p1)
+print(p2)
+
+```
+We calculated the spherical sphericity ans spherical harmonic energy (SHE) to both the spheroids (n = `r n_total_typology`) and all other multifacial and polyhedron cores (n = `r n_poly_multi`) in the Qianshangying assemblage. These analyses aim to assess whether spheroids are morphologically distinct from other cores, and whether they exhibit standardized shapes—an essential criterion for evaluating the existence of deliberate shaping strategies and a goal product. In addition, we compare quantitative outcomes with traditional typological classifications to assess their consistency. We present a summary table listing each core's blank morphology and type, final morphology, and cortex coverage here in [@tbl-1].
+
+Our results of sphericity reveals a clear difference between spheroids and multifacial cores/polyhedra. The mean sphericity of spheroids (`r mean_sphericity_sub_spheroid`) is notably higher than that of multifacial cores and polyhedron (`r mean_sphericity_poly_multi`), with a Mann-Whitney U test yielding U = `r U_value`, p = $`r p_value_Mann_sci`$. This result indicates that spheroids possess a more spherical geometry overall, supporting their typological classification as a distinct type.
+
+We conducted shape analysis using spherical harmonic decomposition, setting the maximum degree to 20 (lmax=20, @fig-SPHARM-Reconstruction-by-Degree). This choice ensures that sufficient geometric detail is captured while avoiding high-frequency noise and overfitting artifacts. After normalization, all models have their degree 0 (l=0) coefficient set to 1, allowing for meaningful comparison across different models. 
+
+Subsequently, we computed the rotation-invariant power spectrum. Here we present the power spectrum of different groups, including spheroids, multifacial cores, polyhedrons, and the total of all these types combined. The results show that the spheroid group has significantly lower power than polyhedrons and multifacial cores at both low and high degrees, indicating that spheroids possess a more symmetrical overall shape and more regular local features. In addition, the spheroid group exhibits smaller inter-group morphological variation than polyhedrons and multifacial cores, particularly at low degrees. Then we performed a Variance Analysis on the power of each harmonic degree. The results indicate that l=2 and l=3 exhibit the highest variance across the sample, suggesting that these low-order terms capture the most significant shape variation. Specifically, l=2 reflects global asymmetries, such as elongation or flattening, while degree 3 is more sensitive to localized features like curvature and edge protrusions. 
 
 To reduce the dimensionality and visualize the structure of shape variation, we applied a Uniform Manifold Approximation and Projection (UMAP) to the normalized power spectrum. The UMAP reveals distinct clusters in the first two dimensions of the shape space. These clusters correspond to reference models, sphere, rounded cube, ellipsoid, box and disc-shaped core (@fig-UMAP-SPHARM-clusters). This demonstrates that these cores occupy distinguishable regions in the harmonic shape space, with proximity to the sphere or elongation/flattening along specific axes emerging as key differentiating features. Most artifacts typologically classified as spheroids or sub-spheroids were grouped into the “sphere” , “cube” and "ellipsoid" clusters, indicating their consistent, near-spherical shapes (@fig-UMAP-SPHARM-samples). However, some Multifacial cores and Polyhedron also appeared in the near-spherical region. This can be attributed to their high cortex coverage or limited flake removals, which likely preserved their originally rounded forms and led to their grouping alongside more intentionally shaped spheroids. 
 
-The UMAP-based groupings also correspond to significant differences in sphericity, as indicated by a Kruskal–Wallis test ($\chi^2$ = `r round(H_value, 2)`, df = `r df_kruskal`, p = $`r p_value_kruskal_sci`$). The result shows statistically significant differences in sphericity among the shape clusters, further supporting the effectiveness of the spherical harmonic approach in capturing meaningful morphological variation (@fig-Correlation-SPHARMpower-Sphericity).
+The UMAP-based groupings also correspond to significant differences in sphericity, as indicated by a Kruskal–Wallis test ($\chi^2$ = `r round(H_value, 2)`, df = `r df_kruskal`, p = $`r p_value_kruskal_sci`$). The result shows statistically significant differences in sphericity among the shape clusters, further supporting the effectiveness of the spherical harmonic approach in capturing meaningful morphological variation.
 
-The spherical harmonic energy (SHE), a novel metric introduced here, quantifies the geometric approximation of core morphology to an ideal sphere. Normalized SHE approaching unity indicates progressively spherical configurations, while deviations from unity reflect morphological irregularity. Our analysis demonstrates significant negative correlation between SHE and classic sphericity measures (r = `r round(correlation, 2)`, df = `r df_value`, p = $`r p_value_pearson_sci`$)), validating its efficacy as a proxy of sphericity. <!-- BM: consider a line plot to show all artefacts, one line per artefact -->
+The spherical harmonic energy (SHE), a novel metric introduced here, quantifies the geometric approximation of core morphology to an ideal sphere. Normalized SHE approaching unity indicates progressively spherical configurations, while deviations from unity reflect morphological irregularity. Our analysis demonstrates significant negative correlation between SHE and classic sphericity measures (r = `r round(correlation, 2)`, df = `r df_value`, p = $`r p_value_pearson_sci`$)), validating its efficacy as a proxy of sphericity (@fig-Correlation-SPHARMpower-Sphericity).
 
 Statistical comparisons reveal distinct SHE distributions between morphological classes: spheroids and sub-spheroids exhibit mean SHE = `r mean_spharm_power_sub_spheroid` (SD = `r sd_spharm_power_sub_spheroid`), whereas multifacial cores and polyhedron demonstrate significantly higher irregularity (mean SHE = `r mean_spharm_power_poly_multi`, SD = `r sd_spharm_power_poly_multi`). The Kruskal-Wallis test confirms robust inter-group divergence ($\chi^2$ = `r round(H_value_kruskal2, 2)`, df = `r df_kruskal2`, p = $`r p_value_kruskal2_sci`$), proving the distinguishability of spheroids from Qianshangying <!-- BM: I think a boxplot would be good to show this to the reader also -->
 
