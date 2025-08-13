@@ -166,8 +166,10 @@ df_long <- df %>%
   mutate(prop = count / sum(count) * 100) %>%
   ungroup() %>%
   mutate(
-    category = factor(category, levels = c("spheroids","Polys_and_Multi_cores", "cores", "total")),
-    material = factor(material, levels = c("Lava", "Dolomite", "Chert", "Other"))
+    category = factor(category, 
+                      levels = c("spheroids","Polys_and_Multi_cores", "cores", "total")),
+    material = factor(material, 
+                      levels = c("Lava", "Dolomite", "Chert", "Other"))
   )
 
 p_raw_material <- 
@@ -177,7 +179,8 @@ ggplot(df_long %>%
            category == "spheroids" ~ "Spheroid",
            category == "total" ~ "Total",
            category == "Polys_and_Multi_cores" ~ "Polys and Multi cores"
-           )), 
+           )) %>% 
+         filter(category != "Total"), 
        aes(x = material, 
            y = prop, 
            fill = category)) +
@@ -191,18 +194,15 @@ ggplot(df_long %>%
     scale_fill_manual(values = c(
     "Spheroid" = "orange", 
     "Polys and Multi cores" = "#66c2a5",
-    "Cores" = "lightgray", 
-    "Total" = "gray"
+    "Cores" = "lightgray"
   )) +
   theme_minimal(base_size = 8) +
   theme(
-    legend.position = c(0.95, 0.95),              
+    legend.position = c(0.80, 0.95),              
     legend.justification = c("right", "top"),      
     legend.background = element_rect(fill = alpha("white", 0.6), color = NA),  
     legend.box.background = element_rect(color = "black")  
   )
-p_raw_material
-
 
 #citation
 df_long <- df_long %>%
@@ -218,10 +218,10 @@ dolomite_spheroids_text <- df_long %>% filter(material == "Dolomite", category =
 chert_spheroids_text <- df_long %>% filter(material == "Chert", category == "spheroids") %>% pull(text)
 other_spheroids_text <- df_long %>% filter(material == "Other", category == "spheroids") %>% pull(text)
 
-lava_mluti_text <- df_long %>% filter(material == "Lava", category == "Polys_and_Multi_cores") %>% pull(text)
-dolomite_mluti_text <- df_long %>% filter(material == "Dolomite", category == "Polys_and_Multi_cores") %>% pull(text)
-chert_mluti_text <- df_long %>% filter(material == "Chert", category == "Polys_and_Multi_cores") %>% pull(text)
-other_mluti_text <- df_long %>% filter(material == "Other", category == "Polys_and_Multi_cores") %>% pull(text)
+lava_multi_text <- df_long %>% filter(material == "Lava", category == "Polys_and_Multi_cores") %>% pull(text)
+dolomite_multi_text <- df_long %>% filter(material == "Dolomite", category == "Polys_and_Multi_cores") %>% pull(text)
+chert_multi_text <- df_long %>% filter(material == "Chert", category == "Polys_and_Multi_cores") %>% pull(text)
+other_multi_text <- df_long %>% filter(material == "Other", category == "Polys_and_Multi_cores") %>% pull(text)
 ```
 
 The Qianshangying site complex consists of four localities from QSY-A to QSY-D, discovered in 2015. It is among the region’s most artifact-rich archaeological site. Geomorphological and sedimentological evidence indicates that the stratigraphy at the site records a full cycle of lake expansion, retreat, re-expansion, and eventually disappearance of the ancient Nihewan lake, and hominin occupation occurred in a marginal lacustrine setting during a low lake-level episode <!-- BM: citation needed -->. The stratigraphic context of Qianshangying indicates a short-term occupation resulting from a single hominin activity event. Analyses of artefact orientations and size distributions indicates that the assemblage appears to be largely *in situ*, exhibiting minimal disturbance after deposition <!-- BM: cite your excavation report, unpublished report -->. ESR dating of the cultural layer places hominin activity at approximately 429 ± 39 ka <!-- BM: cite your excavation report, unpublished report -->.
@@ -290,14 +290,8 @@ ggplot(long_data, aes(x = metric, y = value, fill = artifact)) +
     "Polys and Multi cores" = "#66c2a5"
   )) +
   theme_minimal(base_size = 8) +
-  theme(
-    legend.position = c(0.95, 0.95),       
-    legend.justification = c("right", "top"),  
-    legend.background = element_rect(fill = alpha("white", 0.6), color = NA), 
-    legend.box.background = element_rect(color = "black")  
-  )
+  guides(fill = "none")
 
-p_dimensions
 ```
 
 In terms of dimensions, the average length, width, thickness, and mass of spheroids were `r round(summary_stats$spheroid_length_mean, 1)` mm (SD = `r round(summary_stats$spheroid_length_sd, 1)`), `r round(summary_stats$spheroid_width_mean, 1)` mm (SD = `r round(summary_stats$spheroid_width_sd, 1)`), `r round(summary_stats$spheroid_thickness_mean, 1)` mm (SD = `r round(summary_stats$spheroid_thickness_sd, 1)`), and `r round(summary_stats$spheroid_weight_mean, 1)` g (SD = `r round(summary_stats$spheroid_weight_sd, 1)`), respectively, as shown in @fig-basic-characteristics. Two spheroids showed outlier values in size, being either unusually large or small, while the rest exhibited relatively concentrated size distributions. In contrast, polyhedrons and multifacial cores displayed greater variability in size, with standard deviations of `r round(summary_stats$multi_poly_length_sd, 1)` mm, `r round(summary_stats$multi_poly_width_sd, 1)` mm, and `r round(summary_stats$multi_poly_thickness_sd, 1)` mm for length, width, and thickness, respectively. Additionally, spheroids tend to have similar values across length, width, and thickness, reflecting their overall symmetry. In contrast, polyhedrons and multifacial cores show marked differences among these dimensions, indicating more irregular and elongated forms.
@@ -305,6 +299,7 @@ In terms of dimensions, the average length, width, thickness, and mass of sphero
 ```{r}
 #| label: fig-basic-characteristics
 #| fig-cap: "Basic characteristics of the Qianshangying assemblage. A: Raw material proportions. B: Box plot comparing of core, spheroid, and multifacial core dimensions"
+#| echo: false
 
 library(cowplot)
 
@@ -529,18 +524,14 @@ correlation <- cor_test_pearson$estimate
 
 p_value_pearson_sci <- pretty_print_sci(p_value)
 
+p_corr_sphericiy_she <- 
 ggplot(data_clean, aes(x = Sphericity, y = `SPHARM power`)) +
-  geom_point(size = 3, alpha = 0.9, color = "#F28E2B") +
-  geom_smooth(method = "lm", se = TRUE, color = "#1C3041", fill = "#A6CEE3") +
+  geom_point(size = 3, alpha = 0.9, color = "grey60") +
+  geom_smooth(method = "lm", se = TRUE, color = "black", fill = "#A6CEE3") +
   scale_x_continuous(breaks = seq(0.4, 1.0, by = 0.04)) +
-  theme_minimal(base_size = 15) +
-  theme(
-    panel.grid.major = element_line(color = "#DDDDDD"),
-    panel.grid.minor = element_blank(),
-    axis.title = element_text(color = "#333333"),
-    axis.text = element_text(color = "#333333")
-  ) +
-  labs(x = "Sphericity", y = "SHE") +
+  theme_minimal(base_size = 12)  +
+  labs(x = "Sphericity", 
+       y = "Spherical Harmonic Energy") +
   annotate("text",
          x = Inf, y = Inf,
          hjust = 1.1, vjust = 1.2,
@@ -565,20 +556,42 @@ df_long <- mean_sphericity_tbl %>%
 
 # 自定义Group名称映射，方便图例显示
 df_long <- df_long %>%
-  mutate(Group = factor(Group, levels = c("Spheroid + Subspheroid", "Polyhedron + Multifacial"),
-                        labels = c("Spheroid + Subspheroid", "Polyhedron + Multifacial")))
+  mutate(Group = factor(Group, 
+                        levels = c("Spheroid + Subspheroid", 
+                                   "Polyhedron + Multifacial"),
+                        labels = c("Spheroid + Subspheroid", 
+                                   "Polyhedron + Multifacial"))) %>% 
+  mutate(
+    Group = case_when(
+      Group == "Spheroid + Subspheroid" ~  "Spheroid\nSubspheroid", 
+      Group == "Polyhedron + Multifacial" ~  "Polyhedron\nMultifacial",
+      TRUE ~ NA_character_
+    )
+  )
 
 # 画图
-ggplot(df_long, aes(x = Group, y = Value, fill = Group)) +
+p_sphericity_and_she <- 
+ggplot(df_long, aes(x = Group, 
+                    y = Value, 
+                    fill = Group,
+                    colour = Group)) +
   geom_boxplot(alpha = 0.7, outlier.shape = NA, width = 0.5) +
-  geom_jitter(width = 0.15, alpha = 1, size = 1) +
+  geom_jitter(width = 0.15, 
+              alpha = 1, 
+              size = 1) +
   facet_wrap(~ Variable, scales = "free_y") +
-  scale_fill_manual(values = c("Spheroid + Subspheroid" = "orange", "Polyhedron + Multifacial" = "#66c2a5")) +
-  labs(x = "", y = "Value", fill = "Group", title = "Sphericity and SHE by Group") +
-  theme_minimal(base_size = 10) +
+  scale_fill_manual(values = c("Spheroid\nSubspheroid" = "orange", 
+                               "Polyhedron\nMultifacial" = "#66c2a5")) +
+  scale_colour_manual(values = c("Spheroid\nSubspheroid" = "orange", 
+                               "Polyhedron\nMultifacial" = "#66c2a5")) +
+  labs(x = "",
+       y = "",
+       fill = "Group", 
+      # title = "Sphericity and SHE by Group"
+       ) +
+  theme_minimal(base_size = 12) +
   theme(
-    legend.position = "none",
-    axis.text.x = element_text(angle = 0, hjust = 0.5)
+    legend.position = "none"
   )
 ```
 
@@ -588,25 +601,142 @@ df <- read_csv(
   here("analysis", "data", "derived_data", "variance_per_degree.csv")
 )
 
+p_variance_per_degreee <- 
 ggplot(df, aes(x = degree, y = variance)) +
-  geom_line(color = "#1f78b4", size = 1.3, alpha = 0.8) +          
-  geom_point(color = "#ff7f00", size = 3, alpha = 0.9, shape = 21, fill = "#ffbb78", stroke = 1) +  # 橙色边框，填充浅橙
+  geom_line(size = 1.3, colour = "black") +          
+  geom_point(size = 3, colour = "grey60") +  # 橙色边框，填充浅橙
   scale_x_continuous(breaks = scales::pretty_breaks(n = 10)) +    
   scale_y_continuous(breaks = scales::pretty_breaks(n = 8)) +      
   labs(
-    title = "Variance per Degree",
+   # title = "Variance per Degree",
     x = "Spherical Harmonic Degree",
     y = "Variance"
   ) +
-  theme_minimal(base_size = 14) +
-  theme(
-    plot.title = element_text(face = "bold", hjust = 0.5),
-    axis.title = element_text(face = "bold"),
-    panel.grid.major = element_line(color = "#DDDDDD", size = 0.5),
-    panel.grid.minor = element_blank()
-  )
+  theme_minimal(base_size = 12) 
 
 ```
+
+
+```{r, echo=FALSE}
+
+library(here)
+data_dir <- here("analysis", "data", "derived_data", "power_spectrum")
+csv_files <- list.files(data_dir, pattern = "\\.csv$", full.names = TRUE)
+
+# 读取所有 CSV 文件，并加上文件名
+all_data <- map_dfr(csv_files, function(file) {
+  df <- read.csv(file, header = FALSE)
+  colnames(df) <- c("degree", "total_power", "max_amplitude", "total_amplitude")
+  df$file <- basename(file)
+  return(df)
+})
+
+#l_2_3_power <- all_data %>%
+  #filter(degree %in% c(2, 3)) %>%
+  #select(file, degree, total_power) %>%
+  #pivot_wider(names_from = degree, values_from = total_power, names_prefix = "l_")
+
+# 查看结果
+#View(l_2_3_power)
+
+# 添加 group 列（可以多标签：Spheroid, Polyhedron, All）
+all_data <- all_data %>%
+  mutate(
+    group = case_when(
+      str_detect(file, regex("Polyhedron|Multifacial", ignore_case = TRUE)) ~ "Polyhedron/Multifacial",
+      str_detect(file, regex("Spheroid|Subspheroid", ignore_case = TRUE)) ~ "Spheroid/Subspheroid",
+      TRUE ~ NA_character_
+    )
+  )
+
+# 所有样本一组（不管名字）
+all_data_all <- all_data %>%
+  mutate(group = "All specimens")
+
+# 合并所有分组
+combined_data <- bind_rows(all_data, all_data_all) %>%
+  filter(!is.na(group))
+
+# 计算每组的 degree 平均值和标准差
+summary_df <- combined_data %>%
+  group_by(group, degree) %>%
+  summarise(
+    mean_power = mean(total_power, na.rm = TRUE),
+    sd_power = sd(total_power, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+# 绘图，带误差带
+p_power_spectrum <- 
+ggplot(summary_df, aes(x = degree, y = mean_power, color = group, fill = group)) +
+  geom_line(linewidth = 1) +
+  geom_ribbon(aes(
+    ymin = pmax(mean_power - sd_power, 1e-10),
+    ymax = mean_power + sd_power
+  ), alpha = 0.2, linetype = 0) +
+  scale_y_log10(
+  breaks = c(1e-8, 1e-6, 1e-4, 1e-2, 1),
+  labels = parse(text = c("10^-8", "10^-6", "10^-4", "10^-2", "10^0"))
+  )+
+  scale_x_continuous(
+    limits = c(0, 20),
+    breaks = seq(0, 20, by = 4),
+    expand = c(0, 0)
+  ) +
+  coord_cartesian(clip = "on") +
+  scale_color_manual(values = c(
+    "All specimens" = "lightgray",
+    "Spheroid/Subspheroid" = "orange",
+    "Polyhedron/Multifacial" = "#66c2a5"
+  )) +
+  scale_fill_manual(values = c(
+    "All specimens" = "lightgray",
+    "Spheroid/Subspheroid" = "orange",
+    "Polyhedron/Multifacial" = "#66c2a5"
+  )) +
+  labs(
+   # title = "Mean Power Spectrum with Standard Deviation",
+    x = "Degree (l)",
+    y = "Mean Total Power (log scale)",
+    color = "Group",
+    fill = "Group"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(plot.margin = margin(t = 10, r = 10, b = 10, l = 10),
+  legend.position = c(0.95, 0.4),
+  legend.justification = c("right", "top"),
+  legend.background = element_rect(fill = alpha("white", 0.8), color = NA),
+  legend.box.background = element_rect(color = "gray80"),
+  legend.box.margin = margin(5, 5, 5, 5)
+  )
+```
+
+
+```{r}
+#| label: fig-sp-summary
+#| fig-cap: "A. Mean spherical harmonic power spectrum. B. Variance distribution by spherical harmonic degree. C. Distribution of SPHARM power and sphericity by artefact type. D. Correlation of sphericity and spherical harmonic energy"
+
+# combine plots
+library(cowplot)
+p_panel_spharm <- 
+plot_grid(p_power_spectrum, 
+          p_variance_per_degreee,
+          p_sphericity_and_she,
+          p_corr_sphericiy_she,
+          labels = 'AUTO'
+           )
+
+ggsave(plot = p_panel_spharm,
+       filename = here("analysis/paper/figures/panel_spharm_plots.png"),
+       h = 8, 
+       w = 9)
+
+
+knitr::include_graphics(here("analysis/paper/figures/panel_spharm_plots.png"))
+
+```
+
+@fig-sp-summary
 
 ```{r, echo=FALSE}
 # Mean SHE
@@ -829,148 +959,8 @@ knitr::include_graphics(here("analysis/paper/figures/Correlation_SPHARMpower_Sph
 
 ```
 
-```{r, echo=FALSE}
 
-library(here)
-data_dir <- here("analysis", "data", "derived_data", "power_spectrum")
-csv_files <- list.files(data_dir, pattern = "\\.csv$", full.names = TRUE)
-
-# 读取所有 CSV 文件，并加上文件名
-all_data <- map_dfr(csv_files, function(file) {
-  df <- read.csv(file, header = FALSE)
-  colnames(df) <- c("degree", "total_power", "max_amplitude", "total_amplitude")
-  df$file <- basename(file)
-  return(df)
-})
-
-#l_2_3_power <- all_data %>%
-  #filter(degree %in% c(2, 3)) %>%
-  #select(file, degree, total_power) %>%
-  #pivot_wider(names_from = degree, values_from = total_power, names_prefix = "l_")
-
-# 查看结果
-#View(l_2_3_power)
-
-# 添加 group 列（可以多标签：Spheroid, Polyhedron, All）
-all_data <- all_data %>%
-  mutate(
-    group = case_when(
-      str_detect(file, regex("Polyhedron|Multifacial", ignore_case = TRUE)) ~ "Polyhedron/Multifacial",
-      str_detect(file, regex("Spheroid|Subspheroid", ignore_case = TRUE)) ~ "Spheroid/Subspheroid",
-      TRUE ~ NA_character_
-    )
-  )
-
-# 所有样本一组（不管名字）
-all_data_all <- all_data %>%
-  mutate(group = "All specimens")
-
-# 合并所有分组
-combined_data <- bind_rows(all_data, all_data_all) %>%
-  filter(!is.na(group))
-
-# 计算每组的 degree 平均值和标准差
-summary_df <- combined_data %>%
-  group_by(group, degree) %>%
-  summarise(
-    mean_power = mean(total_power, na.rm = TRUE),
-    sd_power = sd(total_power, na.rm = TRUE),
-    .groups = "drop"
-  )
-
-# 绘图，带误差带
-ggplot(summary_df, aes(x = degree, y = mean_power, color = group, fill = group)) +
-  geom_line(linewidth = 1) +
-  geom_ribbon(aes(
-    ymin = pmax(mean_power - sd_power, 1e-10),
-    ymax = mean_power + sd_power
-  ), alpha = 0.2, linetype = 0) +
-  scale_y_log10(
-  breaks = c(1e-8, 1e-6, 1e-4, 1e-2, 1),
-  labels = parse(text = c("10^-8", "10^-6", "10^-4", "10^-2", "10^0"))
-  )+
-  scale_x_continuous(
-    limits = c(0, 20),
-    breaks = seq(0, 20, by = 4),
-    expand = c(0, 0)
-  ) +
-  coord_cartesian(clip = "on") +
-  scale_color_manual(values = c(
-    "All specimens" = "lightgray",
-    "Spheroid/Subspheroid" = "orange",
-    "Polyhedron/Multifacial" = "#66c2a5"
-  )) +
-  scale_fill_manual(values = c(
-    "All specimens" = "lightgray",
-    "Spheroid/Subspheroid" = "orange",
-    "Polyhedron/Multifacial" = "#66c2a5"
-  )) +
-  labs(
-    title = "Mean Power Spectrum with Standard Deviation",
-    x = "Degree (l)",
-    y = "Mean Total Power (log scale)",
-    color = "Group",
-    fill = "Group"
-  ) +
-  theme_minimal() +
-  theme(plot.margin = margin(t = 10, r = 10, b = 10, l = 10),
-  legend.position = c(0.95, 0.95),
-  legend.justification = c("right", "top"),
-  legend.background = element_rect(fill = alpha("white", 0.8), color = NA),
-  legend.box.background = element_rect(color = "gray80"),
-  legend.box.margin = margin(5, 5, 5, 5)
-  )
-```
-
-
-```{r, include=FALSE}
-library(readxl)
-library(dplyr)
-library(ggplot2)
-library(tidyr)
-
-# 读取 Excel 文件
-file_path <- "E:/Lithic Analysis/QSYSpheroidsStudy/analysis/data/derived_data/umap_l2_l3.XLSX"
-df <- read_excel(file_path)
-
-# 查看数据结构
-print(head(df))
-
-# 计算相关系数矩阵
-correlations <- df %>%
-  select(UMPA1, UMAP2, degree1, degree2) %>%
-  cor()
-
-print("相关系数矩阵：")
-print(correlations)
-
-# 将数据长格式化方便绘图
-df_long <- df %>%
-  pivot_longer(cols = c(degree1, degree2), names_to = "degree", values_to = "degree_value")
-
-# 绘制 UMAP1 和 degree的散点图
-p1 <- ggplot(df_long, aes(x = UMPA1, y = degree_value, color = degree)) +
-  geom_point(size = 3) +
-  geom_smooth(method = "lm", se = FALSE) +
-  labs(title = "UMAP1 vs degree1 (l=2) and degree2 (l=3)",
-       x = "UMAP1",
-       y = "Degree Power") +
-  theme_minimal()
-
-# 绘制 UMAP2 和 degree的散点图
-p2 <- ggplot(df_long, aes(x = UMAP2, y = degree_value, color = degree)) +
-  geom_point(size = 3) +
-  geom_smooth(method = "lm", se = FALSE) +
-  labs(title = "UMAP2 vs degree1 (l=2) and degree2 (l=3)",
-       x = "UMAP2",
-       y = "Degree Power") +
-  theme_minimal()
-
-print(p1)
-print(p2)
-
-```
-We calculated the spherical sphericity ans spherical harmonic energy (SHE) to both the spheroids (n = `r n_total_typology`) and all other multifacial and polyhedron cores (n = `r n_poly_multi`) in the Qianshangying assemblage. These analyses aim to assess whether spheroids are morphologically distinct from other cores, and whether they exhibit standardized shapes—an essential criterion for evaluating the existence of deliberate shaping strategies and a goal product. In addition, we compare quantitative outcomes with traditional typological classifications to assess their consistency. We present a summary table listing each core's blank morphology and type, final morphology, and cortex coverage here in [@tbl-1].
+We calculated the spherical sphericity and spherical harmonic energy (SHE) to both the spheroids (n = `r n_total_typology`) and all other multifacial and polyhedron cores (n = `r n_poly_multi`) in the Qianshangying assemblage. These analyses aim to assess whether spheroids are morphologically distinct from other cores, and whether they exhibit standardized shapes—an essential criterion for evaluating the existence of deliberate shaping strategies and a goal product. In addition, we compare quantitative outcomes with traditional typological classifications to assess their consistency. We present a summary table listing each core's blank morphology and type, final morphology, and cortex coverage here in [@tbl-1].
 
 Our results of sphericity reveals a clear difference between spheroids and multifacial cores/polyhedra. The mean sphericity of spheroids (`r mean_sphericity_sub_spheroid`) is notably higher than that of multifacial cores and polyhedron (`r mean_sphericity_poly_multi`), with a Mann-Whitney U test yielding U = `r U_value`, p = $`r p_value_Mann_sci`$. This result indicates that spheroids possess a more spherical geometry overall, supporting their typological classification as a distinct type.
 
