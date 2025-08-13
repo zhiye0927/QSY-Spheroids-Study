@@ -198,11 +198,12 @@ ggplot(df_long %>%
   )) +
   theme_minimal(base_size = 8) +
   theme(
-    legend.position = c(0.80, 0.95),              
+    legend.position = c(0.87, 0.95),              
     legend.justification = c("right", "top"),      
     legend.background = element_rect(fill = alpha("white", 0.6), color = NA),  
-    legend.box.background = element_rect(color = "black")  
-  )
+    legend.box.background = element_rect(color = "black"),
+    legend.box.margin = margin(0, 10, 0, 10)
+  ) 
 
 #citation
 df_long <- df_long %>%
@@ -309,7 +310,6 @@ plot_grid(p_raw_material,
 
 ```
 
-
 # Method
 
 We generated 3d models of the cores for morphometric and technological analysis. Digital data were captured using Artec Spider, and post-processing was carried out with Artec Studio <!-- BM: add version number -->. The 3D scan files and all the R and Python code used in the analyses reported here are openly available online at https://doi.org/xxxx/xxxx/./xxxx/. <!-- BM: love to see this! -->
@@ -403,7 +403,6 @@ Additionally, we computed the spherical harmonic energy (SHE), defined as the su
 Notably, classic sphericity metrics [@Wadell1935] exhibit critical limitations in differentiating morphotypes with equivalent surface-area-to-volume ratios. SHE overcomes this constraint through spherical harmonic decomposition of surface morphology, and this allows it to distinguish localized irregularities (like core edge or concave) from global shape deviations (e.g., elongation) – differences that classic sphericity metrics often fail to capture.
 
 We computed the total energy at degree 20, a resolution high enough to capture surface details. Lower energy values indicate more regular or rounded surfaces, while higher values reflect more irregular or angular geometries.
-
 
 ## Technological Analysis
 
@@ -524,21 +523,64 @@ correlation <- cor_test_pearson$estimate
 
 p_value_pearson_sci <- pretty_print_sci(p_value)
 
-p_corr_sphericiy_she <- 
+library(ggtext)
+
+# --- Label 1: The 'r' value ---
+label_r <- bquote(italic(r) == .(round(correlation, 3)))
+
+# --- Label 2: The 'p' value (formatted) ---
+exponent <- floor(log10(p_value))
+mantissa <- round(p_value / 10^exponent, 2)
+label_p <- bquote(italic(p) == .(mantissa) %*% 10^.(exponent))
+
+# --- Label 3: The 'n' value ---
+label_n <- bquote(n == .(nrow(data_clean)))
+
+# Define the position for the text block
+x_pos <- 0.875
+y_pos_start <- 1.04
+v_spacing <- 0.005 # The vertical gap between lines
+
+p_corr_sphericity_she <- 
 ggplot(data_clean, aes(x = Sphericity, y = `SPHARM power`)) +
   geom_point(size = 3, alpha = 0.9, color = "grey60") +
-  geom_smooth(method = "lm", se = TRUE, color = "black", fill = "#A6CEE3") +
+  geom_smooth(method = "lm", 
+              se = TRUE, 
+              color = "black", 
+              fill = "#A6CEE3") +
   scale_x_continuous(breaks = seq(0.4, 1.0, by = 0.04)) +
   theme_minimal(base_size = 12)  +
   labs(x = "Sphericity", 
        y = "Spherical Harmonic Energy") +
+# --- Annotation Layer 1: 'r' value ---
   annotate("text",
-         x = Inf, y = Inf,
-         hjust = 1.1, vjust = 1.2,
-         label = paste0("r = ", round(correlation, 3),
-                        "\n", "p = ", pretty_print_sci(p_value),
-                        "\n", "n = ", nrow(data_clean)),
-         size = 5, color = "#1C3041")
+    x = x_pos,
+    y = y_pos_start,
+    label = as.expression(label_r),
+    hjust = 0,  # Left-aligns the text at x_pos
+    size = 5,
+    color = "#1C3041"
+  ) +
+  
+  # --- Annotation Layer 2: 'p' value ---
+  annotate("text",
+    x = x_pos,
+    y = y_pos_start - v_spacing, # Position below the first line
+    label = as.expression(label_p),
+    hjust = 0,  
+    size = 5,
+    color = "#1C3041"
+  ) +
+  
+  # --- Annotation Layer 3: 'n' value ---
+  annotate("text",
+    x = x_pos,
+    y = y_pos_start - (2 * v_spacing), # Position below the second line
+    label = as.expression(label_n),
+    hjust = 0,
+    size = 5,
+    color = "#1C3041"
+  )
 ```
 
 
@@ -715,6 +757,7 @@ ggplot(summary_df, aes(x = degree, y = mean_power, color = group, fill = group))
 ```{r}
 #| label: fig-sp-summary
 #| fig-cap: "A. Mean spherical harmonic power spectrum. B. Variance distribution by spherical harmonic degree. C. Distribution of SPHARM power and sphericity by artefact type. D. Correlation of sphericity and spherical harmonic energy"
+#| echo: false
 
 # combine plots
 library(cowplot)
@@ -722,7 +765,7 @@ p_panel_spharm <-
 plot_grid(p_power_spectrum, 
           p_variance_per_degreee,
           p_sphericity_and_she,
-          p_corr_sphericiy_she,
+          p_corr_sphericity_she,
           labels = 'AUTO'
            )
 
@@ -730,7 +773,6 @@ ggsave(plot = p_panel_spharm,
        filename = here("analysis/paper/figures/panel_spharm_plots.png"),
        h = 8, 
        w = 9)
-
 
 knitr::include_graphics(here("analysis/paper/figures/panel_spharm_plots.png"))
 
@@ -950,14 +992,6 @@ knitr::include_graphics(here("analysis/paper/figures/UMAP_SPHARM_samples.png"))
 
 ```
 
-```{r, echo=FALSE}
-#| label: fig-Correlation-SPHARMpower-Sphericity
-#| fig-cap: "Correlation analysis between SPHARMpower and Sphericity"
-
-library(here)
-knitr::include_graphics(here("analysis/paper/figures/Correlation_SPHARMpower_Sphericity.png"))
-
-```
 
 
 We calculated the spherical sphericity and spherical harmonic energy (SHE) to both the spheroids (n = `r n_total_typology`) and all other multifacial and polyhedron cores (n = `r n_poly_multi`) in the Qianshangying assemblage. These analyses aim to assess whether spheroids are morphologically distinct from other cores, and whether they exhibit standardized shapes—an essential criterion for evaluating the existence of deliberate shaping strategies and a goal product. In addition, we compare quantitative outcomes with traditional typological classifications to assess their consistency. We present a summary table listing each core's blank morphology and type, final morphology, and cortex coverage here in [@tbl-1].
@@ -972,7 +1006,7 @@ To reduce the dimensionality and visualize the structure of shape variation, we 
 
 The UMAP-based groupings also correspond to significant differences in sphericity, as indicated by a Kruskal–Wallis test ($\chi^2$ = `r round(H_value, 2)`, df = `r df_kruskal`, p = $`r p_value_kruskal_sci`$). The result shows statistically significant differences in sphericity among the shape clusters, further supporting the effectiveness of the spherical harmonic approach in capturing meaningful morphological variation.
 
-The spherical harmonic energy (SHE), a novel metric introduced here, quantifies the geometric approximation of core morphology to an ideal sphere. Normalized SHE approaching unity indicates progressively spherical configurations, while deviations from unity reflect morphological irregularity. Our analysis demonstrates significant negative correlation between SHE and classic sphericity measures (r = `r round(correlation, 2)`, df = `r df_value`, p = $`r p_value_pearson_sci`$)), validating its efficacy as a proxy of sphericity (@fig-Correlation-SPHARMpower-Sphericity).
+The spherical harmonic energy (SHE), a novel metric introduced here, quantifies the geometric approximation of core morphology to an ideal sphere. Normalized SHE approaching unity indicates progressively spherical configurations, while deviations from unity reflect morphological irregularity. Our analysis demonstrates significant negative correlation between SHE and classic sphericity measures (r = `r round(correlation, 2)`, df = `r df_value`, p = $`r p_value_pearson_sci`$)), validating its efficacy as a proxy of sphericity (@fig-sp-summary).
 
 Statistical comparisons reveal distinct SHE distributions between morphological classes: spheroids and sub-spheroids exhibit mean SHE = `r mean_spharm_power_sub_spheroid` (SD = `r sd_spharm_power_sub_spheroid`), whereas multifacial cores and polyhedron demonstrate significantly higher irregularity (mean SHE = `r mean_spharm_power_poly_multi`, SD = `r sd_spharm_power_poly_multi`). The Kruskal-Wallis test confirms robust inter-group divergence ($\chi^2$ = `r round(H_value_kruskal2, 2)`, df = `r df_kruskal2`, p = $`r p_value_kruskal2_sci`$), proving the distinguishability of spheroids from Qianshangying <!-- BM: I think a boxplot would be good to show this to the reader also -->
 
