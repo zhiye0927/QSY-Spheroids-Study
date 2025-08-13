@@ -166,8 +166,10 @@ df_long <- df %>%
   mutate(prop = count / sum(count) * 100) %>%
   ungroup() %>%
   mutate(
-    category = factor(category, levels = c("spheroids","Polys_and_Multi_cores", "cores", "total")),
-    material = factor(material, levels = c("Lava", "Dolomite", "Chert", "Other"))
+    category = factor(category, 
+                      levels = c("spheroids","Polys_and_Multi_cores", "cores", "total")),
+    material = factor(material, 
+                      levels = c("Lava", "Dolomite", "Chert", "Other"))
   )
 
 p_raw_material <- 
@@ -177,7 +179,8 @@ ggplot(df_long %>%
            category == "spheroids" ~ "Spheroid",
            category == "total" ~ "Total",
            category == "Polys_and_Multi_cores" ~ "Polys and Multi cores"
-           )), 
+           )) %>% 
+         filter(category != "Total"), 
        aes(x = material, 
            y = prop, 
            fill = category)) +
@@ -191,18 +194,15 @@ ggplot(df_long %>%
     scale_fill_manual(values = c(
     "Spheroid" = "orange", 
     "Polys and Multi cores" = "#66c2a5",
-    "Cores" = "lightgray", 
-    "Total" = "gray"
+    "Cores" = "lightgray"
   )) +
   theme_minimal(base_size = 8) +
   theme(
-    legend.position = c(0.95, 0.95),              
+    legend.position = c(0.80, 0.95),              
     legend.justification = c("right", "top"),      
     legend.background = element_rect(fill = alpha("white", 0.6), color = NA),  
     legend.box.background = element_rect(color = "black")  
   )
-p_raw_material
-
 
 #citation
 df_long <- df_long %>%
@@ -290,14 +290,8 @@ ggplot(long_data, aes(x = metric, y = value, fill = artifact)) +
     "Polys and Multi cores" = "#66c2a5"
   )) +
   theme_minimal(base_size = 8) +
-  theme(
-    legend.position = c(0.95, 0.95),       
-    legend.justification = c("right", "top"),  
-    legend.background = element_rect(fill = alpha("white", 0.6), color = NA), 
-    legend.box.background = element_rect(color = "black")  
-  )
+  guides(fill = "none")
 
-p_dimensions
 ```
 
 In terms of dimensions, the average length, width, thickness, and mass of spheroids were `r round(summary_stats$spheroid_length_mean, 1)` mm (SD = `r round(summary_stats$spheroid_length_sd, 1)`), `r round(summary_stats$spheroid_width_mean, 1)` mm (SD = `r round(summary_stats$spheroid_width_sd, 1)`), `r round(summary_stats$spheroid_thickness_mean, 1)` mm (SD = `r round(summary_stats$spheroid_thickness_sd, 1)`), and `r round(summary_stats$spheroid_weight_mean, 1)` g (SD = `r round(summary_stats$spheroid_weight_sd, 1)`), respectively, as shown in @fig-basic-characteristics. Two spheroids showed outlier values in size, being either unusually large or small, while the rest exhibited relatively concentrated size distributions. In contrast, polyhedrons and multifacial cores displayed greater variability in size, with standard deviations of `r round(summary_stats$multi_poly_length_sd, 1)` mm, `r round(summary_stats$multi_poly_width_sd, 1)` mm, and `r round(summary_stats$multi_poly_thickness_sd, 1)` mm for length, width, and thickness, respectively. Additionally, spheroids tend to have similar values across length, width, and thickness, reflecting their overall symmetry. In contrast, polyhedrons and multifacial cores show marked differences among these dimensions, indicating more irregular and elongated forms.
