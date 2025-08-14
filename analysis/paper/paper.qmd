@@ -230,8 +230,7 @@ Raw materials at Qianshangying were classified into four categories following @p
 ```{r, echo=FALSE}
 #| label: fig-core-spheroid-size
 #| fig-cap: "Box plot comparing of core, spheroid, and multifacial core dimensions"
-#| 
-# 读取表格
+
 library(tidyverse)
 library(readxl)
 library(here)
@@ -272,7 +271,6 @@ long_data <- data %>%
   )
 
 
-# 画图
 p_dimensions <- 
 ggplot(long_data, aes(x = metric, y = value, fill = artifact)) +
   geom_boxplot(position = position_dodge(0.8), width = 0.5) +
@@ -307,8 +305,6 @@ p_combined <- plot_grid(
   ncol = 2
 )
 
-
-# 再读取回来显示
 ggsave(
   filename = here("analysis/paper/figures/basic_characteristics.png"),
   plot = p_combined,
@@ -327,7 +323,7 @@ We generated 3d models of the cores for morphometric and technological analysis.
 ## Morphometric Analysis
 
 ```{r, echo=FALSE}
-# 读取表格
+
 library(tidyverse)
 library(readxl)
 library(here)
@@ -336,14 +332,14 @@ library(stringr)
 file_path <- here("analysis/data/derived_data/core_typology_morphological_parameters.xlsx")
 data_raw <- read_excel(file_path)
 
-# 对所有字符型列进行清洗
+
 data_clean <- data_raw |>
   mutate(across(
     where(is.character),
     ~ str_to_title(str_squish(trimws(.x)))
   ))
 
-# 统计每类 Typology 的数量
+
 typology_counts <- data_clean |> 
   count(Typology, sort = TRUE)
 
@@ -351,7 +347,7 @@ n_total_typology <- data_clean |>
   filter(!is.na(Typology)) |> 
   nrow()
 
-# 组合统计
+
 group_counts <- data_clean |>
   filter(Typology %in% c("Polyhedron", "Multifacial", "Spheroid", "Subspheroid")) |>
   mutate(
@@ -450,7 +446,6 @@ Together, these four variables allowed us to assess whether more extensively red
 ```{r tbl-1, echo=FALSE}
 
 knitr::kable(data_raw %>% 
-               # round values for display
                mutate(across(where(is.numeric), round, 3)), 
              caption = "Summary of core typology and morphological parameters.")
 
@@ -520,6 +515,7 @@ p_value_kruskal_sci <- pretty_print_sci(p_value_kruskal)
 ```
 
 ```{r, include=FALSE}
+
 # Pearson correlation test
 
 cor_test_pearson <- cor.test(data_clean$Sphericity, data_clean$`SPHARM power`, method = "pearson")
@@ -548,7 +544,7 @@ label_n <- bquote(n == .(nrow(data_clean)))
 # Define the position for the text block
 x_pos <- 0.875
 y_pos_start <- 1.06
-v_spacing <- 0.005 # The vertical gap between lines
+v_spacing <- 0.005 
 
 p_corr_sphericity_she <- 
 ggplot(data_clean, aes(x = Sphericity, y = `SPHARM power`)) +
@@ -566,7 +562,7 @@ ggplot(data_clean, aes(x = Sphericity, y = `SPHARM power`)) +
     x = x_pos,
     y = y_pos_start,
     label = as.expression(label_r),
-    hjust = 0,  # Left-aligns the text at x_pos
+    hjust = 0,  
     size = 5,
     color = "#1C3041"
   ) +
@@ -574,7 +570,7 @@ ggplot(data_clean, aes(x = Sphericity, y = `SPHARM power`)) +
   # --- Annotation Layer 2: 'p' value ---
   annotate("text",
     x = x_pos,
-    y = y_pos_start - v_spacing, # Position below the first line
+    y = y_pos_start - v_spacing, 
     label = as.expression(label_p),
     hjust = 0,  
     size = 5,
@@ -584,7 +580,7 @@ ggplot(data_clean, aes(x = Sphericity, y = `SPHARM power`)) +
   # --- Annotation Layer 3: 'n' value ---
   annotate("text",
     x = x_pos,
-    y = y_pos_start - (2 * v_spacing), # Position below the second line
+    y = y_pos_start - (2 * v_spacing), 
     label = as.expression(label_n),
     hjust = 0,
     size = 5,
@@ -597,14 +593,14 @@ library(ggplot2)
 library(tidyr)
 library(dplyr)
 
-# 把两个指标转成长格式，方便facet_wrap显示
+
 df_long <- mean_sphericity_tbl %>%
   select(Group, Sphericity, `SPHARM power`) %>%
   pivot_longer(cols = c(Sphericity, `SPHARM power`),
                names_to = "Variable",
                values_to = "Value")
 
-# 自定义Group名称映射，方便图例显示
+
 df_long <- df_long %>%
   mutate(Group = factor(Group, 
                         levels = c("Spheroid + Subspheroid", 
@@ -619,7 +615,7 @@ df_long <- df_long %>%
     )
   )
 
-# 画图
+
 p_sphericity_and_she <- 
 ggplot(df_long, aes(x = Group, 
                     y = Value, 
@@ -637,7 +633,6 @@ ggplot(df_long, aes(x = Group,
   labs(x = "",
        y = "",
        fill = "Group", 
-      # title = "Sphericity and SHE by Group"
        ) +
   theme_minimal(base_size = 12) +
   theme(
@@ -646,7 +641,7 @@ ggplot(df_long, aes(x = Group,
 ```
 
 ```{r, include=FALSE}
-# 读取 CSV
+
 df <- read_csv(
   here("analysis", "data", "derived_data", "variance_per_degree.csv")
 )
@@ -654,7 +649,7 @@ df <- read_csv(
 p_variance_per_degreee <- 
 ggplot(df, aes(x = degree, y = variance)) +
   geom_line(size = 1.3, colour = "black") +          
-  geom_point(size = 3, colour = "grey60") +  # 橙色边框，填充浅橙
+  geom_point(size = 3, colour = "grey60") +  
   scale_x_continuous(breaks = scales::pretty_breaks(n = 10)) +    
   scale_y_continuous(breaks = scales::pretty_breaks(n = 8)) +      
   labs(
@@ -672,7 +667,7 @@ library(here)
 data_dir <- here("analysis", "data", "derived_data", "power_spectrum")
 csv_files <- list.files(data_dir, pattern = "\\.csv$", full.names = TRUE)
 
-# 读取所有 CSV 文件，并加上文件名
+
 all_data <- map_dfr(csv_files, function(file) {
   df <- read.csv(file, header = FALSE)
   colnames(df) <- c("degree", "total_power", "max_amplitude", "total_amplitude")
@@ -685,10 +680,9 @@ all_data <- map_dfr(csv_files, function(file) {
   #select(file, degree, total_power) %>%
   #pivot_wider(names_from = degree, values_from = total_power, names_prefix = "l_")
 
-# 查看结果
 #View(l_2_3_power)
 
-# 添加 group 列（可以多标签：Spheroid, Polyhedron, All）
+# group of polyhedrons and spheroids
 all_data <- all_data %>%
   mutate(
     group = case_when(
@@ -698,15 +692,15 @@ all_data <- all_data %>%
     )
   )
 
-# 所有样本一组（不管名字）
+# group of all specimens
 all_data_all <- all_data %>%
   mutate(group = "All specimens")
 
-# 合并所有分组
+# combine groups
 combined_data <- bind_rows(all_data, all_data_all) %>%
   filter(!is.na(group))
 
-# 计算每组的 degree 平均值和标准差
+# mean vaule and sd of degrees
 summary_df <- combined_data %>%
   group_by(group, degree) %>%
   summarise(
@@ -715,7 +709,7 @@ summary_df <- combined_data %>%
     .groups = "drop"
   )
 
-# 绘图，带误差带
+
 p_power_spectrum <- 
 ggplot(summary_df, aes(x = degree, y = mean_power, color = group, fill = group)) +
   geom_line(linewidth = 1) +
@@ -758,6 +752,8 @@ ggplot(summary_df, aes(x = degree, y = mean_power, color = group, fill = group))
   legend.box.background = element_rect(color = "gray80"),
   legend.box.margin = margin(5, 5, 5, 5)
   )
+
+p_power_spectrum
 ```
 
 ```{r}
@@ -855,10 +851,10 @@ library(tidyverse)
 library(ggrepel)
 library(here)
 
-# Load data
+
 umap_data <- read_csv(here("analysis/data/derived_data/umap_lmax20.csv"))
 
-# Lowercase category and set factor levels
+
 umap_data <- umap_data %>%
   mutate(category_lower = tolower(category)) %>%
   mutate(category_lower = fct_relevel(category_lower,
@@ -880,7 +876,7 @@ umap_data <- umap_data %>%
     is_idealmodel = if_else(category_lower == "idealmodel", "yes", "no")
   )
 
-# Save x/y limits for consistent plotting
+
 x_limits <- range(umap_data$x)
 y_limits <- range(umap_data$y)
 
@@ -889,15 +885,15 @@ expand_range <- function(lim, ratio) {
   return(c(lim[1] - range_width * ratio, lim[2] + range_width * ratio))
 }
 
-# 原始坐标范围
+
 x_limits <- range(umap_data$x)
 y_limits <- range(umap_data$y)
 
-# 分别扩展 x 和 y
+
 x_limits_expanded <- expand_range(x_limits, 0.10)  # 横轴扩展 10%
 y_limits_expanded <- expand_range(y_limits, 0.15)  # 纵轴扩展 15%
 
-# Subset for labeling
+
 label_data <- umap_data %>%
   filter(category_lower %in% c("idealmodel", "spheroid", "subspheroid"))
 
@@ -937,7 +933,7 @@ ggplot(umap_data %>%
                      name = "Category") +
   scale_size_identity() +
   coord_cartesian(xlim = x_limits_expanded, 
-                  ylim = y_limits_expanded)+ #确保范围一致
+                  ylim = y_limits_expanded)+ 
   theme_minimal(base_size = 14) +
   theme(legend.position = c(.2,.75),
          legend.background = element_rect(fill = alpha("white", 0.6), color = NA),  
@@ -1066,8 +1062,6 @@ knitr::include_graphics(here("analysis/paper/figures/SPHARM_reconstruction.png")
 
 ```
 
-
-
 ```{r}
 #| label: fig-UMAP-combined
 #| fig-cap: "A. UMAP plot showing distinct clusters of shapes derived from SPHARM. B. UMAP plot of SPHARM-derived shape features colored by types"
@@ -1123,7 +1117,7 @@ Multifacial cores and polyhedrons display a wide and dispersed distribution in t
 
 ```{r, echo = FALSE}
 get_coordinates <- function(filename) {
-  temp_file <- readLines(filename, encoding = "UTF-8")  # 强制 UTF-8 编码读取
+  temp_file <- readLines(filename, encoding = "UTF-8")  
   xyz1 <- data.frame(X1 = numeric(), Y1 = numeric(), Z1 = numeric())
   xyz2 <- data.frame(X2 = numeric(), Y2 = numeric(), Z2 = numeric())
   
@@ -1140,17 +1134,14 @@ get_coordinates <- function(filename) {
     }
   }
 
-  # 检查是否有数据
-  if (nrow(xyz1) == 0 || nrow(xyz2) == 0) {
-    warning("未能提取任何坐标，返回空 data.frame")
-    return(data.frame())
-  }
 
-  # 合并 + 添加 ID、类型、长度等字段
+  # extract ID, type from file name
   xyz <- round(cbind(xyz1, xyz2), 5)
-  filename_base <- basename(filename)  # 提取文件名
-  xyz$ID <- sub("_(.*)", "", filename_base)  # 提取下划线前的部分
-  xyz$type <- sub(".*_(.*)\\.txt", "\\1", filename_base)  # 提取下划线后、.txt 前的部分
+  filename_base <- basename(filename) 
+  xyz$ID <- sub("_(.*)", "", filename_base)  
+  xyz$type <- sub(".*_(.*)\\.txt", "\\1", filename_base)  
+  
+  # compute length from coordinates, normalization 
   xyz$length <- sqrt((xyz$X2 - xyz$X1)^2 + (xyz$Y2 - xyz$Y1)^2 + (xyz$Z2 - xyz$Z1)^2)
   xyz$length_scaled <- xyz$length / sum(xyz$length)
 
@@ -1161,28 +1152,28 @@ get_coordinates <- function(filename) {
   return(xyz)
 }
 
-# 遍历文件夹中的文本文件
+
 folder_path <- here("analysis/data/raw_data/QSY_A")
-temp_file_list <- list.files(folder_path, pattern = "\\.txt$")  # 只列出 .txt 文件
+temp_file_list <- list.files(folder_path, pattern = "\\.txt$") 
 
 std <- list()
 
-# 读取所有文件并提取数据
+
 for (i in seq_along(temp_file_list)) {
   filepath <- file.path(folder_path, temp_file_list[i])
   std[[i]] <- get_coordinates(filepath)
 }
 
-# 运行 benn 函数并构建数据框
+# run benn function and output data frame
 benn.output <- as.data.frame(t(sapply(std, benn, min_sample = 0)))
 benn.output$type <- sapply(std, function(x) if ("type" %in% names(x)) x$type[1] else NA)
 benn.output$ID <- sapply(std, function(x) if ("ID" %in% names(x)) x$ID[1] else NA)
 colnames(benn.output) <- c('Scar_count', 'E1', 'E2', 'E3', 'IS', 'EL', 'type', 'ID')
 
-# 检查结果
+
 # print(head(benn.output))
 
-# 保存为 CSV
+
 write.csv(benn.output,
           here("analysis/data/derived_data/benn_output.csv"), row.names = FALSE)
 ```
@@ -1193,8 +1184,8 @@ write.csv(benn.output,
 
 benn.output$Z <- 1 - benn.output$EL - benn.output$IS
 
-n  = 11      # Number of Data Points
-nv = 0.06    # Vertical Adjustment
+n  = 11      
+nv = 0.06    
 pn = position_nudge_tern(y = nv, x = nv, z = -nv / 2)
 
 ggtern(data = benn.output, aes(Z, IS, EL, color = type)) + 
@@ -1261,49 +1252,44 @@ knitr::kable(data_raw2, caption = "Summary of spheroid shaping intensity and sha
 #| label: fig-spearman-correlation-matrix
 #| fig-cap: "Spearman correlation matrix of shape variables. Red star indicates p < 0.05"
 
-# 加载必要包
 library(readxl)
-library(Hmisc)       # 用于计算相关系数和p值
-library(ggcorrplot)  # 用于相关性热图绘制
+library(Hmisc)       
+library(ggcorrplot)  
 library(reshape2)
 
 file_path <- here("analysis/data/derived_data/flaking_intensity_and_shape.xlsx")
 data <- read_excel(file_path)
 
-# 标准化列名
+
 colnames(data) <- make.names(colnames(data))
 
-# 选定分析的列
+
 selected_names <- c("Scar.number", "Removal.ratio", "SDI",
                     "Edge.angle.mean", "Curvature", "Sphericity", "SPHARM.power")
 
-# 只选取实际存在于数据中的列
+
 selected_cols <- data[, selected_names[selected_names %in% colnames(data)]]
 
-# 显示维度和列名确认
 # print(dim(selected_cols))
 # print(colnames(selected_cols))
 
-# 计算 Spearman 相关系数和对应的 p 值
+# Spearman coefficients and p value
 rcorr_result <- rcorr(as.matrix(selected_cols), type = "spearman")
 cor_matrix <- rcorr_result$r
 p_matrix <- rcorr_result$P
 
-# 转换成长格式
 cor_long <- reshape2::melt(cor_matrix)
 p_long <- reshape2::melt(p_matrix)
 
 labels_long <- merge(cor_long, p_long, by = c("Var1", "Var2"))
 colnames(labels_long) <- c("Var1", "Var2", "cor", "p")
 
-# 调整因子顺序（让 y 轴从上往下）
+# order fo factors
 labels_long$Var1 <- factor(labels_long$Var1, levels = rev(rownames(cor_matrix)))
 labels_long$Var2 <- factor(labels_long$Var2, levels = colnames(cor_matrix))
 
-# 显著标记星号
-labels_long$star <- ifelse(labels_long$p < 0.05 & labels_long$Var1 != labels_long$Var2, "*", "")
 
-# 相关系数文本，保留2位小数
+labels_long$star <- ifelse(labels_long$p < 0.05 & labels_long$Var1 != labels_long$Var2, "*", "")
 labels_long$cor_label <- sprintf("%.2f", labels_long$cor)
 
 
@@ -1311,27 +1297,27 @@ val1 <- labels_long[labels_long$Var1 == "Scar.number" & labels_long$Var2 == "Rem
 cor_scar_removal <- sprintf("%.2f", val1$cor)
 p_scar_removal <- pretty_print_sci(val1$p)
 
-# 提取 scar number ~ SDI
+# scar number ~ SDI
 val2 <- labels_long[labels_long$Var1 == "Scar.number" & labels_long$Var2 == "SDI", ]
 cor_scar_sdi <- sprintf("%.2f", val2$cor)
 p_scar_sdi <- pretty_print_sci(val2$p)
 
-# 提取 removal ratio ~ SDI
+# removal ratio ~ SDI
 val3 <- labels_long[labels_long$Var1 == "Removal.ratio" & labels_long$Var2 == "SDI", ]
 cor_removal_sdi <- sprintf("%.2f", val3$cor)
 p_removal_sdi <- pretty_print_sci(val3$p)
 
-# 提取 edge angle ~ sphericity
+# edge angle ~ sphericity
 val4 <- labels_long[labels_long$Var1 == "Edge.angle.mean" & labels_long$Var2 == "Sphericity", ]
 cor_angle_sph <- sprintf("%.2f", val4$cor)
 p_angle_sph <- pretty_print_sci(val4$p)
 
-# 提取 edge angle ~ SPHARM power
+# edge angle ~ SPHARM power
 val5 <- labels_long[labels_long$Var1 == "Edge.angle.mean" & labels_long$Var2 == "SPHARM.power", ]
 cor_angle_she <- sprintf("%.2f", val5$cor)
 p_angle_she <- pretty_print_sci(val5$p)
 
-# 提取 curvature ~ Sphericity
+# curvature ~ Sphericity
 val6 <- labels_long[labels_long$Var1 == "Curvature" & labels_long$Var2 == "Sphercity", ]
 cor_cur_sph <- sprintf("%.2f", val5$cor)
 p_cur_sph <- pretty_print_sci(val5$p)
@@ -1342,13 +1328,12 @@ labels_long <-
   mutate(Var1 = str_replace_all( Var1, "\\.", " "),
          Var2 = str_replace_all( Var2, "\\.", " "))
 
-# 自己绘图
+
 ggplot(labels_long, aes(x = Var2, y = Var1, fill = cor)) +
   geom_tile(color = "gray") +
-  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
+  scale_fill_gradient2(low = "#5e3c99", mid = "white", high = "#e66101", midpoint = 0) +
   geom_text(aes(label = cor_label), size = 3) +          
-# 相关系数字符串
-  geom_text(aes(label = star), color = "red", size = 6, nudge_y = 0.25) + # 星号
+  geom_text(aes(label = star), color = "red", size = 6, nudge_y = 0.25) + 
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   labs(fill = "Correlation",
