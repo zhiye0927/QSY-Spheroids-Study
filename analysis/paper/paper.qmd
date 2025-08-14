@@ -909,7 +909,7 @@ label_data <- umap_data %>%
 #| echo: false
 #| label: fig-umap-by-category
 #| include: false
-#| 
+
 category_colors <- c(
   "ideal model" = "black",
   "spheroid" = "#e66101",
@@ -918,6 +918,7 @@ category_colors <- c(
   "polyhedron" = "#5e3c99"
 )
 
+p_umap_by_category <- 
 ggplot(umap_data %>% 
          mutate(category =
                 if_else(category == "idealmodel",
@@ -947,6 +948,12 @@ ggplot(umap_data %>%
     x = "UMAP 1",
     y = "UMAP 2"
   ) 
+
+# TODO add the ideal shape graphics to p_umap_by_cluster
+
+ggsave(plot = p_umap_by_category,
+       filename = here("analysis/paper/figures/umap_by_category.png"))
+
 ```
 
 ```{r}
@@ -955,36 +962,81 @@ ggplot(umap_data %>%
 #| include: false 
 
 cluster_colors <- RColorBrewer::brewer.pal(4, "Set2")
-library(ggforce)
 
-ggplot(umap_data %>%  
+library(ggforce)
+library(ggrepel)
+
+umap_data_to_plot <- 
+umap_data %>%  
          mutate(category_lower =
                 if_else(category_lower == "idealmodel",
                        "ideal model",
-                       category_lower)), 
+                       category_lower),
+                filename = case_when(
+                  filename == "Rounded_cube" ~ "Cube",
+                  filename == "Discoid_like" ~ "Discoid-like",
+                 .default = filename)
+                )
+
+p_umap_by_cluster <- 
+ggplot(umap_data_to_plot, 
        aes(x = x, y = y)) +
   geom_point(
-    data = filter(umap_data, is_idealmodel == "no"),
+    data = filter(umap_data_to_plot, 
+                  is_idealmodel == "no"),
     aes(color = cluster),
     alpha = 0.8,
     size = 2.5
   ) +
   geom_point(
-    data = filter(umap_data, 
+    data = filter(umap_data_to_plot, 
                   is_idealmodel == "yes"),
     aes(color = cluster),
-    size = 3.5,
+    size = 5,
+    shape = 3,
     show.legend = FALSE
   ) +
-  geom_mark_ellipse(aes(color = cluster, 
-                        label = category)) +
-  #stat_ellipse(
-  #  aes(color = cluster),
-  #  type = "norm",
-  #  level = 0.95,
-  #  linetype = "dashed",
-  #  show.legend = FALSE
-  #) +
+  geom_mark_ellipse(aes(color = cluster)) +
+  geom_text_repel(data = filter(umap_data_to_plot, 
+                  is_idealmodel == "yes",
+                  filename == "Sphere"),
+    aes(color = cluster,
+        label = filename),
+    size = 5,
+    hjust = 0,
+    xlim = c(3, NA),
+    ylim = c(2.5, NA),
+    nudge_x = 3,
+    box.padding = 0.5,
+    nudge_y = 1,
+    segment.curvature = -0.1,
+    segment.ncp = 5,
+    segment.angle = 20) +
+    geom_text_repel(data = filter(umap_data_to_plot, 
+                  is_idealmodel == "yes",
+                  filename == "Cube"),
+    aes(color = cluster,
+        label = filename),
+    size = 5,
+    hjust = 0,
+    xlim = c(3, NA),
+    ylim = c(1, NA),
+    force = 5,
+    nudge_x = 3,
+    box.padding = 0.5,
+    nudge_y = -5) +
+    geom_text_repel(data = filter(umap_data_to_plot, 
+                  is_idealmodel == "yes",
+                  filename %in% c("Discoid-like", 
+                                  "Box",
+                                  "Ellipsoid")),
+    aes(color = cluster,
+        label = filename),
+    size = 5,
+    nudge_x = 0,
+    box.padding = 0.5,
+    nudge_y = -2,
+    ylim = c(4, 4)) +
   scale_color_manual(
     values = cluster_colors,
     name = "Cluster"
@@ -997,48 +1049,36 @@ ggplot(umap_data %>%
     x = "UMAP 1",
     y = "UMAP 2"
   )
+
+# TODO add the ideal shape graphics to p_umap_by_cluster
+
+ggsave(plot = p_umap_by_cluster,
+       filename = here("analysis/paper/figures/umap_by_cluster.png"))
 ```
 
 ```{r, echo=FALSE}
 #| label: fig-SPHARM-Reconstruction-by-Degree
 #| fig-cap: "Shape reconstruction of archaeological spheroids using SPHARM (various lmax levels)"
 
+
 library(here)
 knitr::include_graphics(here("analysis/paper/figures/SPHARM_reconstruction.png"))
 
 ```
 
-```{r, include=FALSE}
-#| label: fig-UMAP-SPHARM-clusters
-#| fig-cap: "UMAP plot showing distinct clusters of shapes derived from SPHARM"
 
-library(here)
-knitr::include_graphics(here("analysis/paper/figures/UMAP_SPHARM_clusters.png"))
-
-```
-
-```{r, include=FALSE}
-#| label: fig-UMAP-SPHARM-samples
-#| fig-cap: "UMAP plot of SPHARM-derived shape features colored by types"
-
-library(here)
-knitr::include_graphics(here("analysis/paper/figures/UMAP_SPHARM_samples.png"))
-
-```
 
 ```{r}
-
 #| label: fig-UMAP-combined
 #| fig-cap: "A. UMAP plot showing distinct clusters of shapes derived from SPHARM. B. UMAP plot of SPHARM-derived shape features colored by types"
 #| echo: false
-
 
 library(magick)    
 library(cowplot)
 
 p_panel_spharm <- plot_grid(
-  ggdraw() + draw_image(here("analysis/paper/figures/UMAP_SPHARM_clusters.png")),
-  ggdraw() + draw_image(here("analysis/paper/figures/UMAP_SPHARM_samples.png")),
+  ggdraw() + draw_image(here("analysis/paper/figures/umap_by_cluster.png")),
+  ggdraw() + draw_image(here("analysis/paper/figures/umap_by_category.png")),
   labels = "AUTO",
   ncol = 1
 )
