@@ -198,7 +198,7 @@ ggplot(df_long %>%
   )) +
   theme_minimal(base_size = 8) +
   theme(
-    legend.position = c(0.87, 0.95),              
+    legend.position = c(0.88, 0.95),              
     legend.justification = c("right", "top"),      
     legend.background = element_rect(fill = alpha("white", 0.6), color = NA),  
     legend.box.background = element_rect(color = "black"),
@@ -304,9 +304,17 @@ In terms of dimensions, the average length, width, thickness, and mass of sphero
 
 library(cowplot)
 
+p_basic_characteristics <- 
 plot_grid(p_raw_material,
           p_dimensions,
           labels = "AUTO")
+
+ggsave(filename = here("analysis/paper/figures/basic_artefact_characteristics.png"),
+       plot = p_basic_characteristics,
+       h = 5, 
+       w = 7)
+
+knitr::include_graphics(here("analysis/paper/figures/basic_artefact_characteristics.png"))
 
 ```
 
@@ -538,7 +546,7 @@ label_n <- bquote(n == .(nrow(data_clean)))
 
 # Define the position for the text block
 x_pos <- 0.875
-y_pos_start <- 1.04
+y_pos_start <- 1.07
 v_spacing <- 0.005 # The vertical gap between lines
 
 p_corr_sphericity_she <- 
@@ -992,6 +1000,29 @@ knitr::include_graphics(here("analysis/paper/figures/UMAP_SPHARM_samples.png"))
 
 ```
 
+```{r}
+#| label: fig-UMAP-SPHARM-samples-clusters
+#| fig-cap: "A. UMAP plot showing distinct clusters of shapes derived from SPHAR. B UMAP plot of SPHARM-derived shape features colored by types."
+
+
+library(magick)
+
+p_top <- ggdraw() +
+  draw_image(here("analysis/paper/figures/UMAP_SPHARM_clusters.png"))
+
+p_bottom <- ggdraw() +
+  draw_image(here("analysis/paper/figures/UMAP_SPHARM_samples.png"))
+
+# use plot_grid() to combine them.
+plot_grid(
+  p_top,
+  p_bottom,
+  ncol = 1,
+  labels = "AUTO",
+  label_size = 10,
+  label_fontface = "bold"
+)
+```
 
 
 We calculated the spherical sphericity and spherical harmonic energy (SHE) to both the spheroids (n = `r n_total_typology`) and all other multifacial and polyhedron cores (n = `r n_poly_multi`) in the Qianshangying assemblage. These analyses aim to assess whether spheroids are morphologically distinct from other cores, and whether they exhibit standardized shapes—an essential criterion for evaluating the existence of deliberate shaping strategies and a goal product. In addition, we compare quantitative outcomes with traditional typological classifications to assess their consistency. We present a summary table listing each core's blank morphology and type, final morphology, and cortex coverage here in [@tbl-1].
