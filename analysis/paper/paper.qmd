@@ -369,9 +369,9 @@ To assist in the interpretation of the groupings revealed by UMAP, we included a
 
 ### Spherical Harmonic Energy
 
-Additionally, we computed the spherical harmonic energy (SHE), defined as the sum of squared normalized spherical harmonic coefficients for each degree. This provides a rotation-invariant measure of shape complexity across spatial frequencies. For normalized shapes, this total energy approaches one for a perfect sphere, while more irregular forms yield higher values.
+Additionally, we computed the spherical harmonic energy (SHE), defined as the sum of squared normalized spherical harmonic coefficients for each degree. This provides a rotation-invariant measure of shape complexity across spatial frequencies. For normalized shapes, this total energy approaches a value of one for a perfect sphere, while more irregular forms yield higher values.
 
-Notably, classic sphericity metrics [@Wadell1935] exhibit critical limitations in differentiating morphotypes with equivalent surface-area-to-volume ratios. SHE overcomes this constraint through spherical harmonic decomposition of surface morphology, and this allows it to distinguish localized irregularities (like core edge or concave) from global shape deviations (e.g., elongation) – differences that classic sphericity metrics often fail to capture.
+Notably, classic sphericity metrics [@Wadell1935] exhibit critical limitations in differentiating morphotypes with equivalent surface-area-to-volume ratios. SHE overcomes this constraint through spherical harmonic decomposition of surface morphology, and this allows it to distinguish localized irregularities (like core edge or concave) from global shape deviations (e.g., elongation)--differences that classic sphericity metrics often fail to capture.
 
 We computed the total energy at degree 20, a resolution high enough to capture surface details. Lower energy values indicate more regular or rounded surfaces, while higher values reflect more irregular or angular geometries.
 
@@ -381,7 +381,7 @@ To complement our morphological analysis, we applied technological analysis of t
 
 ### Diacritical analysis
 
-We applied diacritical analysis to reconstruct the reduction sequence based on superimposition relationships among scars on spheroids [@tittonSubspheroidsLithicAssemblage2020; @Cabanes2024]. This method enables the identification of scars order, allowing us to figure out the organization of removals. All spheroids, polyhedrons and multifacial cores are included in the analysis to assess whether removals organization differs systematically within these groups.
+We used diacritical analysis to reconstruct the reduction sequence based on superimposition relationships among scars on spheroids [@tittonSubspheroidsLithicAssemblage2020; @Cabanes2024]. This method enables the identification of the order of scar removal, allowing us to understand the organization of removals. All spheroids, polyhedrons and multifacial cores were included in the analysis to assess whether removal organization differs systematically within these groups.
 
 Following the reconstruction of reduction sequences, we adopted an inductive approach to infer exploitation models of spheroids, that is, the removal patterns and associated stages employed in a spheroid. Our goal was to reconstruct the complete chaîne opératoire of spheroids—from the selection of raw material and initial blank to the final product. If consistent patterns can be observed, they may indicate shared reduction schemes or conceptual templates. We also explored whether multifacial cores and polyhedrons may represent earlier stages in spheroid reduction sequences, contributing to understanding the technological relationship between these types.
 
