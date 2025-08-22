@@ -850,10 +850,11 @@ for (k in 1:10) {
   wss[k] <- km$tot.withinss  
 }
 
-plot(1:10, wss, type="b", pch=19, frame=FALSE,
-     xlab="Number of clusters K",
-     ylab="Total within-cluster sum of squares (WSS)",
-     main="Elbow Method for Optimal K")
+elbow_test <-
+  plot(1:10, wss, type="b", pch=19, frame=FALSE,
+       xlab="Number of clusters K",
+       ylab="Total within-cluster sum of squares (WSS)",
+       main="Elbow Method for Optimal K")
 
 # KMeans clustering (k=4)
 set.seed(123)
