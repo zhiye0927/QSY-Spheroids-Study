@@ -80,3 +80,4 @@ p_power_spectrum <- ggplot(summary_df, aes(x = degree, y = mean_power, color = m
 p_power_spectrum
 
 p_power_spectrum
+
