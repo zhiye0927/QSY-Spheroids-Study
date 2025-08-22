@@ -1528,15 +1528,6 @@ However, we found that although the morphology and reduction technology of spher
 
 ## Are the Qianshangying spheroids typical of East Asian assemblages?
 
-```{r tbl-3, echo=FALSE}
-
-file_path <- here("analysis/data/derived_data/spheroids_sites_China.xlsx")
-data3 <- readxl::read_excel(file_path)
-
-knitr::kable(data3, caption = "Summary of core typology and morphological parameters.")
-
-```
-
 ::: {#fig-Spheroids-distribution-China}
 ```{r, echo=FALSE}
 
