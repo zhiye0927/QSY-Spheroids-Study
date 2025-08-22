@@ -191,7 +191,7 @@ Raw materials at Qianshangying were classified into four categories following @p
 
 ```{r, echo=FALSE}
 #| label: fig-core-spheroid-size
-#| fig-cap: "Box plot comparing of core, spheroid, and multifacial core dimensions"
+#| fig-cap: "Box plot comparing core, spheroid, and multifacial core dimensions"
 
 library(tidyverse)
 library(readxl)
@@ -387,7 +387,7 @@ Following the reconstruction of reduction sequences, we adopted an inductive app
 
 ### Orientation analysis
 
-To further investigate technological strategies, we incorporated orientation statistics as a complementary approach. This method derives from fabric analysis originally used in sedimentology and has since been adapted to study the arrangement of flake scars on lithic artifacts. We followed the protocol developed by @lin2024. In our study, only those scars with a length greater than 5mm were recorded, after extracting scar vectors from each samples and calculating eigenvalues we computed the isotropic ratio and elongation ratio and visulized the result in a ternary plot. These steps were carried out in Geomagic Wrap 2021, Rhino8 and R 4.4.3 and documented in @ye2025workflow.
+To further investigate technological strategies, we incorporated orientation statistics as a complementary approach. This method derives from fabric analysis originally used in sedimentology and has since been adapted to study the arrangement of flake scars on lithic artifacts. We followed the protocol developed by @lin2024. In our study, only those scars with a length greater than 5mm were recorded, after extracting scar vectors from each samples and calculating eigenvalues we computed the isotropic ratio and elongation ratio and visualized the result in a ternary plot. These steps were carried out in Geomagic Wrap 2021, Rhino8 and R 4.4.3 and documented in @ye2025workflow.
 
 Results were visualized using ternary plots to compare orientation statistics between spheroids and other core types. Based on our hypothesis, if spheroids were shaped following a consistent reduction sequence, they should exhibit similar and patterned orientation results. In contrast, if they merely represented exhausted cores, the orientation patterns would appear random and highly variable, similar to those of undirected polyhedron and multifacial cores.
 
@@ -1188,7 +1188,7 @@ knitr::include_graphics(here("analysis/paper/figures/SPHARM_reconstruction.png")
 
 ```{r}
 #| label: fig-UMAP-combined
-#| fig-cap: "A. UMAP plot showing distinct clusters of shapes derived from SPHARM. B. UMAP plot of SPHARM-derived shape features colored by types"
+#| fig-cap: "A. UMAP plot showing distinct clusters of shapes derived from SPHARM. B. UMAP plot of SPHARM-derived shape features colored by types. UMAP plot axes represent relative positions in a reduced-dimension morphospace and do not have a direct physical interpretation."
 #| echo: false
 
 library(magick)    
@@ -1578,7 +1578,7 @@ This pattern aligns with spheroid findings in other regions of the world. Early 
 
 # Conclusion
 
-Quantitative approaches to studying spheroids remain limited [@Muller2023; @deweyer2017; @tittonSubspheroidsLithicAssemblage2020]. We propose a complete, efficient, reproducible and transparent methodological framework here based on spherical harmonics to quantitatively assess morphological variation among flaked pieces, allowing for the distinction between cores and spheroids and evaluating the degree of morphological standardization in spheroids. Past approaches to analyzing the morphology of flaked pieces have been limited, with geometric morphometrics being the last major method innovation [@hallinan2025; @cao2025; @lycett2013]. However, this method has significant constraints, including the requirement for homologous landmarks, which limits its applicability to artifacts like cores of various shapes and spheroids. Spherical harmonics offer a viable alternative, showing strong potential for precision and intpretatbility. We can reasonably expect broader applications of this method across a range of archaeological artifacts in the future.
+Quantitative approaches to studying spheroids remain limited [@Muller2023; @deweyer2017; @tittonSubspheroidsLithicAssemblage2020]. We propose a complete, efficient, reproducible and transparent methodological framework here based on spherical harmonics to quantitatively assess morphological variation among flaked pieces, allowing for the distinction between cores and spheroids and evaluating the degree of morphological standardization in spheroids. Past approaches to analyzing the morphology of flaked pieces have been limited, with geometric morphometrics being the last major method innovation [@hallinan2025; @cao2025; @lycett2013]. However, this method has significant constraints, including the requirement for homologous landmarks, which limits its applicability to artifacts like cores of various shapes and spheroids. Spherical harmonics offer a viable alternative, showing strong potential for precision and interpretability. We can reasonably expect broader applications of this method across a range of archaeological artifacts in the future.
 
 This study provides one of the first systematic analyses focused on spheroids from East Asia. By applying a range of quantitative methods, we conducted an integrated morphological and technological study of the Qianshangying spheroids. Our results demonstrate that these spheroids were produced through a programmed reduction strategy aimed at achieving standardized spherical forms, primarily using hard-hammer direct percussion. The evidence of shaping strategies on Qianshangying spheroids confirms that they were intentionally made tools with conceptual template, rather than exhausted cores. This distinguishes them from polyhedrons or multi-facial cores in their terminal reduction stages. Traditionally, lithic technology in northern China prior to the Late Pleistocene has been considered stagnant and generally classified as simple core-and-flake industries. However, the Qianshangying assemblage from \~429ka clearly reveals a higher level of technological complexity
 
