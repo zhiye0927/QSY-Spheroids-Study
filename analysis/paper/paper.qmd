@@ -514,7 +514,7 @@ p_value_Mann_sci2 <- pretty_print_sci(p_value2)
 ```{r, echo=FALSE}
 
 # Kruskal–Wallis test
-# on sphericity among 4 clusters
+# on sphericity among clusters
 
 kruskal_result <- kruskal.test(Sphericity ~ `typology by SPHARM`, data = data_clean)
 
@@ -844,19 +844,18 @@ umap_data <- umap_data %>%
   mutate(point_size = if_else(category_lower == "idealmodel", 4.5, 3))
 
 # Elbow method for optimal K
-wss <- numeric(10)  
+#wss <- numeric(10)  
 
-for (k in 1:10) {
-  set.seed(123)  
-  km <- kmeans(umap_data[, c("x", "y")], centers = k)
-  wss[k] <- km$tot.withinss  
-}
+#for (k in 1:10) {
+  #set.seed(123)  
+  #km <- kmeans(umap_data[, c("x", "y")], centers = k)
+  #wss[k] <- km$tot.withinss  }
 
-elbow_test <-
-  plot(1:10, wss, type="b", pch=19, frame=FALSE,
-       xlab="Number of clusters K",
-       ylab="Total within-cluster sum of squares (WSS)",
-       main="Elbow Method for Optimal K")
+#elbow_test <-
+  #plot(1:10, wss, type="b", pch=19, frame=FALSE,
+       #xlab="Number of clusters K",
+       #ylab="Total within-cluster sum of squares (WSS)",
+       #main="Elbow Method for Optimal K")
 
 # KMeans clustering (k=4)
 set.seed(123)
