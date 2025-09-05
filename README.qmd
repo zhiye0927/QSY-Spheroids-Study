@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 This repository contains the data and code for our paper:
 
-> Yi Zhe, Ben Marwick, Li Hao, Shuwen Pei (2025). Spherical harmonic analysis of faceted spheroids identifies shaping strategies and standardisation at Qianshangying (North China)". Submitted to _Journal of Archaeological Science_
+> Ye Zhi, Ben Marwick, Li Hao, Shuwen Pei (2025). Spherical harmonic analysis of faceted spheroids identifies shaping strategies and standardisation at Qianshangying (North China)". Submitted to _Journal of Archaeological Science_
 
 A pre-print of this paper is freely available on SocArXiv: https://osf.io/preprints/socarxiv/
 
