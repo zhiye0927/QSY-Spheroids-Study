@@ -77,7 +77,7 @@ def batch_calculate_sphericity(input_dir, output_csv):
                 base_name = filename[:-4]
                 parts = base_name.split('-')
                 if len(parts) >= 2:
-                    id_part = "_".join(parts[:-1])
+                    id_part = "-".join(parts[:-1])
                     typology = parts[-1]
                 else:
                     id_part = base_name
@@ -108,7 +108,7 @@ def batch_calculate_sphericity(input_dir, output_csv):
                 })
                 print(f"Failed: {filename}, Error: {e}")
 
-    results.sort(key=lambda x: (x['ID'] if x['ID'] is not None else ''), reverse=True)
+    results.sort(key=lambda x: (x['ID'] if x['ID'] is not None else ''))
 
     # Save to CSV
     with open(output_csv, 'w', newline='', encoding='utf-8') as f:
@@ -122,7 +122,13 @@ def batch_calculate_sphericity(input_dir, output_csv):
 
 if __name__ == "__main__":
 
-    input_directory = "E:\\spheroids_analysis\\core_3d"
-    output_file = "sphericity_iso.csv"
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+
+    input_directory = r"E:\spheroids_analysis\core_3d"
+    output_directory = os.path.join(base_dir, "analysis", "data", "raw_data", "SPHARM_sphericity_curvature_result")
+
+    output_file = os.path.join(output_directory, "sphericity_iso.csv")
+
+    os.makedirs(output_directory, exist_ok=True)
 
     batch_calculate_sphericity(input_directory, output_file)

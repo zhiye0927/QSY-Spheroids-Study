@@ -107,8 +107,9 @@ def batch_average_curvature(input_folder, target_faces=10000, k_neighbors=30):
         simple_mesh = trimesh.Trimesh(vertices=simple_v, faces=simple_f)
         curvatures = compute_curvature(simple_mesh, k_neighbors)
         avg_curvature = np.nanmean(curvatures)
-        results.append({'filename': file, 'average_curvature_deg': avg_curvature})
-        print(f"{file}: average curvature = {avg_curvature:.3f} degrees")
+        filename_no_ext = os.path.splitext(file)[0]
+        results.append({'filename': filename_no_ext, 'average_curvature_deg': avg_curvature})
+        print(f"{filename_no_ext}: average curvature = {avg_curvature:.3f} degrees")
 
     return pd.DataFrame(results)
 
@@ -153,9 +154,16 @@ if __name__ == "__main__":
     visualize_curvature(simple_mesh, curvatures, title="QSY-A-2797_Curvature")
 
     # Batch process the entire folder
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+
     input_folder = r"E:\spheroids_analysis\spheroids_3d"
-    output_csv = r"E:\spheroids_analysis\spheroids_3d\average_curvatures.csv"
+    output_folder = os.path.join(base_dir, "analysis", "data", "raw_data", "SPHARM_sphericity_curvature_result")
+
+    output_csv = os.path.join(output_folder, "curvature.csv")
+
+    os.makedirs(output_folder, exist_ok=True)
 
     df = batch_average_curvature(input_folder)
     df.to_csv(output_csv, index=False)
+
     print(f"curvature saved to {output_csv}")

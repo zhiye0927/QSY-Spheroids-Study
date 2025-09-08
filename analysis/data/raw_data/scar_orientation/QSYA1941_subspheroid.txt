@@ -1,0 +1,325 @@
+﻿surface  
+  
+  ID: d62a8686-9104-4e68-b284-f2f75af2d57e (10607)
+  Object name: TRM_SRF
+  Layer name: IGES level 0
+  Render Material: 
+    source = from layer
+    index = -1
+  
+  Geometry:
+    Valid surface.
+    surface.
+      NURBS Surface"U":  degree =1  CV count = 2  (-1.903 <= U <= 78.005)
+        "V":  degree =1  CV count = 2  (-1.853 <= V <= 75.962)
+  Edge Tally:
+      4 boundary edges
+  Edge Tolerances: all 0.000
+  Vertex Tolerances: all 0.000
+  Render mesh: none present
+  Analysis mesh: none present
+
+curve  
+  
+  ID: 2068cf67-d881-4275-ab75-0ad5a1a62d79 (10608)
+  Object name: LINE
+  Layer name: IGES level 0
+  Render Material: 
+    source = from layer
+    index = -1
+  
+  Geometry:
+    Valid curve.
+    Open NURBS curve
+      start = (56.442,17.483,-19.735)
+      end = (56.686,18.949,-3.678)
+      degree = 1
+      control points: non-rational, count=2
+      knots: uniform (delta=1), domain = 0 to 1
+      clamped at start and end
+
+curve  
+  
+  ID: 6d170f26-b054-4454-8fe5-9b0060dc2ff1 (10609)
+  Object name: LINE
+  Layer name: IGES level 0
+  Render Material: 
+    source = from layer
+    index = -1
+  
+  Geometry:
+    Valid curve.
+    Open NURBS curve
+      start = (56.442,17.483,-19.735)
+      end = (56.686,18.949,-3.678)
+      degree = 1
+      control points: non-rational, count=2
+      knots: uniform (delta=1), domain = 0 to 1
+      clamped at start and end
+
+curve  
+  
+  ID: bb87e420-f474-4c62-a649-cf02e1cc8752 (10610)
+  Object name: LINE
+  Layer name: IGES level 0
+  Render Material: 
+    source = from layer
+    index = -1
+  
+  Geometry:
+    Valid curve.
+    Open NURBS curve
+      start = (58.395,35.849,-4.063)
+      end = (36.475,44.016,-6.825)
+      degree = 1
+      control points: non-rational, count=2
+      knots: uniform (delta=1), domain = 0 to 1
+      clamped at start and end
+
+curve  
+  
+  ID: 5ebd9232-4312-4e1e-80ac-824d5261293b (10611)
+  Object name: LINE
+  Layer name: IGES level 0
+  Render Material: 
+    source = from layer
+    index = -1
+  
+  Geometry:
+    Valid curve.
+    Open NURBS curve
+      start = (58.395,35.849,-4.063)
+      end = (36.475,44.016,-6.825)
+      degree = 1
+      control points: non-rational, count=2
+      knots: uniform (delta=1), domain = 0 to 1
+      clamped at start and end
+
+curve  
+  
+  ID: b84cc67d-e280-4ada-93ee-dc8b044b63aa (10612)
+  Object name: LINE
+  Layer name: IGES level 0
+  Render Material: 
+    source = from layer
+    index = -1
+  
+  Geometry:
+    Valid curve.
+    Open NURBS curve
+      start = (14.538,50.229,-3.829)
+      end = (15.727,44.231,7.532)
+      degree = 1
+      control points: non-rational, count=2
+      knots: uniform (delta=1), domain = 0 to 1
+      clamped at start and end
+
+curve  
+  
+  ID: e47dd7eb-cd3c-49a5-8fe4-0aff3fba9280 (10613)
+  Object name: LINE
+  Layer name: IGES level 0
+  Render Material: 
+    source = from layer
+    index = -1
+  
+  Geometry:
+    Valid curve.
+    Open NURBS curve
+      start = (14.538,50.229,-3.829)
+      end = (15.727,44.231,7.532)
+      degree = 1
+      control points: non-rational, count=2
+      knots: uniform (delta=1), domain = 0 to 1
+      clamped at start and end
+
+curve  
+  
+  ID: c4c03734-37f1-44db-9cc8-40a61a86fa75 (10614)
+  Object name: LINE
+  Layer name: IGES level 0
+  Render Material: 
+    source = from layer
+    index = -1
+  
+  Geometry:
+    Valid curve.
+    Open NURBS curve
+      start = (39.338,25.053,23.026)
+      end = (29.696,27.204,21.311)
+      degree = 1
+      control points: non-rational, count=2
+      knots: uniform (delta=1), domain = 0 to 1
+      clamped at start and end
+
+curve  
+  
+  ID: 705ce344-7eef-4a37-b723-a4cdac379b64 (10615)
+  Object name: LINE
+  Layer name: IGES level 0
+  Render Material: 
+    source = from layer
+    index = -1
+  
+  Geometry:
+    Valid curve.
+    Open NURBS curve
+      start = (39.338,25.053,23.026)
+      end = (29.696,27.204,21.311)
+      degree = 1
+      control points: non-rational, count=2
+      knots: uniform (delta=1), domain = 0 to 1
+      clamped at start and end
+
+curve  
+  
+  ID: 10b3237c-68b7-459a-b29a-7694915549d1 (10616)
+  Object name: LINE
+  Layer name: IGES level 0
+  Render Material: 
+    source = from layer
+    index = -1
+  
+  Geometry:
+    Valid curve.
+    Open NURBS curve
+      start = (33.665,16.963,27.875)
+      end = (22.579,18.213,24.767)
+      degree = 1
+      control points: non-rational, count=2
+      knots: uniform (delta=1), domain = 0 to 1
+      clamped at start and end
+
+curve  
+  
+  ID: 832a0dbc-2453-4db3-86c5-633b60edf1b7 (10617)
+  Object name: LINE
+  Layer name: IGES level 0
+  Render Material: 
+    source = from layer
+    index = -1
+  
+  Geometry:
+    Valid curve.
+    Open NURBS curve
+      start = (33.665,16.963,27.875)
+      end = (22.579,18.213,24.767)
+      degree = 1
+      control points: non-rational, count=2
+      knots: uniform (delta=1), domain = 0 to 1
+      clamped at start and end
+
+curve  
+  
+  ID: 2f13a2c8-dfde-46d0-8413-aabcdd4f4daa (10618)
+  Object name: LINE
+  Layer name: IGES level 0
+  Render Material: 
+    source = from layer
+    index = -1
+  
+  Geometry:
+    Valid curve.
+    Open NURBS curve
+      start = (-8.360,6.593,-19.429)
+      end = (0.000,0.000,0.000)
+      degree = 1
+      control points: non-rational, count=2
+      knots: uniform (delta=1), domain = 0 to 1
+      clamped at start and end
+
+curve  
+  
+  ID: c48b8ed6-a468-4c1a-b786-68451e5bde86 (10619)
+  Object name: LINE
+  Layer name: IGES level 0
+  Render Material: 
+    source = from layer
+    index = -1
+  
+  Geometry:
+    Valid curve.
+    Open NURBS curve
+      start = (-8.360,6.593,-19.429)
+      end = (0.000,0.000,0.000)
+      degree = 1
+      control points: non-rational, count=2
+      knots: uniform (delta=1), domain = 0 to 1
+      clamped at start and end
+
+curve  
+  
+  ID: cc41790e-b537-4270-b3d9-091eb2785b6c (10620)
+  Object name: LINE
+  Layer name: IGES level 0
+  Render Material: 
+    source = from layer
+    index = -1
+  
+  Geometry:
+    Valid curve.
+    Open NURBS curve
+      start = (30.229,5.337,28.594)
+      end = (15.798,-2.778,22.723)
+      degree = 1
+      control points: non-rational, count=2
+      knots: uniform (delta=1), domain = 0 to 1
+      clamped at start and end
+
+curve  
+  
+  ID: a33bb75c-fd4d-47a5-9031-52923e1cf73c (10621)
+  Object name: LINE
+  Layer name: IGES level 0
+  Render Material: 
+    source = from layer
+    index = -1
+  
+  Geometry:
+    Valid curve.
+    Open NURBS curve
+      start = (30.229,5.337,28.594)
+      end = (15.798,-2.778,22.723)
+      degree = 1
+      control points: non-rational, count=2
+      knots: uniform (delta=1), domain = 0 to 1
+      clamped at start and end
+
+curve  
+  
+  ID: 50634e44-9ef4-4f8d-9764-55b0e50b8633 (10622)
+  Object name: LINE
+  Layer name: IGES level 0
+  Render Material: 
+    source = from layer
+    index = -1
+  
+  Geometry:
+    Valid curve.
+    Open NURBS curve
+      start = (16.976,-13.970,-12.519)
+      end = (5.226,-2.089,-16.838)
+      degree = 1
+      control points: non-rational, count=2
+      knots: uniform (delta=1), domain = 0 to 1
+      clamped at start and end
+
+curve  
+  
+  ID: 6c9022bd-a274-43f5-a931-8762c46a10cc (10623)
+  Object name: LINE
+  Layer name: IGES level 0
+  Render Material: 
+    source = from layer
+    index = -1
+  
+  Geometry:
+    Valid curve.
+    Open NURBS curve
+      start = (16.976,-13.970,-12.519)
+      end = (5.226,-2.089,-16.838)
+      degree = 1
+      control points: non-rational, count=2
+      knots: uniform (delta=1), domain = 0 to 1
+      clamped at start and end
+

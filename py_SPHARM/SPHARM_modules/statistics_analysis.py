@@ -6,6 +6,7 @@ from scipy.spatial.distance import pdist, squareform
 import matplotlib.pyplot as plt
 import pandas as pd
 import umap
+import re
 
 
 def analyze_variance(all_stats, filenames):
@@ -152,14 +153,14 @@ def analyze_umap(all_stats, filenames, output_dir, lmax=20):
         metric='cosine',
         random_state=42,
     )
-    embedding = reducer.fit_transform(power_spectra)
+    umap_result = reducer.fit_transform(power_spectra)
 
     standard_models = {"1_Sphere", "2_Ellipsoid", "3_Rounded_cube", "4_Box", "5_Discoid"}
 
     plt.figure(figsize=(15, 12))
     ax = plt.gca()
 
-    for i, (x, y) in enumerate(embedding):
+    for i, (x, y) in enumerate(umap_result):
         label = filenames[i]
         color = 'red' if label in standard_models else 'black'
         ax.scatter(x, y, color=color, s=100, alpha=0.8)
@@ -201,7 +202,7 @@ def analyze_umap2(all_stats, filenames, output_dir, lmax=20):
         metric='cosine', # distance metric used. Using cosine focuses more on the intrinsic shape patterns
         random_state=42,
     )
-    embedding = reducer.fit_transform(power_spectra)
+    umap_result = reducer.fit_transform(power_spectra)
 
     def get_category(label):
         if "Multifacial" in label:
@@ -216,12 +217,15 @@ def analyze_umap2(all_stats, filenames, output_dir, lmax=20):
             return "idealmodel"
 
     umap_df = pd.DataFrame({
-        'x': embedding[:, 0],
-        'y': embedding[:, 1],
-        'filename': filenames,
+        'x': umap_result[:, 0],
+        'y': umap_result[:, 1],
+        'filename': [
+        re.sub(r'-[^-]+$', '', re.sub(r'^\d+_', '', f))
+        for f in filenames
+    ],
         'category': [get_category(f) for f in filenames]
     })
 
-    csv_path = os.path.join(output_dir, f"umap_embedding_lmax{lmax}.csv")
+    csv_path = os.path.join(output_dir, f"umap_lmax{lmax}.csv")
     umap_df.to_csv(csv_path, index=False)
     print(f"UMAP_data was saved to: {csv_path}")

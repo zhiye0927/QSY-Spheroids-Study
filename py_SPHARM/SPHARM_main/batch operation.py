@@ -4,7 +4,7 @@ import pyshtools as pysh
 import trimesh
 import igl
 from trimesh.smoothing import filter_laplacian
-
+import re
 from SPHARM_modules import mesh_processing, pca_align, spherical_harmonics, statistics_analysis
 
 
@@ -52,8 +52,8 @@ def process_single_mesh(stl_path, output_dir, target_faces=20000, grid_size=256,
 
         # 7. 存储-save
         base_name = os.path.splitext(os.path.basename(stl_path))[0]
-        np.savetxt(f"{output_dir}/{base_name}_power.csv", spectrum, delimiter=",")
-        np.savetxt(f"{output_dir}/{base_name}_coeffs.csv", spherical_harmonics.clm_to_1d_standard(clm), delimiter=",")
+        #np.savetxt(f"{output_dir}/{base_name}_power.csv", spectrum, delimiter=",")
+        #np.savetxt(f"{output_dir}/{base_name}_coeffs.csv", spherical_harmonics.clm_to_1d_standard(clm), delimiter=",")
 
         # Debug info
         print(f"\n==== Debug Model: {os.path.basename(stl_path)} ====")
@@ -77,7 +77,8 @@ def batch_process(input_dir, output_dir):
 
     all_spectrum = []
     all_SHE = []
-    filenames = []
+    id_list = []
+    filenames_for_umap = []
 
     for filename in os.listdir(input_dir):
         if filename.lower().endswith('.stl'):
@@ -86,44 +87,67 @@ def batch_process(input_dir, output_dir):
             if power_stat is not None:
                 all_spectrum.append(power_stat)
                 all_SHE.append(SHE)
-                filenames.append(os.path.splitext(filename)[0])
 
-    SHE_table = np.column_stack((filenames, all_SHE))
-    np.savetxt(f"{output_dir}/SHE.csv",
-               SHE_table,
-               delimiter=",",
-               header="ID,SHE",
-               fmt="%s",
-               comments='')
+                base_name = os.path.splitext(filename)[0]
+
+                category_name = re.sub(r'^\d+_', '', base_name)
+                filenames_for_umap.append(category_name)
+
+                id_name = re.sub(r'-[^-]+$', '', category_name)
+                id_list.append(id_name)
+
+    SHE_table = np.column_stack((id_list, all_SHE))
+    np.savetxt(
+        os.path.join(output_dir, "SHE.csv"),
+        SHE_table,
+        delimiter=",",
+        header="filename,SHE",
+        fmt="%s",
+        comments=''
+    )
 
     if len(all_spectrum) > 0:
         all_stats_array = np.array(all_spectrum)
-        np.savez(f"{output_dir}/all_data.npz",
-                 stats=all_stats_array,
-                 SHE=np.array(all_SHE),
-                 filenames=filenames)
+
+        np.savez(
+            os.path.join(output_dir, "all_data.npz"),
+            stats=all_stats_array,
+            SHE=np.array(all_SHE),
+            filenames=id_list
+        )
 
         var_per_degree = np.var(all_stats_array, axis=0)
         degrees = np.arange(len(var_per_degree))
         data_to_save = np.column_stack((degrees, var_per_degree))
-        np.savetxt(f"{output_dir}/variance_per_degree.csv",
-                   data_to_save,
-                   delimiter=",",
-                   header="degree,variance",
-                   comments='')
-
-        statistics_analysis.analyze_variance(all_stats_array, filenames)
+        np.savetxt(
+            os.path.join(output_dir, "variance_per_degree.csv"),
+            data_to_save,
+            delimiter=",",
+            header="degree,variance",
+            comments=''
+        )
 
         statistics_analysis.analyze_umap2(
             all_stats_array,
-            filenames,
+            filenames_for_umap,
             output_dir,
             lmax=20
         )
 
+    print(f"\nBatch process completed. {len(all_spectrum)} files processed successfully.")
 
 
 if __name__ == "__main__":
-    input_directory = "E:\spheroids_analysis\core_3d"
-    output_directory = "E:\Lithic_Analysis\QSYSpheroidsStudy\py_SPHARM"
+    input_directory = r"E:\spheroids_analysis\core_3d"
+
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    output_directory = os.path.join(
+        base_dir,
+        "analysis", "data", "raw_data", "SPHARM_sphericity_curvature_result"
+    )
+    os.makedirs(output_directory, exist_ok=True)
     batch_process(input_directory, output_directory)
+
+
+
+
