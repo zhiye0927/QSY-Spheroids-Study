@@ -37,7 +37,7 @@ x,y,filename,category,,,,,,
 0.5845642,1.6074368,QSY-A-2723,Spheroid,,,QSY-A-2723-Spheroid_power.csv,0.001843628,0.003478612,lava
 0.15432264,1.4757681,QSY-A-2797,Spheroid,,,QSY-A-2797-Spheroid_power.csv,0.001016779,0.000527795,lava
 1.862714,3.3502104,QSY-B-003,Spheroid,,,QSY-B-003-Spheroid_power.csv,0.007017418,0.004965273,lava
-13.343369,7.0752897,QSY-B-072,Subspheroid,,,QSY-B-072-Subspheroid_power.csv,0.012902437,0.002895795,lava
+13.343369,7.0752897,QSY-B-072,Polyhedron,,,QSY-B-072-Subspheroid_power.csv,0.012902437,0.002895795,lava
 13.995901,7.486856,QSY-B-136,Polyhedron,,,QSY-B-136-Polyhedron_power.csv,0.010510287,0.002728932,lava
 7.602699,6.300171,QSY-B-140,Polyhedron,,,QSY-B-140-Polyhedron_power.csv,0.013733022,0.007323269,dolomite
 7.286052,6.125203,QSY-B-159,Multifacial,,,QSY-B-159-Multifacial_power.csv,0.010271602,0.00810862,lava

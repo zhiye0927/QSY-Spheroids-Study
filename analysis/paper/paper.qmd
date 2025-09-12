@@ -1,7 +1,7 @@
 ---
 title: "Spherical harmonic analysis of faceted spheroids identifies shaping strategies and standardisation at Qianshangying (North China)"
 author:
-  - Yi Zhe:
+  - Ye Zhi:
       correspondence: "yes"
       email: yezhi@ivpp.ac.cn
       orcid: 
@@ -112,9 +112,9 @@ The Qianshangying site complex lies in the Nihewan Basin, a region in northern C
 
 df <- tibble(
   material = c("Lava", "Dolomite", "Chert", "Other"),
-  spheroids = c(10, 2, 0, 1),
-  cores = c(62, 21, 4, 7),
-  Polys_and_Multi_cores = c(26, 6, 3, 2),
+  spheroids = c(10, 2, 0, 0),
+  cores = c(61, 21, 4, 8),
+  Polys_and_Multi_cores = c(20, 5, 3, 2),
   total = c(637, 209, 53, 56),
 )
 
@@ -352,6 +352,7 @@ This method has been widely used in the field of biology, for example in the ana
 
 Our work combines the merits of these previous studies to demonstrate an open-source and reproducible analysis of stone artefacts using SPHARM. We further introduce the use of rotation-invariant power spectrum and UMAP to extract shape features, explore hidden structures in data, and then achieve grouping among spheroids and cores, marking the first attempt of its kind to our knowledge. All these steps were completed in Python. We hope to demonstrate the value of this method for quantitative shape analyses of objects that are roughly spherical in shape, such as the spheroids and cores in our case study from Qianshangying.
 
+::: {#fig-Spheroids-distribution-China}
 ```{r, echo=FALSE}
 #| label: fig-SPHARM-steps
 #| fig-cap: "Schematic summary of the key steps of 3D spherical harmonics analysis"
@@ -361,6 +362,8 @@ knitr::include_graphics(here("analysis/paper/figures/SPHARM_steps.png"))
 
 ```
 
+a. UMAP on SPHARM power spectrum for the dimensionality reduction and data structure analysis; b. Spherical harmonics energy (SHE) derived from the SPHARM power spectrum to evaluate the similarity between shapes and the perfect sphere
+:::
 As shown in the @fig-SPHARM-steps, we first imported, cleaned, simplified and normalized the STL files of spheroids and cores to obtain 3D mesh vertices, which were then converted from Cartesian (x, y, z) to spherical coordinates (r, θ, φ) [@Link2024; @Medyukhina2020]. Next, we interpolated radial values onto a regular spherical grid of N×N and then decomposed them using spherical harmonics based on the Driscoll–Healy sampling scheme [@Link2024; @Medyukhina2020]. The resulting coefficients were normalized for scale-invariant comparison across models.
 
 From the normalized spherical harmonic coefficients, we computed the rotation-invariant power spectrum by summing the squared magnitudes of the coefficients at each degree. Each 3D shape is thus represented by its unique power spectrum, which serves as a multidimensional descriptor. To explore relationships between models, we applied a Uniform Manifold Approximation and Projection (UMAP) for dimensionality reduction and visualization [@Van2023]. Unlike traditional linear dimensionality reduction methods such as Principal Component Analysis (PCA), which capture only global linear variance patterns and typically rely on the first few spherical harmonic coefficients, UMAP is a non-linear technique designed to preserve both local and global data structure. Its grouping is based on the local and global similarity of shape data. This makes UMAP particularly well suited for complex shape data represented by spherical harmonic coefficients, where morphological variations may manifest in subtle, non-linear ways across multiple degrees. By effectively capturing these non-linear relationships, UMAP yields a refined morphospace representation, enabling detection of complex shape differences that linear techniques may overlook.
@@ -1366,7 +1369,9 @@ knitr::include_graphics(here("analysis/paper/figures/shaping_process.png"))
 
 ```
 
-Diacritical analysis of spheroid surfaces reveals a structured and recurrent reduction sequence comprising three phases (@fig-spheroids-2797-1098). Phase one was a unidirectional or bidirectional total exploitation, belonging to one kind of volume exploitation. Large and flat surfaces of the cobble were selected as platforms for striking toward the opposite surface. Knapping proceeded until the peripheral volume was fully exploited, resulting in an approximately cubic form. Phase two was peripheral centripetal exploitation. In this phase, previous removals in phase one serve as platforms for centripetal flaking around the core periphery. This represents a surface exploitation stage. A notable feature is the angle between the face's ventral surface and platform (i.e. core edge angle), which often exceeds 90°. This phase contributes significantly to the increasingly spherical shape of the artifact. Phase three was the production of small scars on ridges or intersections of previous flake scars, resulting in a rounding and smoother surface, further enhancing roundness. It is important to note that due to the high degree of reduction intensity observed in most spheroids, phases prior to the visible sequence were often obliterated. We hypothesize the existence of a Phase zero, potentially involving roughing-out of the cobble or an earlier cycle of Phases one to three [@fig-shaping-process]
+Diacritical analysis of spheroid and subspheroid surfaces reveals a structured and recurrent reduction sequence comprising three phases (@fig-spheroids-2797-1098). Phase one was a unidirectional or bidirectional total exploitation, belonging to one kind of volume exploitation. Large and flat surfaces of the cobble were selected as platforms for striking toward the opposite surface. Knapping proceeded until the peripheral volume was fully exploited, resulting in an approximately cubic form. Phase two was peripheral centripetal exploitation. In this phase, previous removals in phase one serve as platforms for centripetal flaking around the core periphery. This represents a surface exploitation stage. A notable feature is the angle between the face's ventral surface and platform (i.e. core edge angle), which often exceeds 90°. This phase contributes significantly to the increasingly spherical shape of the artifact. Phase three was the production of small scars on ridges or intersections of previous flake scars, resulting in a rounding and smoother surface, further enhancing roundness. 
+
+Among the spheroids and subspheroids in Qianshangying site, 7 belong to Phase 3, 1 to phase 2, and 3 to phase 1 (see supplymentary material-QSY_A.xlsx and QSY_B.xlsx). In addition, one subspheroid bypassed Phase 1 altogether and instead employed a strategy of bifacial centripetal exploitation combined with edge refinement. Notably, in this case the angle between the two flaking surfaces approaches 90°, distinguishing it from typical core of discoid. This indicates that the purpose of reduction was not the production of flakes, but rather the direct shaping of the artifact into its final spherical form. Also, it is important to note that due to the high degree of reduction intensity observed in some spheroids, phases prior to the visible sequence were often obliterated. We hypothesize the existence of a Phase zero, potentially involving roughing-out of the cobble or an earlier cycle of Phases one to three [@fig-shaping-process].
 
 Scar orientation analysis further supports the interpretation of a systematic reduction sequence in the production of Qianshangying spheroids. @fig-benn-ternary-plot shows that spheroids tend to cluster together, with elongation ratios ranging from `r elongation_min` to `r elongation_max` and isotropy ratios from `r isotropy_min` to `r isotropy_max`. These elongation ratios suggest that the spheroids underwent unidirectional or bidirectional total exploitation, typical of Phase one, resulting in relatively high elongation values. In addition, the peripheral centripetal exploitation, namely Phase two, appears to have contributed to a certain degree of isotropy in scar arrangement—higher isotropy ratios are associated with more spherical shapes. Subspheroids exhibit greater variability in both elongation and isotropy ratios, reflecting less standardized reduction.
 
@@ -1584,11 +1589,11 @@ Given the limitations of traditional typology in capturing the functional, morph
 
 # CRediT authorship contribution statement
 
-Yi Zhe: Writing – review & editing, Writing – original draft, Visualization, Resources, Project administration, Methodology, Investigation, Funding acquisition, Formal analysis, Data curation, Conceptualization. Ben Marwick: Writing – original draft, review & editing, Supervision, Project administration, Methodology, Conceptualization. Li Hao: Writing – review & editing, Conceptualization, Funding acquisition. Shuwen Pei: Writing – review & editing, Conceptualization, Funding acquisition.
+Ye Zhi: Writing – review & editing, Writing – original draft, Visualization, Resources, Project administration, Methodology, Investigation, Funding acquisition, Formal analysis, Data curation, Conceptualization. Ben Marwick: Writing – original draft, review & editing, Supervision, Project administration, Methodology, Conceptualization. Li Hao: Writing – review & editing, Conceptualization, Funding acquisition. Shuwen Pei: Writing – review & editing, Conceptualization, Funding acquisition.
 
 # Data availability statement
 
-The data that support the findings of this study are openly available at https://doi.org/xxxx/xxx
+The 3d models from QSY site used in this study are openly available at https://osf.io/ctne9/?view_only=eb93ea8a29bb4b40a407f7eba39c6fc1
 
 # Funding
 
