@@ -2,30 +2,45 @@
 title: "Spherical harmonic analysis of faceted spheroids identifies shaping strategies and standardisation at Qianshangying (North China)"
 author:
   - Ye Zhi:
-      correspondence: "yes"
-      email: yezhi@ivpp.ac.cn
+      correspondence: "no"
       orcid: 
       institute:
-        - ivpp
-  - Ben Marwick:
-      correspondence: "no"
-      email: bmarwick@uw.edu
-      orcid: 0000-0001-7879-4531
+        - ivpp1
+        - ivpp2
+        - UCAS
+  - Shuwen Pei:
+      correspondence: "yes"
+      email: peishuwen@ivpp.ac.cn
+      orcid: 
       institute:
-        - uw
+        - ivpp1
+        - ivpp2
   - Li Hao:
       correspondence: "no"
       orcid: 
       institute:
-        - ivpp
-  - Shuwen Pei:
+        - ALPHA
+        - TPESRE
+  - Dongdong Ma:
       correspondence: "no"
       orcid: 
       institute:
-        - ivpp
+        - ivpp1
+        - ivpp2
+  - Ben Marwick:
+      correspondence: "yes"
+      email: bmarwick@uw.edu
+      orcid: 0000-0001-7879-4531
+      institute:
+        - uw
 institute:
-  - uw: Department of Anthropology, University of Washington, Seattle, USA
-  - ivpp: Institute of Vertebrate Palaeontology and Paleoanthropology, Chinese Academy of Science, Beijing, China
+  - ivpp1: Key Laboratory of Vertebrate Evolution and Human Origins, Institute of Vertebrate Paleontology and Paleoanthropology, Chinese Academy of Sciences, Beijing 100044, China
+  - ivpp2: Key Scientific Research Base on Paleolithic Human Evolution and Paleogenetics (IVPP), SACH. Beijing, 100044, China
+  - UCAS: University of Chinese Academy of Sciences, Beijing 100049, China
+  - ALPHA: Group of Alpine Paleoecology and Human Adaptation (ALPHA), Institute of Tibetan Plateau Research, Chinese Academy of Sciences, Beijing 100101; 
+  - TPESRE: State Key Laboratory of Tibetan Plateau Earth System, Resources and Environment (TPESRE), Beijing 100101
+  - uw: Department of Anthropology, University of Washington, Seattle, WA, USA
+
 title-block-published: "Last updated"  
 date: now
 date-format: long
@@ -45,7 +60,7 @@ filters:
 bibliography: references.bib
 csl: "../templates/journal-of-archaeological-science.csl" # Insert path for the bib-style
 abstract: |
-  Text of abstract
+  Spheroids are widely distributed lithic artifacts, yet their production strategies and functions remain debated. Traditional morphology-based typologies obscure their technological features and variability. Here we introduce a novel, open-source and reproducible framework that uses spherical harmonics as a representative method of quantitative morphological analysis, integrated with technological measures, to assess reduction strategies. Applied to Middle Pleistocene faceted spheroids from Qianshangying (~429 ka, northern China), the approach demonstrates the spheroid production followed a conceptual template, involving a patterned reduction process aimed at achieving standardized spherical forms, and represents a deliberate shaping strategy. Our results further demonstrate that spheroids can be clearly distinguished from polyhedrons and multifacial cores exhausted through reduction. The methods for investigating spheroid production strategies reveal a higher level of technological complexity than traditionally assumed for early lithic industries in northern China, and, more importantly, provide a transparent and replicable framework with broad potential for advancing cross-regional and comparative studies of spheroid production and broader lithic technological research.
 keywords: |
   keyword 1; keyword 2; keyword 3
 highlights: |
@@ -1212,7 +1227,7 @@ knitr::include_graphics(here("analysis/paper/figures/SPHARM_reconstruction.png")
 
 ```
 
-@tbl-1 summarizes the basic information (rock type, blank type, final morphology, and cortex coverage) and morphological analysis results (classifications derived from SPHARM, values for sphericity and spherical harmonic energy) of the spheroids, subspheroids, polyhedrons and multifical cores involved in the research. From this table, we can observe distinctions between spheroids and subspheroids (n = `r`n_sub_spheroid`) on the one hand, and polyhedrons and multifacial cores (n =`r n_poly_multi\`) on the other. In the subsequent analysis, these categories are treated as two separate groups for comparison.
+@tbl-1 summarizes the basic information (rock type, blank type, final morphology, and cortex coverage) and morphological analysis results (classifications derived from SPHARM, values for sphericity and spherical harmonic energy) of the spheroids, subspheroids, polyhedrons and multifical cores involved in the research. From this table, we can observe distinctions between spheroids and subspheroids (n = `r`n_sub_spheroid`) on the one hand, and polyhedrons and multifacial cores (n =`r n_poly_multi`) on the other. In the subsequent analysis, these categories are treated as two separate groups for comparison.
 
 Our sphericity results reveals a clear difference between the group of spheroids and the group of polyhedrons and multifacial cores. The mean sphericity of spheroids (`r mean_sphericity_sub_spheroid`) is notably higher than that of polyhedrons and multifacial cores (`r mean_sphericity_poly_multi`), with a Wilcoxon rank-sum test yielding W = `r U_value`, p = $`r p_value_Mann_sci`$. This result indicates that spheroids possess a more spherical geometry overall, supporting their typological classification as a distinct type.
 
