@@ -15,18 +15,18 @@ author:
       institute:
         - ivpp1
         - ivpp2
-  - Li Hao:
-      correspondence: "no"
-      orcid: 
-      institute:
-        - ALPHA
-        - TPESRE
   - Dongdong Ma:
       correspondence: "no"
       orcid: 
       institute:
         - ivpp1
         - ivpp2
+  - Li Hao:
+      correspondence: "no"
+      orcid: 
+      institute:
+        - ALPHA
+        - TPESRE
   - Ben Marwick:
       correspondence: "yes"
       email: bmarwick@uw.edu
