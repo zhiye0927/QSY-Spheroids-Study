@@ -1602,7 +1602,7 @@ Given the limitations of traditional typology in capturing the functional, morph
 
 # CRediT authorship contribution statement
 
-Ye Zhi: Writing – review & editing, Writing – original draft, Visualization, Resources, Project administration, Methodology, Investigation, Funding acquisition, Formal analysis, Data curation, Conceptualization. Ben Marwick: Writing – original draft, review & editing, Supervision, Project administration, Methodology, Conceptualization. Li Hao: Writing – review & editing, Conceptualization, Funding acquisition. Shuwen Pei: Writing – review & editing, Conceptualization, Funding acquisition.
+Ye Zhi: Writing – review & editing, Writing – original draft, Visualization, Resources, Project administration, Methodology, Investigation, Funding acquisition, Formal analysis, Data curation, Conceptualization. Shuwen Pei: Writing – review & editing, Supervision, Conceptualization, Funding acquisition. Dongdong Ma: Formal analysis, Data curation. Hao Li: Writing – review & editing, Conceptualization. Ben Marwick: Writing – original draft, review & editing, Supervision, Project administration, Methodology, Conceptualization.
 
 # Data availability statement
 
@@ -1610,7 +1610,7 @@ The 3d models from QSY site used in this study are openly available at https://o
 
 # Funding
 
-This work was financially supported through the ...
+This work was financially supported through the National Natural Foundation of China (Grant No. 42371165), Please list foundation from Ben, and China Scholarship Council Programme for international student (CSC No. 202404910542)
 
 # Declaration of competing interest
 
