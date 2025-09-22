@@ -305,7 +305,7 @@ knitr::include_graphics(here("analysis/paper/figures/basic_characteristics.png")
 
 # Methods
 
-We generated 3D models of the cores for morphometric and technological analysis. Digital data were captured using Artec Spider, and post-processing was carried out with Artec Studio 18. The 3D scan files and all the R and Python code used in the analyses reported here are openly available online at https://osf.io/ctne9/.
+We generated 3D models of the cores for morphometric and technological analysis. Digital data were captured using Artec Spider, and post-processing was carried out with Artec Studio 18. The 3D scan files and all the R and Python code used in the analyses reported here are openly available online at https://doi.org/10.17605/OSF.IO/CTNE9/
 
 ## Morphometric Analysis
 
@@ -1611,7 +1611,7 @@ Ye Zhi: Writing – review & editing, Writing – original draft, Visualization,
 
 # Data availability statement
 
-The 3d models from QSY site used in this study are openly available at https://osf.io/ctne9/?view_only=eb93ea8a29bb4b40a407f7eba39c6fc1
+The 3d models from QSY site used in this study are openly available at https://doi.org/10.17605/OSF.IO/CTNE9
 
 # Funding
 
