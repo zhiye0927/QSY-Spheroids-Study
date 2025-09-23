@@ -1,7 +1,7 @@
 ---
 title: "Spherical harmonic analysis of faceted spheroids identifies shaping strategies and standardisation at Qianshangying (North China)"
 author:
-  - Ye Zhi:
+  - Zhi Ye:
       correspondence: "no"
       orcid: 
       institute:
@@ -21,7 +21,7 @@ author:
       institute:
         - ivpp1
         - ivpp2
-  - Li Hao:
+  - Hao Li:
       correspondence: "no"
       orcid: 
       institute:
@@ -47,6 +47,10 @@ date-format: long
 format: 
   docx:
     reference-doc: "../templates/template.docx" # Insert path for the DOCX file
+crossref:
+  fig-title: "Fig."
+  fig-prefix: "Fig."
+number-sections: true
 execute:
   echo: true
   warning: false
@@ -61,10 +65,6 @@ bibliography: references.bib
 csl: "../templates/journal-of-archaeological-science.csl" # Insert path for the bib-style
 abstract: |
   Spheroids are widely distributed lithic artifacts, yet their production strategies and functions remain debated. Traditional morphology-based typologies obscure their technological features and variability. Here we introduce a novel, open-source and reproducible framework that uses spherical harmonics as a method of quantitative morphological analysis, integrated with technological measures, to assess production strategies. Applied to Middle Pleistocene faceted spheroids from Qianshangying (~429 ka, northern China), the approach demonstrates that spheroid production followed a conceptual template, involving a patterned reduction process aimed at achieving standardized spherical forms, and represents a deliberate shaping strategy. Our results further demonstrate that spheroids can be clearly distinguished from polyhedrons and multifacial cores exhausted through reduction. Our methods for investigating spheroid production strategies reveal a higher level of technological complexity than previously assumed for early lithic industries in northern China. Our study also provides a transparent and replicable framework with broad potential for advancing cross-regional and comparative studies of spheroid production but also more broadly lithic technological research for any period and region.
-keywords: |
-  keyword 1; keyword 2; keyword 3
-highlights: |
-  These are the highlights. 
 editor_options: 
   chunk_output_type: console
 ---
@@ -123,7 +123,8 @@ We demonstrate these methods in a case study of spheroids recovered from the rec
 
 ```{r, echo=FALSE}
 #| label: fig-QSY-geography-chronology
-#| fig-cap: "Geological Context and Chrono-Stratigraphy of the Qianshangying site complex)"
+#| fig-cap: "Geological Context and Chrono-Stratigraphy of the Qianshangying site complex): A-B) Geographic location of Nihewan basin. C) Google Earth image showing major sites in the Jijiazhuang Platform. D)  Landscape and different localities of Qianshangying site complex. E) Archaeostratigraphy sequence and ESR dating results of Qianshangyinig site."
+
 
 knitr::include_graphics(here("analysis/paper/figures/QSY_geography_chronology.png"))
 
@@ -276,7 +277,7 @@ ggplot(long_data, aes(x = metric, y = value, fill = artifact)) +
 
 ```
 
-In terms of dimensions, the average length, width, thickness, and mass of spheroids subspheroids were `r round(summary_stats$spheroid_length_mean, 1)` mm (SD = `r round(summary_stats$spheroid_length_sd, 1)`), `r round(summary_stats$spheroid_width_mean, 1)` mm (SD = `r round(summary_stats$spheroid_width_sd, 1)`), `r round(summary_stats$spheroid_thickness_mean, 1)` mm (SD = `r round(summary_stats$spheroid_thickness_sd, 1)`), and `r round(summary_stats$spheroid_weight_mean, 1)` g (SD = `r round(summary_stats$spheroid_weight_sd, 1)`), respectively, as shown in @fig-basic-characteristics. few spheroids showed outlier values in size, being either unusually large or small, while the rest exhibited relatively concentrated size distributions. In contrast, polyhedrons and multifacial cores displayed greater variability in size, with standard deviations of `r round(summary_stats$multi_poly_length_sd, 1)` mm, `r round(summary_stats$multi_poly_width_sd, 1)` mm, and `r round(summary_stats$multi_poly_thickness_sd, 1)` mm for length, width, and thickness, respectively. Additionally, spheroids tend to have similar values across length, width, and thickness, reflecting their overall symmetry. Polyhedrons and multifacial cores show marked differences among these dimensions, indicating more irregular and elongated forms.
+In terms of dimensions, the average length, width, thickness, and mass of spheroids subspheroids were `r round(summary_stats$spheroid_length_mean, 1)` mm (SD = `r round(summary_stats$spheroid_length_sd, 1)`), `r round(summary_stats$spheroid_width_mean, 1)` mm (SD = `r round(summary_stats$spheroid_width_sd, 1)`), `r round(summary_stats$spheroid_thickness_mean, 1)` mm (SD = `r round(summary_stats$spheroid_thickness_sd, 1)`), and `r round(summary_stats$spheroid_weight_mean, 1)` g (SD = `r round(summary_stats$spheroid_weight_sd, 1)`), respectively, as shown in @fig-basic-characteristics. Few spheroids showed outlier values in size, being either unusually large or small, while the rest exhibited relatively concentrated size distributions. In contrast, polyhedrons and multifacial cores displayed greater variability in size, with standard deviations of `r round(summary_stats$multi_poly_length_sd, 1)` mm, `r round(summary_stats$multi_poly_width_sd, 1)` mm, and `r round(summary_stats$multi_poly_thickness_sd, 1)` mm for length, width, and thickness, respectively. Additionally, spheroids tend to have similar values across length, width, and thickness, reflecting their overall symmetry. Polyhedrons and multifacial cores show marked differences among these dimensions, indicating more irregular and elongated forms.
 
 ```{r}
 #| label: fig-basic-characteristics
@@ -372,6 +373,16 @@ f(\theta, \phi) = \sum_{l=0}^{\infty} \sum_{m=-l}^{l} \hat{f}(l, m) \, Y_l^m(\th
 $$
 
 where the set of coefficients $\hat{f}(l, m)$ quantifies how much each basis function contributes to the overall shape. Here, θ and ϕ are angles in spherical coordinates, l and m are order and degree respectively. Lower-order terms describe the general shape, while higher-order terms capture finer details (@fig-SPHARM-Reconstruction-by-Degree).
+
+```{r, echo=FALSE}
+#| label: fig-SPHARM-Reconstruction-by-Degree
+#| fig-cap: "Shape reconstruction of selected archaeological spheroids using SPHARM (various lmax levels)"
+
+
+library(here)
+knitr::include_graphics(here("analysis/paper/figures/SPHARM_reconstruction.png"))
+
+```
 
 This method has been widely used in the field of biology, for example in the analysis of skull and cell morphology [@Link2024; @Medyukhina2020; @Harper2022; @Hewitt2024; @Grieb2022]. However, there have been very few applications of SPHARM to archaeological artifacts. @sholts2017tracing applied SPHARM-PDM to standardize the number and position of vertices across early North American bifaces (ca 13,100–9,000 BP), enabling point-by-point comparison of original and mirrored shapes to assess asymmetry variation, but SPHARM was not directly used to describe stone tool shape. @Muller2023 used closed-source and proprietary Matlab software to investigate intentionality in the production of 150 spheroids from 'Ubeidiya (ca 1.4 Ma) in the Levant. @Muller2023 did not provide code to document their analysis, but they found that lithic reduction resulted in the spheroids becoming more spherical, and concluded that spheroids represent intentionally knapped items. @Noshita2025 used 3D Slicer-SlicerSALT to apply spherical harmonic analysis to Ongagawa-style pottery in the Yayoi period of Japan (800 BC–AD 250). Their results were consistent with the hypothesis of an association of Ongagawa-style pottery with the spread of agriculture via two routes in prehistoric Japan, and they provided code and date files to enable their analysis to be reproduced.
 
@@ -1172,16 +1183,6 @@ ggsave(here("analysis/paper/figures/umap_by_cluster1.png"),
 
 Our sphericity results reveals a clear difference between the group of spheroids and the group of polyhedrons and multifacial cores. The mean sphericity of spheroids (`r mean_sphericity_sub_spheroid`) is notably higher than that of polyhedrons and multifacial cores (`r mean_sphericity_poly_multi`), with a Wilcoxon rank-sum test yielding W = `r U_value`, p = $`r p_value_Mann_sci`$. This result indicates that spheroids possess a more spherical geometry overall, supporting their typological classification as a distinct type.
 
-```{r, echo=FALSE}
-#| label: fig-SPHARM-Reconstruction-by-Degree
-#| fig-cap: "Shape reconstruction of selected archaeological spheroids using SPHARM (various lmax levels)"
-
-
-library(here)
-knitr::include_graphics(here("analysis/paper/figures/SPHARM_reconstruction.png"))
-
-```
-
 We conducted shape analysis using spherical harmonic decomposition, setting the maximum degree to 20 (lmax=20, @fig-SPHARM-Reconstruction-by-Degree). This choice ensures that sufficient geometric detail is captured while avoiding high-frequency noise and overfitting artifacts. After normalization, all models have their degree 0 (l=0) coefficient set to 1, allowing for meaningful comparison across different models.
 
 
@@ -1615,7 +1616,7 @@ The 3d models from QSY site used in this study are openly available at https://d
 
 # Funding
 
-This work was financially supported through the National Natural Foundation of China (Grant No. 42371165), Please list foundation from Ben, and China Scholarship Council Programme for international student (CSC No. 202404910542)
+This work was financially supported through the National Natural Foundation of China (Grant No. 42371165), and China Scholarship Council Programme for international student (CSC No. 202404910542)
 
 # Declaration of competing interest
 

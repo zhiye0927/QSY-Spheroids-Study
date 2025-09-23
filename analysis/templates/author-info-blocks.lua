@@ -41,6 +41,17 @@ local function intercalate(lists, elem)
   return result
 end
 
+-- turn 1 -> a, 2 -> b, 3 -> c, ... 27 -> aa, etc.
+local function num_to_letters(num)
+  local s = ""
+  while num > 0 do
+    local remainder = (num - 1) % 26
+    s = string.char(97 + remainder) .. s  -- 97 = 'a'
+    num = math.floor((num - 1) / 26)
+  end
+  return s
+end
+
 --- Check whether the given author is a corresponding author
 local function is_corresponding_author(author)
   return author.correspondence and author.email
@@ -56,7 +67,7 @@ local function author_inline_generator (get_mark)
     local idx_str
     for _, idx in ipairs(author.institute) do
       if type(idx) ~= 'table' then
-        idx_str = tostring(idx)
+       idx_str = num_to_letters(tonumber(idx))  -- convert number to letters
       else
         idx_str = stringify(idx)
       end
@@ -94,7 +105,7 @@ local function create_affiliations_blocks(affiliations)
   local affil_lines = List:new(affiliations):map(
     function (affil, i)
       local num_inlines = List:new{
-        pandoc.Superscript{pandoc.Str(tostring(i))},
+        pandoc.Superscript{pandoc.Str(num_to_letters(i))}, -- letter instead of number
         pandoc.Space()
       }
       return num_inlines .. affil.name
