@@ -1,7 +1,7 @@
 ---
 title: "Spherical harmonic analysis of faceted spheroids identifies shaping strategies and standardisation at Qianshangying (North China)"
 author:
-  - Ye Zhi:
+  - Zhi Ye:
       correspondence: "no"
       orcid: 
       institute:
@@ -21,7 +21,7 @@ author:
       institute:
         - ivpp1
         - ivpp2
-  - Li Hao:
+  - Hao Li:
       correspondence: "no"
       orcid: 
       institute:
@@ -1344,7 +1344,7 @@ knitr::include_graphics(here("analysis/paper/figures/shaping_process.png"))
 
 Diacritical analysis of spheroid and subspheroid surfaces reveals a structured and recurrent reduction sequence comprising three phases (@fig-spheroids-2797-1098). Phase one was a unidirectional or bidirectional total exploitation, belonging to one kind of volume exploitation. Large and flat surfaces of the cobble were selected as platforms for striking toward the opposite surface. Knapping proceeded until the peripheral volume was fully exploited, resulting in an approximately cubic form. Phase two was peripheral centripetal exploitation. In this phase, previous removals in phase one serve as platforms for centripetal flaking around the core periphery. This represents a surface exploitation stage. A notable feature is the angle between the face's ventral surface and platform (i.e. core edge angle), which often exceeds 90°. This phase contributes significantly to the increasingly spherical shape of the artifact. Phase three was the production of small scars on ridges or intersections of previous flake scars, resulting in a rounding and smoother surface, further enhancing roundness.
 
-Among the spheroids and subspheroids in Qianshangying site, 7 pieces fall within Phase three of the reduction sequence, 1 piece in phase two, and 4 pieces in phase one (see supplementary material files QSY_A.xlsx and QSY_B.xlsx). However, one subspheroid bypassed Phase 1 and instead employed a strategy of bifacial centripetal exploitation combined with edge refinement. Notably, in this case the angle between the two flaking surfaces approaches 90°, distinguishing this subspheroid from typical core of discoid. This indicates that the purpose of reduction was not the production of flakes, but rather the direct shaping of the artifact into its final spherical form. Also, it is important to note that due to the high degree of reduction intensity observed in some spheroids, phases prior to the visible sequence were often obliterated. We hypothesize the existence of a Phase zero, potentially involving roughing-out of the cobble or an earlier cycle of Phases one to three [@fig-shaping-process].
+Among the spheroids and subspheroids in Qianshangying site, 7 pieces fall within Phase three of the reduction sequence, 1 piece in phase two, and 4 pieces in phase one (see supplementary material files spheroids_metrics.xlsx). However, one subspheroid bypassed Phase 1 and instead employed a strategy of bifacial centripetal exploitation combined with edge refinement. Notably, in this case the angle between the two flaking surfaces approaches 90°, distinguishing this subspheroid from typical core of discoid. This indicates that the purpose of reduction was not the production of flakes, but rather the direct shaping of the artifact into its final spherical form. Also, it is important to note that due to the high degree of reduction intensity observed in some spheroids, phases prior to the visible sequence were often obliterated. We hypothesize the existence of a Phase zero, potentially involving roughing-out of the cobble or an earlier cycle of Phases one to three [@fig-shaping-process].
 
 
 ```{r, echo=FALSE}
