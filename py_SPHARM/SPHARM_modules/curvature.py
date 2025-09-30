@@ -146,7 +146,10 @@ def visualize_curvature(mesh, curvatures, title="Curvature (degrees)"):
 if __name__ == "__main__":
 
     # A single stl file_process and visualize
-    stl_file = r"E:\spheroids_analysis\spheroids_3d\QSY-A-2797.stl"
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    stl_file = os.path.join(base_dir, "..", "SPHARM_main", "3d_models_QSY_spheroids_multi_poly", "QSY-A-2797-Spheroid.stl")
+    stl_file = os.path.abspath(stl_file)
+
     mesh = trimesh.load(stl_file)
     simple_v, simple_f = simplify_mesh(mesh.vertices, mesh.faces, target_faces=10000)
     simple_mesh = trimesh.Trimesh(vertices=simple_v, faces=simple_f)
@@ -155,9 +158,9 @@ if __name__ == "__main__":
 
     # Batch process the entire folder
     base_dir = os.path.dirname(os.path.abspath(__file__))
-
-    input_folder = r"E:\spheroids_analysis\spheroids_3d"
-    output_folder = os.path.join(base_dir, "analysis", "data", "raw_data", "SPHARM_sphericity_curvature_result")
+    input_folder = os.path.join(base_dir, "..", "SPHARM_main", "3d_models_QSY_spheroids_multi_poly")
+    output_folder = os.path.join(base_dir, "..", "..", "analysis", "data", "raw_data",
+                                    "SPHARM_sphericity_curvature_result")
 
     output_csv = os.path.join(output_folder, "curvature.csv")
 

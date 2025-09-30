@@ -123,9 +123,9 @@ def batch_calculate_sphericity(input_dir, output_csv):
 if __name__ == "__main__":
 
     base_dir = os.path.dirname(os.path.abspath(__file__))
-
-    input_directory = r"E:\spheroids_analysis\core_3d"
-    output_directory = os.path.join(base_dir, "analysis", "data", "raw_data", "SPHARM_sphericity_curvature_result")
+    input_directory = os.path.join(base_dir, "..", "SPHARM_main", "3d_models_QSY_spheroids_multi_poly")
+    output_directory = os.path.join(base_dir, "..", "..", "analysis", "data", "raw_data",
+                                 "SPHARM_sphericity_curvature_result")
 
     output_file = os.path.join(output_directory, "sphericity_iso.csv")
 

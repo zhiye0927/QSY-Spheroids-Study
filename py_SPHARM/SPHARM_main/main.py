@@ -4,14 +4,15 @@ import numpy as np
 import pyshtools as pysh
 import trimesh
 from trimesh.smoothing import filter_laplacian
-
+import os
 from SPHARM_modules import mesh_processing, pca_align, reconstruction, spherical_harmonics
 
 
 def main():
 
     # 1. 读取文件-read stl files
-    stl_path = "E:/spheroids_analysis/core_3d/2_Ellipsoid.stl"
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    stl_path = os.path.join(base_dir, "3d_models_QSY_spheroids_multi_poly", "2_Ellipsoid.stl")
     vertices, faces = mesh_processing.clean_mesh(stl_path)
 
     # 2. 清理和统一目标面数- clean and optimize mesh

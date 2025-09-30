@@ -138,13 +138,10 @@ def batch_process(input_dir, output_dir):
 
 
 if __name__ == "__main__":
-    input_directory = r"E:\spheroids_analysis\core_3d"
 
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    output_directory = os.path.join(
-        base_dir,
-        "analysis", "data", "raw_data", "SPHARM_sphericity_curvature_result"
-    )
+    input_directory = os.path.join(base_dir, "3d_models_QSY_spheroids_multi_poly")
+    output_directory = os.path.join(base_dir, "..", "..", "analysis", "data", "raw_data", "SPHARM_sphericity_curvature_result")
     os.makedirs(output_directory, exist_ok=True)
     batch_process(input_directory, output_directory)
 
