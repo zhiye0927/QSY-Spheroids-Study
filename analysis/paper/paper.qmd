@@ -142,7 +142,96 @@ df <- tibble(
   total = c(637, 209, 53, 56),
 )
 
+# 转换数据格式 - 按核心类型分组计算原料比例
 df_long <- df %>%
+  # 移除total列，因为我们要计算的是每种核心类型内的原料比例
+  select(-total) %>%
+  pivot_longer(cols = -material, names_to = "core_type", values_to = "count") %>%
+  # 按核心类型分组计算百分比
+  group_by(core_type) %>%
+  mutate(prop = count / sum(count) * 100) %>%
+  ungroup() %>%
+  mutate(
+    core_type = factor(core_type, 
+                      levels = c("spheroids", "Polys_and_Multi_cores", "cores"),
+                      labels = c("Spheroids", "Polys and Multi cores", "Cores")),
+    material = factor(material, 
+                      levels = c("Lava", "Dolomite", "Chert", "Other"))
+  )
+
+# 正确计算每种核心类型的总数
+total_by_core_type_correct <- df_long %>%
+  group_by(core_type) %>%
+  summarise(total_count = sum(count)) %>%
+  ungroup()
+
+# 查看正确总数
+print(total_by_core_type_correct)
+
+# 创建带数量的横坐标标签（使用正确总数）
+core_type_labels_correct <- c(
+  "Spheroids" = paste0("Sub/ Spheroids \n(n = ", 
+                       total_by_core_type_correct$total_count[1], ")"),
+  "Polys and Multi cores" = paste0("Polyhedrons/ Multifacils\n(n = ", 
+                                   total_by_core_type_correct$total_count[2], ")"),
+  "Cores" = paste0("Cores\n(n = ", 
+                   total_by_core_type_correct$total_count[3], ")")
+)
+
+# 绘图
+# 绘图
+p_raw_material <- ggplot(df_long, 
+       aes(x = core_type, 
+           y = prop, 
+           fill = material)) +
+  geom_col(position = position_dodge(width = 0.7), width = 0.6) +
+  
+  labs(
+    x = "",
+    y = "Percentage (%)",
+    fill = "Raw Material"  # 添加图例标题
+  ) +
+  
+  # 添加带正确数量的横坐标标签
+  scale_x_discrete(labels = core_type_labels_correct) +
+  
+  scale_y_continuous(
+    labels = scales::percent_format(scale = 1),
+    limits = c(0, 100),
+    expand = expansion(mult = c(0, 0.05))
+  ) +
+  
+  scale_fill_manual(
+    values = c(
+      "Lava" = "orange",
+      "Dolomite" = "#b2abd2",
+      "Chert" = "gray",
+      "Other" = "gray40"
+    )
+  ) +
+  
+  theme_minimal(base_size = 10) +
+  theme(
+    # 图例放在右上角
+    legend.position = c(0.95, 0.95),
+    legend.justification = c(1, 1),
+    legend.background = element_rect(fill = "white", color = "black", size = 0.3),
+    legend.key.size = unit(0.4, "cm"),
+    legend.spacing.y = unit(0.1, "cm"),
+    legend.margin = margin(3, 3, 3, 3),
+    legend.title = element_text(size = 9),  # 调整图例标题大小
+    
+    # 其他样式
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.y = element_blank(),
+    axis.text.x = element_text(angle = 0, hjust = 0.5, size = 9, lineheight = 0.8)
+  )
+
+# 显示图形
+print(p_raw_material)
+
+
+df_long1 <- df %>%
   pivot_longer(cols = -material, names_to = "category", values_to = "count") %>%
   group_by(category) %>%
   mutate(prop = count / sum(count) * 100) %>%
@@ -154,64 +243,30 @@ df_long <- df %>%
                       levels = c("Lava", "Dolomite", "Chert", "Other"))
   )
 
-p_raw_material <- 
-ggplot(df_long %>% 
-         mutate(category = case_when(
-           category == "cores" ~ "Cores",
-           category == "spheroids" ~ "Spheroid",
-           category == "total" ~ "Total",
-           category == "Polys_and_Multi_cores" ~ "Polys and Multi cores"
-           )) %>% 
-         filter(category != "Total"), 
-       aes(x = material, 
-           y = prop, 
-           fill = category)) +
-  geom_col(position = position_dodge(width = 0.6), width = 0.5) +
-  labs(
-    x = "",
-    y = "Percentage (%)",
-    fill = "Technological Type"
-  ) +
-  scale_y_continuous(labels = scales::percent_format(scale = 1)) +
-    scale_fill_manual(values = c(
-    "Spheroid" = "orange", 
-    "Polys and Multi cores" = "#b2abd2",
-    "Cores" = "gray"
-  )) +
-  theme_minimal(base_size = 8) +
-  theme(
-    legend.position = c(0.88, 0.95),              
-    legend.justification = c("right", "top"),      
-    legend.background = element_rect(fill = alpha("white", 0.6), color = NA),  
-    legend.box.background = element_rect(color = "black"),
-    legend.box.margin = margin(0, 10, 0, 10)
-  ) 
-
-
-df_long <- df_long %>%
+df_long1 <- df_long1 %>%
   mutate(text = paste0("n = ", count, ", ", round(prop, 1), "%"))
 
-lava_total_text <- df_long %>% filter(material == "Lava", category == "total") %>% pull(text)
-dolomite_total_text <- df_long %>% filter(material == "Dolomite", category == "total") %>% pull(text)
-chert_total_text <- df_long %>% filter(material == "Chert", category == "total") %>% pull(text)
-other_total_text <- df_long %>% filter(material == "Other", category == "total") %>% pull(text)
+lava_total_text <- df_long1 %>% filter(material == "Lava", category == "total") %>% pull(text)
+dolomite_total_text <- df_long1 %>% filter(material == "Dolomite", category == "total") %>% pull(text)
+chert_total_text <- df_long1 %>% filter(material == "Chert", category == "total") %>% pull(text)
+other_total_text <- df_long1 %>% filter(material == "Other", category == "total") %>% pull(text)
 
-lava_spheroids_text <- df_long %>% filter(material == "Lava", category == "spheroids") %>% pull(text)
-dolomite_spheroids_text <- df_long %>% filter(material == "Dolomite", category == "spheroids") %>% pull(text)
-chert_spheroids_text <- df_long %>% filter(material == "Chert", category == "spheroids") %>% pull(text)
-other_spheroids_text <- df_long %>% filter(material == "Other", category == "spheroids") %>% pull(text)
+lava_spheroids_text <- df_long1 %>% filter(material == "Lava", category == "spheroids") %>% pull(text)
+dolomite_spheroids_text <- df_long1 %>% filter(material == "Dolomite", category == "spheroids") %>% pull(text)
+chert_spheroids_text <- df_long1 %>% filter(material == "Chert", category == "spheroids") %>% pull(text)
+other_spheroids_text <- df_long1 %>% filter(material == "Other", category == "spheroids") %>% pull(text)
 
-lava_multi_text <- df_long %>% filter(material == "Lava", category == "Polys_and_Multi_cores") %>% pull(text)
-dolomite_multi_text <- df_long %>% filter(material == "Dolomite", category == "Polys_and_Multi_cores") %>% pull(text)
-chert_multi_text <- df_long %>% filter(material == "Chert", category == "Polys_and_Multi_cores") %>% pull(text)
-other_multi_text <- df_long %>% filter(material == "Other", category == "Polys_and_Multi_cores") %>% pull(text)
+lava_multi_text <- df_long1 %>% filter(material == "Lava", category == "Polys_and_Multi_cores") %>% pull(text)
+dolomite_multi_text <- df_long1 %>% filter(material == "Dolomite", category == "Polys_and_Multi_cores") %>% pull(text)
+chert_multi_text <- df_long1 %>% filter(material == "Chert", category == "Polys_and_Multi_cores") %>% pull(text)
+other_multi_text <- df_long1 %>% filter(material == "Other", category == "Polys_and_Multi_cores") %>% pull(text)
 
 
 ```
 
 The Qianshangying site complex consists of four localities from QSY-A to QSY-D, discovered in 2015. It is among the region’s most artifact-rich archaeological site. Geomorphological and sedimentological evidence indicates that the stratigraphy at the site records a full cycle of lake expansion, retreat, re-expansion, and eventually disappearance of the ancient Nihewan lake, and hominin occupation occurred in a marginal lacustrine setting during a low lake-level episode [@zhou1991study; @deng2008timing; @yuan2009formation; @li2020paleoclimatic; @ye2024; @Ye2025Qianshangying]. The stratigraphic context of Qianshangying indicates a short-term occupation resulting from a single hominin activity event. Analyses of artefact orientations and size distributions indicates that the assemblage appears to be largely *in situ*, exhibiting minimal disturbance after deposition [@Ye2025Qianshangying]. ESR dating of the cultural layer places hominin activity at approximately 429 ± 39 ka [@Ye2025Qianshangying].
 
-A total of 956 stone artifacts were recovered from four localities at Qianshangying. Following a widely used techno-typological framework [@Isaac1981; @Isaac1986; @delatorre2004; @de2018oldowan; @pei2017], the assemblage was classified into four general categories: flaked pieces (n = 248, 26.0%), detached pieces (n = 686, 71.8%), pounded pieces (n = 4, 0.4%), and unmodified materials (n = 17, 1.8%). Among these, 6 spheroids and 7 subspheroids were identified; together forming a spheroid group of 13 pieces, accounting for 1.3% of the total lithic assemblage. They are all faceted spheroids with intensive flake scars on the surface. Employing typological criteria to identify spheroids at this stage is not inherently mistaken, as we later validate this classification through quantitative analyses, with the goal of developing new standards.
+A total of 956 stone artifacts were recovered from four localities at Qianshangying. Following a widely used techno-typological framework [@Isaac1981; @Isaac1986; @delatorre2004; @de2018oldowan; @pei2017] , the assemblage was classified into four general categories: flaked pieces, detached pieces, pounded pieces, and unmodified materials. The numerical distribution and proportional composition of these categories are provided in the supplementary material. Within the category of flaked pieces, 6 spheroids and 7 subspheroids were identified; together forming a spheroid group of 13 artifacts, accounting for 1.3% of the total lithic assemblage. They are all faceted stone tools with intensive flake scars on the surface. Within this continuum, spheroids show a more symmetrical morphology and more extensive flake scar coverage, while subspheroids are characterized by lower symmetry and a less intensive degree of shaping. Also within the category of flaked pieces, multifacial cores and polyhedrons are intensively flaked cores with more than three flaking surfaces, with polyhedrons generally regarded as approaching spherical forms. However, using spherical forms as the distinguish standard is still subjective. In this study, artifacts with a thickness-to-length ratio greater than 0.6 are operationally classified as polyhedrons (n = 17), as these specimens tend to exhibit more comparable dimensions along the three principal axes, whereas the remaining pieces are classified as multifacial cores (n = 12). Importantly, this classification reflects a morphological continuum rather than discrete categories; the threshold value of 0.6 is adopted as a practical criterion to distinguish polyhedrons from multifacial cores, producing roughly comparable sample sizes for the two categories within the assemblage.
 
 Raw materials at Qianshangying were classified into four categories following @pei2002 and @pei2017: lava, dolomite, chert, and others. The overall assemblage is dominated by lava ( `r lava_total_text` ), followed by dolomite ( `r dolomite_total_text` ), with smaller proportions of chert ( `r chert_total_text` ) and other materials ( `r other_total_text` ). The composition of cores closely mirrors this distribution, among them, polyhedrons and multifacial cores show higher frequency on chert ( `r chert_multi_text` ) and lower frequency on dolomite ( `r dolomite_multi_text` ). In contrast, spheroids and subspheroids exhibit a marked preference for lava (`r lava_spheroids_text`), with reduced use of siliceous dolomite ( `r dolomite_spheroids_text` ) and no use of chert. Compared to the cores, spheroids and subspheroids show a stronger reliance on lava and a diminished use of more fragile materials, suggesting a selective strategy favoring raw materials with more stable and homogeneous physical properties.
 
@@ -253,8 +308,8 @@ long_data <- data %>%
   mutate(
     artifact = recode(artifact,
                       "core" = "Cores",
-                      "spheroid" = "Spheroid",
-                      "multi_poly" = "Polys and Multi cores"),
+                      "spheroid" = "Sub/ Spheroids",
+                      "multi_poly" = "Polyhedrons/ Multifacials"),
     metric = factor(metric, levels = c("length", "width", "thickness"))
   )
 
@@ -268,12 +323,29 @@ ggplot(long_data, aes(x = metric, y = value, fill = artifact)) +
     fill = "Technological Type"
   ) +
   scale_fill_manual(values = c(
-    "Cores" = "#b2abd2", 
-    "Spheroid" = "orange", 
-    "Polys and Multi cores" = "gray"
+    "Cores" = "gray", 
+    "Sub/ Spheroids" = "orange", 
+    "Polyhedrons/ Multifacials" = "#b2abd2"
   )) +
-  theme_minimal(base_size = 8) +
-  guides(fill = "none")
+  theme_minimal(base_size = 10) +
+  theme(
+    # 图例放在右上角
+    legend.position = c(0.95, 0.95),
+    legend.justification = c(1, 1),
+    legend.background = element_rect(fill = "white", color = "black", size = 0.3),
+    legend.key.size = unit(0.4, "cm"),
+    legend.spacing.y = unit(0.1, "cm"),
+    legend.margin = margin(3, 3, 3, 3),
+    legend.title = element_text(size = 9),  # 调整图例标题大小
+    
+    # 其他样式
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.y = element_blank(),
+    axis.text.x = element_text(angle = 0, hjust = 0.5, size = 9)
+  )
+
+# 显示图形
+print(p_dimensions)
 
 ```
 
@@ -294,14 +366,14 @@ p_combined <- plot_grid(
 )
 
 ggsave(
-  filename = here("analysis/paper/figures/basic_characteristics.png"),
+  filename = here("analysis/paper/figures/basic_characteristics2.png"),
   plot = p_combined,
   width = 9,   
   height = 4,  
   dpi = 300
 )
 
-knitr::include_graphics(here("analysis/paper/figures/basic_characteristics.png"))
+knitr::include_graphics(here("analysis/paper/figures/basic_characteristics2.png"))
 ```
 
 # Methods
@@ -1351,43 +1423,125 @@ Among the spheroids and subspheroids in Qianshangying site, 7 pieces fall within
 ```{r, echo=FALSE}
 #| label: fig-benn-ternary-plot
 #| fig-cap: "Ternary plot showing flake scar orientation analysis"
+library(dplyr)
+library(ggtern)
 
-benn.output$Z <- 1 - benn.output$EL - benn.output$IS
 
 n  = 11      
 nv = 0.06    
 pn = position_nudge_tern(y = nv, x = nv, z = -nv / 2)
 
-p_benn_ternary <- 
-ggtern(data = benn.output, aes(Z, IS, EL, color = type)) + 
-  geom_mask() + 
-  geom_point(size = 3) + 
-  theme_bw() +
-  labs(
-    x = "Planar", 
-    y = "Isotropic", 
-    yarrow = "Isotropy Ratio", 
-    z = "Linear", 
-    zarrow = "Elongation Ratio"
+
+benn.output <- benn.output %>%
+  mutate(Z = 1 - EL - IS)
+
+# 计算凸包函数
+get_hull <- function(df) {
+  if(nrow(df) < 3) return(df)  
+  hull_idx <- chull(df$Z, df$IS)
+  df[hull_idx, ]
+}
+
+# 为每个类型生成凸包
+hull_data <- benn.output %>%
+  group_by(type) %>%
+  do(get_hull(.)) %>%
+  ungroup()
+
+# 定义颜色映射
+type_colors <- c(
+  "multifacial" = "#b2abd2",
+  "polyhedron" = "#5e3c99", 
+  "subspheroid" = "#fdb863",
+  "spheroid" = "#e66101"
+)
+
+fill_colors <- c(
+  "multifacial" = "#b2abd2",
+  "polyhedron" = "#5e3c99", 
+  "subspheroid" = "#fdb863",
+  "spheroid" = "#e66101"
+)
+
+# 绘图
+p_benn_ternary <- ggtern(data = benn.output, aes(x = Z, y = IS, z = EL)) +
+  # 添加三角网格掩膜
+  geom_mask() +
+  
+  # 凸包填充 - 添加在半透明层
+  geom_polygon(
+    data = hull_data,
+    aes(fill = type, group = type),
+    color = NA,  # 无边框
+    alpha = 0.2  # 填充透明度
   ) +
-  theme_showarrows() + 
-  theme_clockwise() + 
-  #geom_text(position = pn, aes(label = type), check_overlap = FALSE, size = 3) +
-  scale_color_manual(values = c(
-    "multifacial" = "#b2abd2",
-    "polyhedron" = "#5e3c99",
-    "subspheroid" = "#fdb863",
-    "spheroid" = "#e66101"
-  ))
+  
+  # 凸包边框
+  geom_polygon(
+    data = hull_data,
+    aes(color = type, group = type),
+    fill = NA,
+    size = 0.8,
+    alpha = 0.8
+  ) +
+  
+  # 散点
+  geom_point(
+    aes(color = type),
+    size = 3,
+    alpha = 0.8
+  ) +
+  
+  # 主题和标签
+  theme_bw() +
+  theme_showarrows() +
+  theme_clockwise() +
+  
+  # 轴标签
+  labs(
+    x = "Planar",
+    xarrow = "Planarity",
+    y = "Isotropic", 
+    yarrow = "Isotropy",
+    z = "Linear",
+    zarrow = "Elongation",
+    color = "Type",
+    fill = "Type"
+  ) +
+  
+  # 颜色映射
+  scale_color_manual(
+    values = type_colors,
+    limits = names(type_colors)
+  ) +
+  
+  # 填充颜色映射
+  scale_fill_manual(
+    values = fill_colors,
+    limits = names(fill_colors)
+  ) +
 
+  theme(
+    legend.position = "right",
+    legend.box = "vertical",
+    legend.key = element_rect(fill = "white")
+  )
 
-ggsave(here("analysis/paper/figures/benn_ternary_plot.jpg"), 
-       plot = p_benn_ternary,
-       width = 10, 
-       height = 6, 
-       dpi = 300)
+# 保存图形
+output_dir <- here("analysis", "paper", "figures")
+if(!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
 
-knitr::include_graphics(here("analysis/paper/figures/benn_ternary_plot.jpg"))
+ggsave(
+  filename = file.path(output_dir, "benn_ternary_plot.jpg"),
+  plot = p_benn_ternary,
+  width = 10,
+  height = 6,
+  dpi = 300,
+  bg = "white"
+)
+
+# 在文档中显示图形
+knitr::include_graphics(file.path(output_dir, "benn_ternary_plot.jpg"))
 
 
 ```
