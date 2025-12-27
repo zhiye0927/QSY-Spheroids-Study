@@ -85,7 +85,12 @@ This project provides Python scripts for 3D spheroid shape analysis using SPHARM
    - Extract the downloaded archive.  
    - After unzipping, copy the entire folder **`3d_models_QSY_spheroids_multi_poly`** into the project working directory:  [:file_folder: `SPHARM_main`](/py_SPHARM/SPHARM_main)  
 3. **Open the main script and install dependencies**    
-   - In [:file_folder: `SPHARM_main`](/py_SPHARM/SPHARM_main), open the main Python script file `main.py` in PyCharm.      
+   - In [:file_folder: `SPHARM_main`](/py_SPHARM/SPHARM_main), open the main Python script file `main.py` . 
+   - This project was developed and tested with Python 3.10.2. To ensure reproducibility, we recommend using a Python version manager (pyenv or conda) to install the correct version. e.g.:
+     ```
+     pyenv install 3.10.2
+     pyenv local 3.10.2  
+     ``` 
    - Install required dependencies by running in the Terminal:  
      ```
      python -m pip install -r requirements.txt  
