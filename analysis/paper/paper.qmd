@@ -1381,7 +1381,7 @@ knitr::include_graphics(here("analysis/paper/figures/UMAP_combined.png"))
 
 We then applied a Uniform Manifold Approximation and Projection (UMAP) to the rotation-invariant power spectrum, followed by K-means clustering to identify and characterize distinct morphological groups. The result reveals distinct clusters in the first two dimensions of the shape space. These clusters correspond to reference models of sphere, rounded cube, ellipsoid, rounded box and disc-like (@fig-UMAP-combined). This demonstrates that these flaked pieces occupy distinguishable regions in the shape space, with proximity to the sphere or elongation or flattening along specific axes emerging as key differentiating features. Most artifacts typologically classified as spheroids or subspheroids were grouped into the “sphere” and “rounded cube”, and few into "ellipsoid" and "box" clusters, indicating their consistent, near-spherical shapes (@fig-UMAP-combined).
 
-However, a few Multifacial cores and Polyhedrons also appeared in the near-spherical region. This can be attributed to their high cortex coverage or limited flake removals, which likely preserved their originally rounded shapes and led to their grouping alongside spheroids. Some artifacts are identified as spheroids or subspheroids but grouped as ellipsoid or rounded box, because they exhibit a long axis. This reflects the use of different classification criteria in typological and quantitative approaches: typological assessments consider artifacts close to spherical, particularly when they exhibit large edge angles and rounded surfaces, whereas spherical harmonic analysis emphasizes aspects such as overall symmetry.
+However, a few Multifacial cores and Polyhedrons also appeared in the near-spherical region. This can be attributed to their high cortex coverage or limited flake removals, which likely preserved their originally rounded shapes and led to their grouping alongside spheroids. Some artifacts are identified as spheroids or subspheroids but grouped as ellipsoid or rounded box, because they exhibit a long axis. This reflects the use of different classification criteria in typological and quantitative approaches: typological assessments consider artifacts close to spherical, particularly when they exhibit large edge angles and rounded surfaces, whereas spherical harmonic analysis emphasizes aspects such as absolute symmetry.
 
 The UMAP-based groupings correspond to significant differences in sphericity, as indicated by a Kruskal–Wallis test ($\chi^2$ = `r round(H_value, 2)`, df = `r df_kruskal`, p = $`r p_value_kruskal_sci`$). The result shows statistically significant differences in sphericity among the shape clusters, further supporting the effectiveness of the spherical harmonic approach in capturing meaningful morphological variation.
 
@@ -1477,7 +1477,7 @@ knitr::include_graphics(here("analysis/paper/figures/shaping_process.png"))
 
 ```
 
-Diacritical analysis of spheroid and subspheroid surfaces reveals a structured and recurrent reduction sequence comprising three phases (@fig-spheroids-2797-1098). Phase one was a unidirectional or bidirectional total exploitation, belonging to one kind of volume exploitation. Large and flat surfaces of the cobble were selected as platforms for striking toward the opposite surface. Knapping proceeded until the peripheral volume was fully exploited, resulting in an approximately cubic form. Phase two was peripheral centripetal exploitation. In this phase, previous removals in phase one serve as platforms for centripetal flaking around the core periphery. This represents a surface exploitation stage. A notable feature is the angle between the face's ventral surface and platform (i.e. core edge angle), which often exceeds 90°. This phase contributes significantly to the increasingly spherical shape of the artifact. Phase three was the production of small scars on ridges or intersections of previous flake scars, resulting in a rounding and smoother surface, further enhancing roundness.
+Diacritical analysis of spheroid and subspheroid surfaces reveals a structured and recurrent reduction sequence comprising three phases (@fig-spheroids-2797-1098). Phase one was a unidirectional or bidirectional total exploitation, belonging to one kind of volume exploitation. Large and flat surfaces of the cobble were selected as platforms for striking toward the opposite surface. Knapping proceeded until the peripheral volume was fully exploited, resulting in an approximately cubic form. Phase two was peripheral centripetal exploitation. In this phase, previous removals in phase one serve as platforms for centripetal flaking around the core periphery. This represents a surface exploitation stage. A notable feature is the angle between the flaking surface and platform (i.e. core edge angle), which often exceeds 90°. This phase contributes significantly to the increasingly spherical shape of the artifact. Phase three was the production of small scars on ridges or intersections of previous flake scars, resulting in a rounding and smoother surface, further enhancing roundness.
 
 Among the spheroids and subspheroids in Qianshangying site, 6 pieces fall within Phase three of the reduction sequence, 3 pieces appear to have skipped phase two and proceeded directly to edge refinement, 1 piece in phase two, and 2 pieces in phase one (see supplementary material files spheroids_metrics.xlsx). However, one subspheroid bypassed Phase 1 and instead employed a strategy of bifacial centripetal exploitation combined with edge refinement. Notably, in this case the angle between the two flaking surfaces approaches 90°, distinguishing this subspheroid from typical core of discoid. This indicates that the purpose of reduction was not the production of flakes, but rather the direct shaping of the artifact into its final spherical form. Also, it is important to note that due to the high degree of reduction intensity observed in some spheroids, phases prior to the visible sequence were often obliterated. We hypothesize the existence of a Phase zero, potentially involving roughing-out of the cobble or an earlier cycle of Phases one to three [@fig-shaping-process].
 
@@ -1497,20 +1497,17 @@ pn = position_nudge_tern(y = nv, x = nv, z = -nv / 2)
 benn.output <- benn.output %>%
   mutate(Z = 1 - EL - IS)
 
-# 计算凸包函数
 get_hull <- function(df) {
   if(nrow(df) < 3) return(df)  
   hull_idx <- chull(df$Z, df$IS)
   df[hull_idx, ]
 }
 
-# 为每个类型生成凸包
 hull_data <- benn.output %>%
   group_by(type) %>%
   do(get_hull(.)) %>%
   ungroup()
 
-# 定义颜色映射
 type_colors <- c(
   "multifacial" = "#b2abd2",
   "polyhedron" = "#5e3c99", 
@@ -1527,18 +1524,16 @@ fill_colors <- c(
 
 # 绘图
 p_benn_ternary <- ggtern(data = benn.output, aes(x = Z, y = IS, z = EL)) +
-  # 添加三角网格掩膜
+
   geom_mask() +
-  
-  # 凸包填充 - 添加在半透明层
+
   geom_polygon(
     data = hull_data,
     aes(fill = type, group = type),
-    color = NA,  # 无边框
-    alpha = 0.2  # 填充透明度
+    color = NA,
+    alpha = 0.2
   ) +
-  
-  # 凸包边框
+
   geom_polygon(
     data = hull_data,
     aes(color = type, group = type),
@@ -1546,20 +1541,17 @@ p_benn_ternary <- ggtern(data = benn.output, aes(x = Z, y = IS, z = EL)) +
     size = 0.8,
     alpha = 0.8
   ) +
-  
-  # 散点
+
   geom_point(
     aes(color = type),
     size = 3,
     alpha = 0.8
   ) +
-  
-  # 主题和标签
+
   theme_bw() +
   theme_showarrows() +
   theme_clockwise() +
-  
-  # 轴标签
+
   labs(
     x = "Planar",
     xarrow = "Planarity",
@@ -1571,7 +1563,6 @@ p_benn_ternary <- ggtern(data = benn.output, aes(x = Z, y = IS, z = EL)) +
     fill = "Type"
   ) +
   
-  # 颜色映射
   scale_color_manual(
     values = type_colors,
     limits = names(type_colors)
@@ -1589,7 +1580,7 @@ p_benn_ternary <- ggtern(data = benn.output, aes(x = Z, y = IS, z = EL)) +
     legend.key = element_rect(fill = "white")
   )
 
-# 保存图形
+
 output_dir <- here("analysis", "paper", "figures")
 if(!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
 
@@ -1602,7 +1593,7 @@ ggsave(
   bg = "white"
 )
 
-# 在文档中显示图形
+
 knitr::include_graphics(file.path(output_dir, "benn_ternary_plot.jpg"))
 
 
@@ -1729,7 +1720,6 @@ p_combined <- plot_grid(
   ncol = 2  
 )
 
-# 保存组合图像
 output_dir <- here("analysis", "paper", "figures")
 if(!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
 
@@ -1742,7 +1732,6 @@ ggsave(
   bg = "white"
 )
 
-# 在文档中显示图形
 knitr::include_graphics(here("analysis/paper/figures/combined_spearman_correlation_matrices.png"))
 
 ```
