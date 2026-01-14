@@ -13,8 +13,8 @@ This repository contains the data and code for our paper:
 > standardisation at Qianshangying (North China)“. Submitted to *Journal
 > of Archaeological Science*
 
-A pre-print of this paper is freely available on SocArXiv:
-https://osf.io/preprints/socarxiv/
+<!-- A pre-print of this paper is freely available on SocArXiv:
+https://osf.io/preprints/socarxiv/ -->
 
 ## Contents
 
@@ -41,77 +41,79 @@ The **py_SPHARM** directory contains:
     shape reconstruction, and computation/output of sphericity and
     curvature.
 
-## How to download and run locally
-
-This research compendium has been developed using the statistical
-programming language R. To work with the compendium, you will need
-installed on your computer the [R
-software](https://cloud.r-project.org/) itself and optionally [RStudio
-Desktop](https://rstudio.com/products/rstudio/download/).
-
-You can download the compendium as a zip from from this URL:
-[master.zip](.\archive/master.zip). After unzipping:  
-- open the `.Rproj` file in RStudio  
-- run `renv::restore()` to ensure you have the packages this analysis
-depends on  
-- finally, open `analysis/paper/article.qmd` and render to produce the
-`article.docx`, or run `rmarkdown::render("analysis/paper/paper.qmd")`
-in the R console
-
 # How to download and run locally
 
-This project provides Python scripts for 3D spheroid shape analysis
-using SPHARM.  
-1. **Download STL files**  
-- Go to the [OSF repository](https://osf.io/ctne9/files/osfstorage) and
-download the folder containing STL models:
-`3d_models_QSY_spheroids_multi_poly`  
-2. **Unzip and place STL files in project directory**  
-- Extract the downloaded archive.  
-- After unzipping, copy the entire folder
-**`3d_models_QSY_spheroids_multi_poly`** into the project working
-directory: [:file_folder: `SPHARM_main`](.\py_SPHARM/SPHARM_main)  
-3. **Open the main script and install dependencies**  
-- In [:file_folder: `SPHARM_main`](.\py_SPHARM/SPHARM_main), open the
-main Python script file `main.py` in PyCharm.  
-- Install required dependencies by running in the Terminal:  
-`python -m pip install -r requirements.txt`  
-4. **Run the main script-main.py**  
-- Run `main.py` in PyCharm.  
-- The script will perform SPHARM calculation on a single 3D model and
-reconstruct it based on the computed results.  
-- You can save figures during the process.  
-- By default, all output results will be saved to the project folder
-[:file_folder: `SPHARM_main`](.\py_SPHARM/SPHARM_main).  
-5. **Run the batch operation script (`batch_operation.py`)**  
-- Run `batch_operation.py` in PyCharm.  
-- This script will process all STL files in the folder
-`3d_models_QSY_spheroids_multi_poly` and perform the following
-computations:  
-- SPHARM (spherical harmonics) calculation for each model  
-- Rotation-invariant spectrum computation  
-- Spherical harmonic energy (SHE) calculation  
-- UMAP analysis on the rotation-invariant spectrum  
-- You can replace the input folder with your own STL files to perform a
-similar analysis.  
-- By default, all output results will be saved to: [:file_folder:
-raw_data](.\analysis/data/raw_data)  
-6. **Run the curvature script (`curvature.py`)**  
-- Locate `curvature.py` in the [:file_folder:
-`SPHARM_module`](.\py_SPHARM/SPHARM_module) and open it in PyCharm.  
-- This script will compute the curvature for all STL files in the folder
-`3d_models_QSY_spheroids_multi_poly`.  
-- By default, all output results will be saved to: [:file_folder:
-raw_data](.\analysis/data/raw_data)  
-7. **Run the sphericity script (`sphericity.py`)**  
-- Locate `sphericity.py` in the [:file_folder:
-`SPHARM_module`](.\py_SPHARM/SPHARM_module) and open it in PyCharm.  
-- This script will compute the sphericity for all STL files in the
-folder `3d_models_QSY_spheroids_multi_poly`.  
-- By default, all output results will be saved to: [:file_folder:
-raw_data](.\analysis/data/raw_data)
+We used [conda](https://www.anaconda.com/), an open-source,
+cross-platform package and environment manager that installs software
+packages and manages isolated environments to preventing dependency
+conflicts between projects. You will need to install this before
+proceeding.
 
-This project provides steps to process and visualize the results in R.
+Start by downloading a copy of this repository with the Python and R
+code files, then…
+
+1.  **Download STL files**
+    - Go to the [OSF repository](https://osf.io/ctne9/files/osfstorage)
+      and download the folder containing STL models:
+      `3d_models_QSY_spheroids_multi_poly`  
+2.  **Unzip and place STL files in project directory**
+    - Extract the downloaded archive.  
+    - After unzipping, copy the entire folder
+      **`3d_models_QSY_spheroids_multi_poly`** into the project working
+      directory: [:file_folder: `SPHARM_main`](.\py_SPHARM/SPHARM_main)
+3.  **Create a new Python environment** Move to the directory in the
+    repository that has the Python code, open a terminal window, and
+    create a new Python environment for this project to avoid conflicts
+    with Python packages you may already have, then we will activate
+    this new environment, and install the required packages
+
+<!-- -->
+
+    cd py_SPHARM
+    conda create -n spharm python=3.10
+    conda activate spharm
+    conda install -c conda-forge umap-learn numba llvmlite numpy=1.26.4 scipy=1.12.0  pyvista  open3d pyshtools trimesh  scikit-learn pandas
+    pip install -r requirements.txt
+
+4.  **Run the main script-main.py**
+    - Run `main.py` in PyCharm.  
+    - The script will perform SPHARM calculation on a single 3D model
+      and reconstruct it based on the computed results.  
+    - You can save figures during the process.  
+    - By default, all output results will be saved to the project folder
+      [:file_folder: `SPHARM_main`](.\py_SPHARM/SPHARM_main).  
+5.  **Run the batch operation script (`batch_operation.py`)**
+    - Run `batch_operation.py` in PyCharm.  
+    - This script will process all STL files in the folder
+      `3d_models_QSY_spheroids_multi_poly` and perform the following
+      computations:
+      - SPHARM (spherical harmonics) calculation for each model  
+      - Rotation-invariant spectrum computation  
+      - Spherical harmonic energy (SHE) calculation  
+      - UMAP analysis on the rotation-invariant spectrum  
+    - You can replace the input folder with your own STL files to
+      perform a similar analysis.  
+    - By default, all output results will be saved to: [:file_folder:
+      raw_data](.\analysis/data/raw_data)  
+6.  **Run the curvature script (`curvature.py`)**
+    - Locate `curvature.py` in the [:file_folder:
+      `SPHARM_module`](.\py_SPHARM/SPHARM_module) and open it in
+      PyCharm.  
+    - This script will compute the curvature for all STL files in the
+      folder `3d_models_QSY_spheroids_multi_poly`.  
+    - By default, all output results will be saved to: [:file_folder:
+      raw_data](.\analysis/data/raw_data)  
+7.  **Run the sphericity script (`sphericity.py`)**
+    - Locate `sphericity.py` in the [:file_folder:
+      `SPHARM_module`](.\py_SPHARM/SPHARM_module) and open it in
+      PyCharm.  
+    - This script will compute the sphericity for all STL files in the
+      folder `3d_models_QSY_spheroids_multi_poly`.  
+    - By default, all output results will be saved to: [:file_folder:
+      raw_data](.\analysis/data/raw_data)
+
+This project also provides steps to process and visualize the results in
+R.
 
 8.  **Data processing and visualization in R**
     - Open the `.Rproj` file in RStudio.  
