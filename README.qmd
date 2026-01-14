@@ -16,11 +16,6 @@ knitr::opts_chunk$set(
 
 # Spherical harmonic analysis of faceted spheroids identifies shaping strategies and standardisation at Qianshangying (North China)
 
-```{=html}
-<!--
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/benmarwick/archyjobads/main?urlpath=rstudio) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15847809.svg)](https://doi.org/10.5281/zenodo.15847809)
--->
-```
 
 This repository contains the data and code for our paper:
 
@@ -75,26 +70,27 @@ Start by downloading a copy of this repository with the Python and R code files,
 
 ```
 cd py_SPHARM
-conda create -n spharm python=3.10
+conda env create -f environment.yml --solver=libmamba
 conda activate spharm
-conda install -c conda-forge umap-learn numba llvmlite numpy=1.26.4 scipy=1.12.0  pyvista  open3d pyshtools trimesh  scikit-learn pandas
-pip install -r requirements.txt
 ```
 
-4. **Run the main script-main.py**    
-   - Run `main.py` in PyCharm.    
-   - The script will perform SPHARM calculation on a single 3D model and reconstruct it based on the computed results.    
-   - You can save figures during the process.    
-   - By default, all output results will be saved to the project folder [:file_folder: `SPHARM_main`](/py_SPHARM/SPHARM_main).    
-5. **Run the batch operation script (`batch_operation.py`)**    
-   - Run `batch_operation.py` in PyCharm.    
-   - This script will process all STL files in the folder `3d_models_QSY_spheroids_multi_poly` and perform the following computations:    
+4. **Run the batch operation script (`batch_operation.py`)**
+
+```
+python SPHARM_main/batch\ operation.py
+python -m SPHARM_main."batch operation"
+```
+
+ This script will process all STL files in the folder `3d_models_QSY_spheroids_multi_poly` and perform the following computations:    
      - SPHARM (spherical harmonics) calculation for each model    
      - Rotation-invariant spectrum computation    
      - Spherical harmonic energy (SHE) calculation    
-     - UMAP analysis on the rotation-invariant spectrum    
+     - UMAP analysis on the rotation-invariant spectrum   
+
    - You can replace the input folder with your own STL files to perform a similar analysis.    
    - By default, all output results will be saved to: [:file_folder: raw_data](/analysis/data/raw_data)    
+   
+   
 6. **Run the curvature script (`curvature.py`)**    
    - Locate `curvature.py` in the [:file_folder: `SPHARM_module`](/py_SPHARM/SPHARM_module) and open it in PyCharm.    
    - This script will compute the curvature for all STL files in the folder `3d_models_QSY_spheroids_multi_poly`.    

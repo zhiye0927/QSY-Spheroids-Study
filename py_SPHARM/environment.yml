@@ -1,0 +1,48 @@
+name: spharm
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+
+  - numpy=1.26.4
+  - scipy=1.12.0
+  - pandas
+  - matplotlib
+  - seaborn
+  - xarray
+
+  - astropy
+  - astropy-iers-data
+  - pyerfa
+  - pyshtools
+
+  - scikit-learn
+  - umap-learn
+  - pynndescent
+  - joblib
+  - threadpoolctl
+  - numba
+  - llvmlite
+
+  - pyvista
+  - trimesh
+
+  - plotly
+  - dash
+
+  - pillow
+  - requests
+  - tqdm
+  - pyyaml
+  - packaging
+
+  - ipython
+  - ipywidgets
+  - jupyter_core
+  - nbformat
+  - widgetsnbextension
+  
+  - igl  
+  - open3d     
+
+  - pip
