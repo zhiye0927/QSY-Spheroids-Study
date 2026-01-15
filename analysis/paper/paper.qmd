@@ -40,7 +40,6 @@ institute:
   - ALPHA: Group of Alpine Paleoecology and Human Adaptation (ALPHA), Institute of Tibetan Plateau Research, Chinese Academy of Sciences, Beijing 100101; 
   - TPESRE: State Key Laboratory of Tibetan Plateau Earth System, Resources and Environment (TPESRE), Beijing 100101
   - uw: Department of Anthropology, University of Washington, Seattle, WA, USA
-
 title-block-published: "Last updated"  
 date: now
 date-format: long
@@ -2023,9 +2022,4 @@ This report was generated on `r Sys.time()` using the following computational en
 if ("devtools" %in% installed.packages()) devtools::session_info()
 ```
 
-The current Git commit details are:
 
-```{r}
-# what commit is this file at? 
-if ("git2r" %in% installed.packages() & git2r::in_repository(path = ".")) git2r::repository(here::here())  
-```

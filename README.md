@@ -2,10 +2,6 @@
 
 # Spherical harmonic analysis of faceted spheroids identifies shaping strategies and standardisation at Qianshangying (North China)
 
-<!--
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/benmarwick/archyjobads/main?urlpath=rstudio) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15847809.svg)](https://doi.org/10.5281/zenodo.15847809)
--->
-
 This repository contains the data and code for our paper:
 
 > Ye Zhi, Ben Marwick, Li Hao, Shuwen Pei (2025). Spherical harmonic
@@ -43,84 +39,100 @@ The **py_SPHARM** directory contains:
 
 # How to download and run locally
 
-We used [conda](https://www.anaconda.com/), an open-source,
-cross-platform package and environment manager that installs software
-packages and manages isolated environments to preventing dependency
-conflicts between projects. You will need to install this before
-proceeding.
+For this first part of the workflow that uses Python, we used
+[conda](https://www.anaconda.com/), an open-source, cross-platform
+package and environment manager that installs software packages and
+manages isolated environments to preventing dependency conflicts between
+projects. You will need to install this to follow these instructions. We
+developed the project in a Linux environment on Ubuntu via Windows’ WSL.
 
 Start by downloading a copy of this repository with the Python and R
 code files, then…
 
 1.  **Download STL files**
-    - Go to the [OSF repository](https://osf.io/ctne9/files/osfstorage)
-      and download the folder containing STL models:
-      `3d_models_QSY_spheroids_multi_poly`  
+
+Go to the [OSF repository](https://osf.io/ctne9/files/osfstorage) and
+download the folder containing STL models:
+`3d_models_QSY_spheroids_multi_poly`
+
 2.  **Unzip and place STL files in project directory**
-    - Extract the downloaded archive.  
-    - After unzipping, copy the entire folder
-      **`3d_models_QSY_spheroids_multi_poly`** into the project working
-      directory: [:file_folder: `SPHARM_main`](.\py_SPHARM/SPHARM_main)
-3.  **Create a new Python environment** Move to the directory in the
-    repository that has the Python code, open a terminal window, and
-    create a new Python environment for this project to avoid conflicts
-    with Python packages you may already have, then we will activate
-    this new environment, and install the required packages
+
+Extract the downloaded archive. After unzipping, copy the entire folder
+**`3d_models_QSY_spheroids_multi_poly`** into the project working
+directory: [:file_folder: `SPHARM_main`](.\py_SPHARM/SPHARM_main)
+
+3.  **Create a new Python environment**
 
 <!-- -->
 
     cd py_SPHARM
-    conda create -n spharm python=3.10
+    conda env create -f environment.yml --solver=libmamba
     conda activate spharm
-    conda install -c conda-forge umap-learn numba llvmlite numpy=1.26.4 scipy=1.12.0  pyvista  open3d pyshtools trimesh  scikit-learn pandas
-    pip install -r requirements.txt
 
-4.  **Run the main script-main.py**
-    - Run `main.py` in PyCharm.  
-    - The script will perform SPHARM calculation on a single 3D model
-      and reconstruct it based on the computed results.  
-    - You can save figures during the process.  
-    - By default, all output results will be saved to the project folder
-      [:file_folder: `SPHARM_main`](.\py_SPHARM/SPHARM_main).  
-5.  **Run the batch operation script (`batch_operation.py`)**
-    - Run `batch_operation.py` in PyCharm.  
-    - This script will process all STL files in the folder
-      `3d_models_QSY_spheroids_multi_poly` and perform the following
-      computations:
-      - SPHARM (spherical harmonics) calculation for each model  
-      - Rotation-invariant spectrum computation  
-      - Spherical harmonic energy (SHE) calculation  
-      - UMAP analysis on the rotation-invariant spectrum  
-    - You can replace the input folder with your own STL files to
-      perform a similar analysis.  
-    - By default, all output results will be saved to: [:file_folder:
-      raw_data](.\analysis/data/raw_data)  
-6.  **Run the curvature script (`curvature.py`)**
-    - Locate `curvature.py` in the [:file_folder:
-      `SPHARM_module`](.\py_SPHARM/SPHARM_module) and open it in
-      PyCharm.  
-    - This script will compute the curvature for all STL files in the
-      folder `3d_models_QSY_spheroids_multi_poly`.  
-    - By default, all output results will be saved to: [:file_folder:
-      raw_data](.\analysis/data/raw_data)  
-7.  **Run the sphericity script (`sphericity.py`)**
-    - Locate `sphericity.py` in the [:file_folder:
-      `SPHARM_module`](.\py_SPHARM/SPHARM_module) and open it in
-      PyCharm.  
-    - This script will compute the sphericity for all STL files in the
-      folder `3d_models_QSY_spheroids_multi_poly`.  
-    - By default, all output results will be saved to: [:file_folder:
-      raw_data](.\analysis/data/raw_data)
+Move to the directory in the repository that has the Python code, open a
+terminal window, and create a new Python environment for this project to
+avoid conflicts with Python packages you may already have, then we will
+activate this new environment, and install the required packages
 
-This project also provides steps to process and visualize the results in
-R.
+4.  **Run the batch operation script**
+
+<!-- -->
+
+    python -m SPHARM_main."batch operation"
+
+This script will process all STL files in the folder
+`3d_models_QSY_spheroids_multi_poly` and perform the following
+computations:  
+- SPHARM (spherical harmonics) calculation for each model  
+- Rotation-invariant spectrum computation  
+- Spherical harmonic energy (SHE) calculation  
+- UMAP analysis on the rotation-invariant spectrum
+
+You can replace the input folder with your own STL files to perform a
+similar analysis. We also include `main.py` to process one 3D model at
+time. By default, all output results will be saved to: [:file_folder:
+raw_data](.\analysis/data/raw_data)
+
+6.  **Run the curvature script**
+
+<!-- -->
+
+    python SPHARM_modules/curvature.py
+
+This script will compute the curvature for all STL files in the folder
+`3d_models_QSY_spheroids_multi_poly`. By default, all output results
+will be saved to: [:file_folder: raw_data](.\analysis/data/raw_data)
+
+7.  **Run the sphericity script**
+
+<!-- -->
+
+    python SPHARM_modules/sphericity.py
+
+This script will compute the sphericity for all STL files in the folder
+`3d_models_QSY_spheroids_multi_poly`. By default, all output results
+will be saved to: [:file_folder: raw_data](.\analysis/data/raw_data)
+
+That completes the part of the workflow that analyses the 3D shapes
+using Python. The next steps compute statistical analysis of the
+spherical harmonics and other attributes of the artefacts using R v4.4.
 
 8.  **Data processing and visualization in R**
-    - Open the `.Rproj` file in RStudio.  
-    - Run `renv::restore()` to ensure you have all the packages this
-      analysis depends on.  
-    - Finally, open `analysis/paper/paper.qmd` and render it to produce
-      `paper.docx`.
+
+Our manuscript is a Quarto document that contains the text of our paper
+interwoven with blocks of R code that generates the data visualizations
+and tables. To execute all the code and generate a docx document showing
+the results, run this line in the terminal, assuming you are continuing
+directly from the previous steps:
+
+    cd .. # to get back to the top level of the project
+    R -e "renv::restore()" # installed required R pkgs
+    quarto render analysis/paper/paper.qmd --to docx
+
+Alternatively, you can open the `.Rproj` file in RStudio, run
+`renv::restore()` to install the necessary packages, and then open
+`analysis/paper/paper.qmd` in RStudio and render it to produce
+`paper.docx`, or run the R code interactively.
 
 ## How to download and run locally in a Docker container
 
@@ -132,31 +144,42 @@ following these steps:
 
 1.  Install [Docker](https://www.docker.com/get-started/) on your
     computer
+
 2.  Download the compendium, e.g. from GitHub by clicking on the green
     `< > Code` button above, then click `Download ZIP`, then unzip on
     your computer
-3.  Set your terminal working directory to the compendium, and run
-    `docker build -t qsy .` (be sure to include the period) to build the
-    container on your computer, it will take a few minutes and require a
-    fast internet connection.
-4.  Run in your terminal
-    `docker run --rm -it -e ROOT=TRUE -e PASSWORD=rstudio -dp 8787:8787 qsy`
-    to start the container on your computer
+
+3.  Set your terminal working directory to the compendium, and run (be
+    sure to include the period):
+
+<!-- -->
+
+    docker build -t spharm .
+
+to build the container on your computer, it will take a few minutes and
+require a fast internet connection.
+
+4.  Run in your terminal:
+
+<!-- -->
+
+    docker run -d -p 8787:8787 -v $(pwd):/project -w /project -e PASSWORD=rstudio spharm
+
+to start the container on your computer
+
 5.  Go to <http://localhost:8787/> with your browser and enter `rstudio`
-    in both fields to start RStudio in your browser, running in the
-    Docker container with all the required depedencies installed
-6.  In RStudio, run `rstudioapi::openProject("/home/rstudio/qsy")` to
-    open the compendium’s project. This project uses
-    [`renv`](https://rstudio.github.io/renv/) to document and manage
-    dependencies, this will be activated when the project is first
-    opened in RStudio.
-7.  Run
+    in both fields to start RStudio in your browser
+
+6.  In RStudio, open this README file and follow the steps above in the
+    section ‘How to download and run locally’. You can run
     `rmarkdown::render("analysis/paper/paper.qmd", output_dir='/tmp')`
     to render the Quarto document that is the manuscript submitted for
     publication
-8.  After the code has executed, view the rendered output document by
+
+7.  After the code has executed, view the rendered output document by
     running `browseURL("/tmp/paper.docx")`
-9.  When finished, to delete the Docker container from your computer,
+
+8.  When finished, to delete the Docker container from your computer,
     run this in the terminal on your desktop:
     `docker ps -aq | xargs docker stop | xargs docker rm`
 
