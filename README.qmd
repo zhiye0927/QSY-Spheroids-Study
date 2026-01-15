@@ -55,7 +55,7 @@ The **py_SPHARM** directory contains:
 
 # How to download and run locally
 
-For this first part of the workflow that uses Python, we used [conda](https://www.anaconda.com/), an open-source,  cross-platform package and environment manager that installs software packages and manages isolated environments to preventing dependency conflicts between projects. You will need to install this to follow these instructions. 
+For this first part of the workflow that uses Python, we used [conda](https://www.anaconda.com/), an open-source,  cross-platform package and environment manager that installs software packages and manages isolated environments to preventing dependency conflicts between projects. You will need to install this to follow these instructions. We developed the project in a Linux environment on Ubuntu via Windows' WSL. 
 
 Start by downloading a copy of this repository with the Python and R code files, then...
 

@@ -1,0 +1,19 @@
+# Ignore RStudio temporary files (this fixes the lock error)
+.Rproj.user
+.Rhistory
+.RData
+*.Rproj
+
+# Ignore Git history (saves a lot of space)
+.git
+.gitignore
+
+# Ignore local Python/Conda environments
+**/__pycache__
+py_SPHARM/spharm/
+
+# Ignore the R library (Docker will build its own)
+renv/library/
+renv/staging/
+renv/python/
+

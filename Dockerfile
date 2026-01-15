@@ -5,7 +5,8 @@ FROM rocker/geospatial:4.4.2
 # We still need these for your SPHARM processing
 RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
-    libgl1-mesa-glx \
+    libgl1 \
+    libglu1-mesa \
     xvfb \
     && rm -rf /var/lib/apt/lists/*
 
@@ -20,7 +21,11 @@ WORKDIR /project
 COPY . /project
 
 # 5. Build Python Env (Using libmamba for speed)
-RUN conda env create -f py_SPHARM/environment.yml --solver=libmamba
+# First, accept the Terms of Service to allow non-interactive installation
+# Then, create the environment
+RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main && \
+    conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r && \
+    conda env create -f py_SPHARM/environment.yml --solver=libmamba
 
 # 6. Restore R packages (Much faster here because system libs are already present)
 # Note: rocker/geospatial already has tidyverse and sf, so renv will likely 
