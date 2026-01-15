@@ -58,8 +58,8 @@ download the folder containing STL models:
 2.  **Unzip and place STL files in project directory**
 
 Extract the downloaded archive. After unzipping, copy the entire folder
-**`3d_models_QSY_spheroids_multi_poly`** into the project working
-directory: [:file_folder: `SPHARM_main`](.\py_SPHARM/SPHARM_main)
+**`3d_models_QSY_spheroids_multi_poly`** into this directory:
+`/py_SPHARM/SPHARM_main`
 
 3.  **Create a new Python environment**
 
@@ -90,8 +90,8 @@ computations:
 
 You can replace the input folder with your own STL files to perform a
 similar analysis. We also include `main.py` to process one 3D model at
-time. By default, all output results will be saved to: [:file_folder:
-raw_data](.\analysis/data/raw_data)
+time. By default, all output results will be saved to
+`/analysis/data/raw_data/SPHARM_sphericity_curvature_result`
 
 6.  **Run the curvature script**
 
@@ -101,7 +101,8 @@ raw_data](.\analysis/data/raw_data)
 
 This script will compute the curvature for all STL files in the folder
 `3d_models_QSY_spheroids_multi_poly`. By default, all output results
-will be saved to: [:file_folder: raw_data](.\analysis/data/raw_data)
+will be saved to
+`/analysis/data/raw_data/SPHARM_sphericity_curvature_result`
 
 7.  **Run the sphericity script**
 
@@ -111,7 +112,8 @@ will be saved to: [:file_folder: raw_data](.\analysis/data/raw_data)
 
 This script will compute the sphericity for all STL files in the folder
 `3d_models_QSY_spheroids_multi_poly`. By default, all output results
-will be saved to: [:file_folder: raw_data](.\analysis/data/raw_data)
+will be saved to
+`/analysis/data/raw_data/SPHARM_sphericity_curvature_result`
 
 That completes the part of the workflow that analyses the 3D shapes
 using Python. The next steps compute statistical analysis of the

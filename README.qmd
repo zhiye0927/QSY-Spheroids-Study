@@ -65,7 +65,7 @@ Go to the [OSF repository](https://osf.io/ctne9/files/osfstorage) and download t
    
 2. **Unzip and place STL files in project directory** 
 
-Extract the downloaded archive. After unzipping, copy the entire folder **`3d_models_QSY_spheroids_multi_poly`** into the project working directory:  [:file_folder: `SPHARM_main`](/py_SPHARM/SPHARM_main)  
+Extract the downloaded archive. After unzipping, copy the entire folder **`3d_models_QSY_spheroids_multi_poly`** into this directory:  `/py_SPHARM/SPHARM_main`  
    
 3. **Create a new Python environment** 
 
@@ -89,7 +89,7 @@ This script will process all STL files in the folder `3d_models_QSY_spheroids_mu
      - Spherical harmonic energy (SHE) calculation    
      - UMAP analysis on the rotation-invariant spectrum   
 
-You can replace the input folder with your own STL files to perform a similar analysis. We also include `main.py` to process one 3D model at time. By default, all output results will be saved to: [:file_folder: raw_data](/analysis/data/raw_data)    
+You can replace the input folder with your own STL files to perform a similar analysis. We also include `main.py` to process one 3D model at time. By default, all output results will be saved to `/analysis/data/raw_data/SPHARM_sphericity_curvature_result`    
    
    
 6. **Run the curvature script**    
@@ -97,7 +97,7 @@ You can replace the input folder with your own STL files to perform a similar an
 ```
 python SPHARM_modules/curvature.py
 ```
-This script will compute the curvature for all STL files in the folder `3d_models_QSY_spheroids_multi_poly`. By default, all output results will be saved to: [:file_folder: raw_data](/analysis/data/raw_data)  
+This script will compute the curvature for all STL files in the folder `3d_models_QSY_spheroids_multi_poly`. By default, all output results will be saved to `/analysis/data/raw_data/SPHARM_sphericity_curvature_result`  
    
    
 7. **Run the sphericity script**   
@@ -106,7 +106,7 @@ This script will compute the curvature for all STL files in the folder `3d_model
 python SPHARM_modules/sphericity.py
 ```
     
-This script will compute the sphericity for all STL files in the folder `3d_models_QSY_spheroids_multi_poly`. By default, all output results will be saved to: [:file_folder: raw_data](/analysis/data/raw_data)
+This script will compute the sphericity for all STL files in the folder `3d_models_QSY_spheroids_multi_poly`. By default, all output results will be saved to `/analysis/data/raw_data/SPHARM_sphericity_curvature_result`
    
 That completes the part of the workflow that analyses the 3D shapes using Python. The next steps compute statistical analysis of the spherical harmonics and other attributes of the artefacts using R v4.4.  
 
