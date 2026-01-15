@@ -303,14 +303,7 @@ plot_2shot = function(xyz, level = "All Points", lty = 3, lwd = .5, fg = "black"
   	# Make the background black if color coding is being used and there is no background image
   	if (!is.null(color_codes) & is.null(background_image)) rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = 'grey50')
   	
-    # If a georeferenced background image (geotiff) is specified, get the limits and then display it
-    if (!is.null(background_image)) {
-      library(raster)
-      library(tiff)
-      library(rgdal)
-      r_image = raster(background_image)
-      rasterImage(suppressWarnings(readTIFF(background_image,convert=TRUE)), r_image@extent@xmin, r_image@extent@ymin, r_image@extent@xmax, r_image@extent@ymax)
-    }
+
     
   	# Draw a meter grid
   	if (draw_grid) {

@@ -9,38 +9,42 @@ import os
 
 
 def simplify_mesh(vertices, faces, target_faces):
-
     """
-    simplify the mesh
-
-    Parameters
-    ----------
-    vertices : numpy.ndarray, shape (N, 3)
-        Original vertex array.
-    faces : numpy.ndarray, shape (M, 3)
-        Original triangular face array (indices into vertices).
-    target_faces : int
-        Target number of faces for the simplified mesh.
-        Must be less than the original face count.
-
-    Returns
-    -------
-    simplified_vertices : numpy.ndarray
-        Vertex array of the simplified mesh.
-    simplified_faces : numpy.ndarray
-        Face array of the simplified mesh.
+    Robustly simplify the mesh using libigl, handling different API versions.
     """
-
+    # Quick check: if mesh is already smaller than target, do nothing
     if target_faces >= len(faces):
-        print("Target face count is greater than or equal to original")
         return vertices, faces
 
-    result = igl.decimate(vertices, faces, target_faces)
-    simplified_vertices = result[1]
-    simplified_faces = result[2]
+    try:
+        # 1. Prepare data: IGL requires Fortran order and specific dtypes
+        # We use np.asarray to strip trimesh wrappers, then force dtypes and order
+        v_igl = np.asfortranarray(np.asarray(vertices), dtype=np.float64)
+        f_igl = np.asfortranarray(np.asarray(faces), dtype=np.int32)
+        target = int(target_faces)
 
-    return simplified_vertices, simplified_faces
+        # 2. Call decimate and handle varying return signatures (4 vs 5 values)
+        res = igl.decimate(v_igl, f_igl, target)
 
+        if len(res) == 5:
+            # Version returns (success, V, F, face_indices, vertex_indices)
+            success, simplified_vertices, simplified_faces, _, _ = res
+            if not success:
+                print("Warning: igl.decimate indicated failure. Returning original.")
+                return vertices, faces
+        else:
+            # Version returns (V, F, face_indices, vertex_indices)
+            simplified_vertices, simplified_faces, _, _ = res
+
+        # 3. Final safety check: ensure the resulting mesh isn't empty
+        if simplified_vertices is None or len(simplified_faces) == 0:
+            return vertices, faces
+
+        return simplified_vertices, simplified_faces
+
+    except Exception as e:
+        print(f"Decimation error: {e}. Falling back to original mesh.")
+        return vertices, faces
 
 def compute_curvature(mesh, k_neighbors=30):
 

@@ -1,3 +1,5 @@
+^renv$
+^renv\.lock$
 ^QSYSpheroidsStudy\.Rproj$
 ^\.Rproj\.user$
 analysis

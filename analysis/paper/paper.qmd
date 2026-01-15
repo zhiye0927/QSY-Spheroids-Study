@@ -385,9 +385,34 @@ library(readxl)
 library(here)
 library(stringr)
 
-file_path <- here("analysis/data/derived_data/core_typology_morphological_parameters.xlsx")
-data_raw <- read_excel(file_path)
+# get Sphericity and SHE values from the Python workflow and join them on 
+sphericity_results <- 
+  here("analysis/data/raw_data/SPHARM_sphericity_curvature_result/sphericity_iso.csv") %>%  
+  read_csv %>% 
+  mutate(ID = str_replace_all(ID, "-", "_"))
 
+she_results <- 
+  here("analysis/data/raw_data/SPHARM_sphericity_curvature_result/SHE.csv") %>%  
+  read_csv() %>% 
+  mutate(ID = str_replace_all(filename, "-", "_"))
+
+# import excel sheet with lithology, typology, etc.
+file_path <- here("analysis/data/derived_data/core_typology_morphological_parameters.xlsx")
+data_raw_0 <- read_excel(file_path)
+
+# join with data from Python workflow (we never want to do this by hand and break the workflow)
+data_raw <- 
+data_raw_0 %>% 
+  left_join(sphericity_results, by = "ID") %>% 
+  left_join(she_results, by = "ID") %>% 
+  select(ID, 
+         Rock_type,
+         `Blank type`,
+         `Final morphology`,
+          Typology = `Typology.x`,
+         `typology by SPHARM`,
+          Sphericity = sphericity,
+          SHE)
 
 data_clean <- data_raw |>
   mutate(across(
@@ -979,8 +1004,8 @@ umap_data <- umap_data %>%
   mutate(point_size = if_else(category_lower == "idealmodel", 4.5, 3))
 
 
-umap_data %>%
-  count(category_lower)
+# umap_data %>%
+#   count(category_lower)
 # Elbow method for optimal K
 #wss <- numeric(10)  
 
@@ -1302,7 +1327,7 @@ p_umap_by_cluster_with_images <- p_umap_by_cluster +
 cluster_summary <- umap_data_to_plot %>%
   select(filename, category_lower, cluster) %>%
   arrange(cluster, category_lower, filename)
-print(cluster_summary, n = 50)
+
 
 
 ggsave(here("analysis/paper/figures/umap_by_cluster1.png"),

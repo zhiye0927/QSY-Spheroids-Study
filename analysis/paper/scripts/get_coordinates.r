@@ -1,4 +1,4 @@
-file.exists("C:/Users/27086/Desktop/Sam Lin-orientation analysis/Lin_et_al_Core_scar_orientation_Data_and_R_code/Data_and_R_code/Standardised core vectors/STD07_discoid.txt")
+
 
 get_coordinates <- function (filename, stop_pattern) {
   

@@ -9,17 +9,27 @@ from SPHARM_modules import mesh_processing, pca_align, spherical_harmonics, stat
 
 
 def process_single_mesh(stl_path, output_dir, target_faces=20000, grid_size=256, lmax=20):
-
     """ Process a single STL mesh file and compute spherical harmonics"""
-
     try:
         # 1. 清理网格-Clean mesh
         vertices, faces = mesh_processing.clean_mesh(stl_path)
 
-        # 2. 统一面片数-Mesh decimation
-        result = igl.decimate(vertices, faces, target_faces)
-        decimated_vertices = result[1]
-        decimated_faces = result[2]
+        # --- FIX FOR IGL DECIMATE START ---
+        # Convert to standard numpy arrays, specific dtypes, and Fortran memory layout
+        v_igl = np.asfortranarray(vertices).astype(np.float64)
+        f_igl = np.asfortranarray(faces).astype(np.int32)
+        
+        # Ensure target_faces is a standard python int
+        target_faces = int(target_faces)
+
+        # Call decimate. 
+        # In modern python-igl, it returns: (V_out, F_out, face_indices, vertex_indices)
+        # We only need the first two.
+        result = igl.decimate(v_igl, f_igl, target_faces)
+        decimated_vertices = result[0]
+        decimated_faces = result[1]
+        # --- FIX FOR IGL DECIMATE END ---
+
         mesh = trimesh.Trimesh(vertices=decimated_vertices, faces=decimated_faces)
         filter_laplacian(mesh, iterations=3)
         decimated_vertices = mesh.vertices
@@ -50,11 +60,6 @@ def process_single_mesh(stl_path, output_dir, target_faces=20000, grid_size=256,
 
         total_power = spectrum["total_power"].astype(float)
 
-        # 7. 存储-save
-        base_name = os.path.splitext(os.path.basename(stl_path))[0]
-        #np.savetxt(f"{output_dir}/{base_name}_power.csv", spectrum, delimiter=",")
-        #np.savetxt(f"{output_dir}/{base_name}_coeffs.csv", spherical_harmonics.clm_to_1d_standard(clm), delimiter=",")
-
         # Debug info
         print(f"\n==== Debug Model: {os.path.basename(stl_path)} ====")
         print("Normalized radius range:", np.min(np.linalg.norm(normalized_vertices, axis=1)),
@@ -66,9 +71,10 @@ def process_single_mesh(stl_path, output_dir, target_faces=20000, grid_size=256,
         return total_power, SHE
 
     except Exception as e:
-        print(f"Error processing{stl_path}: {str(e)}")
+        print(f"Error processing {stl_path}: {str(e)}")
+        import traceback
+        traceback.print_exc() # This will help you see EXACTLY where it fails
         return None
-
 
 def batch_process(input_dir, output_dir):
     """批量处理目录中的所有STL文件"""

@@ -8,46 +8,50 @@ import csv
 
 
 def calculate_iso_sphericity(stl_file_path, target_faces=15000):
-
     """
     Calculate sphericity and surface area according to ISO standard.
-
-    Parameters:
-    - stl_file_path: str, path to the STL file
-    - target_faces: int, number of faces for mesh decimation
-
-    Returns:
-    - sphericity: float, ISO-defined sphericity
-    - surface_area_cm2: float, surface area in cm²
-    - centroid_offset: float, distance of centroid offset
+    Updated for libigl compatibility in WSL.
     """
 
-    # Clean and Decimate mesh
+    # 1. Clean mesh
     vertices, faces = mesh_processing.clean_mesh(stl_file_path)
 
-    result = igl.decimate(vertices, faces, target_faces)
-    decimated_vertices = result[1]
-    decimated_faces = result[2]
+    # --- FIX FOR IGL START ---
+    # Prepare data: libigl requires float64/int32 and Fortran (column-major) order
+    v_igl = np.asfortranarray(vertices).astype(np.float64)
+    f_igl = np.asfortranarray(faces).astype(np.int32)
+    target = int(target_faces)
+
+    # Call decimate
+    # In your version, result is (Vertices, Faces, face_indices, vertex_indices)
+    result = igl.decimate(v_igl, f_igl, target)
+    
+    # We unpack starting from index 0
+    decimated_vertices = result[0]
+    decimated_faces = result[1]
+    # --- FIX FOR IGL END ---
+
+    # 2. Reconstruct mesh for volume/area calculations
     mesh = trimesh.Trimesh(vertices=decimated_vertices, faces=decimated_faces)
     filter_laplacian(mesh, iterations=3)
 
-    # Compute volume and surface area
+    # 3. Compute volume and surface area
     volume_mm3 = mesh.volume
     surface_area_mm2 = mesh.area
 
-    volume_cm3 = volume_mm3 / 1000
-    surface_area_cm2 = surface_area_mm2 / 100
+    # Convert mm to cm (Volume: mm3 / 1000, Area: mm2 / 100)
+    volume_cm3 = volume_mm3 / 1000.0
+    surface_area_cm2 = surface_area_mm2 / 100.0
 
-    # Compute sphericity using standard ISO formula
+    # 4. Compute sphericity using standard ISO formula
+    # Sphericity = (pi^(1/3) * (6 * V)^(2/3)) / Area
     numerator = (np.pi ** (1 / 3)) * ((6 * volume_cm3) ** (2 / 3))
     sphericity = numerator / surface_area_cm2
 
-    # centroid offset
+    # 5. Compute centroid offset
     centroid_offset = compute_centroid_offset(mesh)
 
     return sphericity, surface_area_cm2, centroid_offset
-
-
 def compute_centroid_offset(mesh: trimesh.Trimesh):
     """
     Compute the Euclidean distance between the mass centroid and the bounding box centroid
