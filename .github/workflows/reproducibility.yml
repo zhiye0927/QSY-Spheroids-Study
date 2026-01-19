@@ -17,19 +17,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Download STL files from OSF
-      # We use osfclient to download the data before building the docker image
-      # Note: This downloads the whole project 'ctne9'. We then move the specific folder.
+# 2. Download STL files from OSF
+      # We use wget to download the project zip directly because osfclient is buggy.
+      # URL format: https://files.osf.io/v1/resources/<PROJECT_ID>/providers/osfstorage/?zip=
       - name: Download Data from OSF
         run: |
-          pip install osfclient
-          osf -p ctne9 clone temp_osf_data
+          # 1. Download the entire project storage as a zip
+          wget -O project_data.zip "https://files.osf.io/v1/resources/ctne9/providers/osfstorage/?zip="
           
-          # Move the specific folder to where the scripts expect it
-          # Expected path: /py_SPHARM/SPHARM_main/3d_models_QSY_spheroids_multi_poly
-          mv temp_osf_data/osfstorage/3d_models_QSY_spheroids_multi_poly py_SPHARM/SPHARM_main/
+          # 2. Unzip into a temporary directory
+          unzip -q project_data.zip -d temp_osf_data
           
-          # Clean up the rest of the OSF download to save space
+          # 3. Move the specific target folder to the destination
+          # We use 'find' to locate the folder because zip root structures can vary
+          find temp_osf_data -name "3d_models_QSY_spheroids_multi_poly" -type d -exec mv {} py_SPHARM/SPHARM_main/ \;
+          
+          # 4. Cleanup
+          rm project_data.zip
           rm -rf temp_osf_data
 
       # 3. Build the Docker Image
