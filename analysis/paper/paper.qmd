@@ -40,7 +40,6 @@ institute:
   - ALPHA: Group of Alpine Paleoecology and Human Adaptation (ALPHA), Institute of Tibetan Plateau Research, Chinese Academy of Sciences, Beijing 100101; 
   - TPESRE: State Key Laboratory of Tibetan Plateau Earth System, Resources and Environment (TPESRE), Beijing 100101
   - uw: Department of Anthropology, University of Washington, Seattle, WA, USA
-
 title-block-published: "Last updated"  
 date: now
 date-format: long
@@ -385,34 +384,9 @@ library(readxl)
 library(here)
 library(stringr)
 
-# get Sphericity and SHE values from the Python workflow and join them on 
-sphericity_results <- 
-  here("analysis/data/raw_data/SPHARM_sphericity_curvature_result/sphericity_iso.csv") %>%  
-  read_csv %>% 
-  mutate(ID = str_replace_all(ID, "-", "_"))
-
-she_results <- 
-  here("analysis/data/raw_data/SPHARM_sphericity_curvature_result/SHE.csv") %>%  
-  read_csv() %>% 
-  mutate(ID = str_replace_all(filename, "-", "_"))
-
-# import excel sheet with lithology, typology, etc.
 file_path <- here("analysis/data/derived_data/core_typology_morphological_parameters.xlsx")
-data_raw_0 <- read_excel(file_path)
+data_raw <- read_excel(file_path)
 
-# join with data from Python workflow (we never want to do this by hand and break the workflow)
-data_raw <- 
-data_raw_0 %>% 
-  left_join(sphericity_results, by = "ID") %>% 
-  left_join(she_results, by = "ID") %>% 
-  select(ID, 
-         Rock_type,
-         `Blank type`,
-         `Final morphology`,
-          Typology = `Typology.x`,
-         `typology by SPHARM`,
-          Sphericity = sphericity,
-          SHE)
 
 data_clean <- data_raw |>
   mutate(across(
@@ -990,7 +964,7 @@ cv_she_poly_multi <- sd_she_poly_multi / mean_she_poly_multi
 ```{r setup_umap_data, echo=FALSE, message=FALSE, warning=FALSE}
 
 
-umap_data <- read_csv(here("analysis/data/derived_data/umap_lmax20-0.csv"))
+umap_data <- read_csv(here("analysis/data/derived_data/umap_lmax20.csv"))
 
 
 umap_data <- umap_data %>%
@@ -1004,8 +978,8 @@ umap_data <- umap_data %>%
   mutate(point_size = if_else(category_lower == "idealmodel", 4.5, 3))
 
 
-# umap_data %>%
-#   count(category_lower)
+umap_data %>%
+  count(category_lower)
 # Elbow method for optimal K
 #wss <- numeric(10)  
 
@@ -1327,7 +1301,7 @@ p_umap_by_cluster_with_images <- p_umap_by_cluster +
 cluster_summary <- umap_data_to_plot %>%
   select(filename, category_lower, cluster) %>%
   arrange(cluster, category_lower, filename)
-
+print(cluster_summary, n = 50)
 
 
 ggsave(here("analysis/paper/figures/umap_by_cluster1.png"),
@@ -1504,7 +1478,7 @@ knitr::include_graphics(here("analysis/paper/figures/shaping_process.png"))
 
 Diacritical analysis of spheroid and subspheroid surfaces reveals a structured and recurrent reduction sequence comprising three phases (@fig-spheroids-2797-1098). Phase one was a unidirectional or bidirectional total exploitation, belonging to one kind of volume exploitation. Large and flat surfaces of the cobble were selected as platforms for striking toward the opposite surface. Knapping proceeded until the peripheral volume was fully exploited, resulting in an approximately cubic form. Phase two was peripheral centripetal exploitation. In this phase, previous removals in phase one serve as platforms for centripetal flaking around the core periphery. This represents a surface exploitation stage. A notable feature is the angle between the flaking surface and platform (i.e. core edge angle), which often exceeds 90°. This phase contributes significantly to the increasingly spherical shape of the artifact. Phase three was the production of small scars on ridges or intersections of previous flake scars, resulting in a rounding and smoother surface, further enhancing roundness.
 
-Among the spheroids and subspheroids in Qianshangying site, 6 pieces fall within Phase three of the reduction sequence, 3 pieces appear to have skipped phase two and proceeded directly to edge refinement, 1 piece in phase two, and 2 pieces in phase one (see supplementary material files spheroids_metrics.xlsx). However, one subspheroid bypassed Phase 1 and instead employed a strategy of bifacial centripetal exploitation combined with edge refinement. Notably, in this case the angle between the two flaking surfaces approaches 90°, distinguishing this subspheroid from typical core of discoid. This indicates that the purpose of reduction was not the production of flakes, but rather the direct shaping of the artifact into its final spherical form. Also, it is important to note that due to the high degree of reduction intensity observed in some spheroids, phases prior to the visible sequence were often obliterated. We hypothesize the existence of a Phase zero, potentially involving roughing-out of the cobble or an earlier cycle of Phases one to three [@fig-shaping-process].
+At the Qianshangying site, all spheroids fall within Phase 3 of the reduction sequence, with one specimen appearing to have skipped Phase 2 and proceeded directly to edge refinement. In contrast, subspheroids display greater variability in their reduction sequences: Four specimens are assigned to Phase 3, of which two appear to have skipped Phase 2; one specimen falls within Phase 2, and one specimens within Phase 1 (see supplementary material files spheroids_metrics.xlsx). However, one subspheroid bypassed Phase 1 and instead employed a strategy of bifacial centripetal exploitation combined with edge refinement. Notably, in this case the angle between the two flaking surfaces approaches 90°, distinguishing this subspheroid from typical core of discoid. This suggests that the purpose of reduction was not the production of flakes, but rather the direct shaping of the artifact into its final spherical form. Also, it is important to note that due to the high degree of reduction intensity observed in some spheroids, phases prior to the visible sequence were often obliterated. We hypothesize the existence of a Phase zero, potentially involving roughing-out of the cobble or an earlier cycle of Phases one to three [@fig-shaping-process].
 
 
 ```{r, echo=FALSE}
@@ -1624,7 +1598,7 @@ knitr::include_graphics(file.path(output_dir, "benn_ternary_plot.jpg"))
 
 ```
 
-Scar orientation analysis further supports the interpretation of a systematic reduction sequence in the production of Qianshangying spheroids and subspheroids. @fig-benn-ternary-plot shows that spheroids tend to cluster together, with elongation ratios ranging from `r elongation_min` to `r elongation_max` and isotropy ratios from `r isotropy_min` to `r isotropy_max`. These elongation ratios suggest that the spheroids underwent unidirectional or bidirectional total exploitation, typical of Phase one, resulting in relatively high elongation values. Then the peripheral centripetal exploitation, namely Phase two, appears to have contributed to a certain degree of isotropy in scar orientation, and higher isotropy ratios are associated with more spherical forms. Subspheroids exhibit greater variability in both elongation and isotropy ratios, reflecting less standardized reduction than spheroids.
+Scar orientation analysis further supports the interpretation of a systematic reduction sequence in the production of Qianshangying spheroids and subspheroids. @fig-benn-ternary-plot shows that spheroids tend to cluster together, with elongation ratios ranging from `r elongation_min` to `r elongation_max` and isotropy ratios from `r isotropy_min` to `r isotropy_max`. These elongation ratios suggest that the spheroids underwent unidirectional or bidirectional total exploitation, typical of Phase one, resulting in relatively high elongation values. Then the peripheral centripetal exploitation, namely Phase two, appears to have contributed to a certain degree of isotropy in scar orientation, and higher isotropy ratios are associated with more spherical forms. Subspheroids exhibit greater variability in both elongation and isotropy ratios, reflecting less standardized reduction than spheroids. They remain more morphologically clustered than multifacial cores and polyhedrons, though this distinction is subtle.
 
 Multifacial cores and polyhedrons display a wide and dispersed distribution in the ternary plot, without forming any distinctive cluster. Their scar patterns show considerable variability in both elongation and isotropy, reinforcing the interpretation that these cores lack removal organization. Multifacial cores typically exploit natural angles with core rotation occurring without a predetermined plan, which belongs to an opportunistic flaking strategy, while polyhedrons, despite showing a higher degree of reduction, follow a similarly unstructured sequence. This distinction highlights the fundamental technological difference between group of polyhedrons and multifacial cores and group of spheroids at Qianshangying. While they used to be considered as a continuous reduction process, our results show that in fact polyhedrons and multifacial cores represent exhausted cores, whereas spheroid group reflects the presence of a distinct conceptual template and systematic reduction plan.
 
@@ -1909,13 +1883,13 @@ dev.off()
 ```
 
 
-For group of spheroids and subspheroids, we conducted shaping efficiency analysis.The same analysis on group of polyhedrons and multifacial cores as a comparison. @fig-spearman-correlation-matrix shows the results. Among reduction intensity descriptors, removal ratio and SDI incorporate surface area in their calculation, making them more effective in capturing the density and intensity of reduction, and therefore more reliable indicators of the reduction process compared to scar number.
+For group of spheroids and subspheroids, we conducted shaping efficiency analysis.The same analysis on group of polyhedrons and multifacial cores as a comparison. @fig-spearman-correlation-matrix shows the results. Among reduction intensity descriptors, removal ratio and SDI incorporate surface area in their calculation, making them more effective in capturing the density and intensity of reduction, and therefore more comparable indicators of the reduction process compared to scar number.
 
 Among the shape descriptors, we observed several significant correlations in the group of spheroids and subspheroids. Mean edge angle was positively correlated with sphericity (ρ = `r cor_angle_sph`, p = $`r p_angle_sph`$) and negatively correlated with Spherical Harmonics Power (SHE) (ρ = `r cor_angle_she`, p = $`r p_angle_she`$), indicating that greater edge angles are associated with more spherical and regular forms. Curvature was not significantly correlated with other variables, which may reflect its focus on local surface texture, while edge angle, sphericity and SHE capture broader aspects of shape regularity and symmetry. The weak correlation between sphericity and SHE may result from the small sample size or their different sensitivities: sphericity, based on area and volume, tolerates surface variation, while SHE responds more to asymmetry and shape irregularity. Thus, even in specimens with similar sphericity, surface differences can produce substantial variation in SHE. The analysis of spheroid shape variables indicates that mean edge angle, curvature, sphericity, and SHE each capture distinct aspects of spheroid morphology, which explains the varying strengths of correlation observed among them.
 
 Significant correlations were found between removal ratio and mean edge angle in the group of spheroids and subspheroids. Mean edge angle was positively correlated with both scar number (ρ = `r cor_edge_scar`, p = $`r p_edge_scar`$) and removal ratio (ρ = `r cor_edge_removal`, p = $`r p_edge_removal`$). SHE showed a negative correlation trend with removal ratio (ρ = `r cor_she_removal`, $`r p_she_removal`$). Although this correlation did not reach the conventional significance threshold of $p < 0.05$, likely due to the small sample size, the relatively strong Pearson correlation suggests this negative relationship warrants attention. These results suggest that as reduction progresses, spheroids develop larger edge angles and lower SHE, indicating increased regular forms and global symmetry.
 
-However, no significant correlations were observed between reduction intensity variables and sphericity or curvature. This implies that increased reduction does not necessarily produce smoother surfaces. Such patterns likely reflect the technological nature of the samples: the analyzed spheroids and subspheroids are "faceted" products of flake removal. Flaking increases surface complexity by adding edges and angular intersections, which may elevate curvature while also expanding surface area, factors that can distort sphericity values. For instance, a smooth, naturally rounded cobble might exhibit lower curvature and a sphericity closer to 1 than a heavily flaked spheroid. Therefore, the signficant correlation between reduction intensity and SHE and mean edge angle, but not sphericity or curvature, suggests that shaping efforts prioritized achieving symmetrical and regular, coherent forms rather than naturally polished and smooth surfaces.
+However, no significant correlations were observed between reduction intensity variables and sphericity or curvature. This implies that increased reduction does not necessarily produce smoother surfaces. Such patterns likely reflect the technological nature of the samples: the analyzed spheroids and subspheroids are "faceted" products of flake removal. Flaking increases surface complexity by adding edges and angular intersections, which may elevate curvature while also expanding surface area, factors that can distort sphericity values. For instance, a smooth, naturally rounded cobble might exhibit lower curvature and a sphericity closer to 1 than a heavily flaked spheroid. Therefore, the significant correlation between reduction intensity and SHE and mean edge angle, but not sphericity or curvature, suggests that shaping efforts prioritized achieving symmetrical and regular, coherent forms rather than naturally polished and smooth surfaces.
 
 In contrast, the polyhedron and multifacial cores group exhibits a distinct morphological trajectory: higher core reduction intensity correlated with lower sphericity and higher SHE values. This pattern suggests that sustained flaking activity in polyhedral cores leads to increasingly irregular forms that deviate from spherical geometry. This comparative analysis allows us to address our initial research question: spheroids do not represent a product of intensive flaking in the same manner as polyhedrons. Indeed, while spheroids must undergo significant reduction to achieve their near-spherical morphology, conversely, not all exhausted cores acquire spherical morphology.
 
@@ -1960,9 +1934,9 @@ Three primary techniques have been identified in the manufacture of spheroids in
 
 We found six sites exhibiting similar strategies to Qianshangying. For example, at DC and MJQ, thick and flat cobbles were selected and shaped through peripheral flaking, producing roughly approximately cubic shape [@Wei1984; @Tao1984Dingcun]. MJQ specimens retain parts of the cortex, while at DC, flakes with large exterior and small interior platform angles were removed from blanks to increase edge angles and enhance roundness [@Tao1984Dingcun; @Wei1984]. Among the six sites, all but MJQ are located within the Fen River and Lishui River regions. These sites were grouped into the Keheng–Dingcun techno-complexes and Lishui techno-complexes, characterized by trihedral picks [@LixianMuseum1992; @Tan1999; @Fang2002; @SXA2014Dingcun; @Jia1962Kehe]. The trihedral picks were produced by striking the dorsal surfaces of large flakes to concentrate edges at the tip, resulting in triangular outlines and robust pointed ends, classifying them as large cutting tools (LCTs)[@kuman2014large; @li2018currently; @yang2016late]. This is a significant observation, as it implies that spheroid production techniques similar to those at Qianshangying are more frequently associated with lithic assemblages characterized by intentional shaping strategies.
 
-It should be emphasized, however, that we do not intend to imply a direct association between faceted spheroids and Acheulean technology. We infer that faceted spheroids in China appear to represent a shaping tradition that shares the same crucial technological competencies as LCTs [@leakey1971; @Cabanes2024; @Isaac1986], and this explains why they often occur in Acheulean techno-complex. We now find that faceted spheroids occur at Qianshangying within the small flake tool industry of northern China. Since this industry was previously regarded as a simple core and flake technology, the presence of faceted spheroids suggests that it is more complex and exhibits greater variability than previously thought.
+It should be emphasized, however, that we do not intend to imply a direct association between faceted spheroids and Acheulean technology. We infer that faceted spheroids in China appear to represent a shaping tradition that shares the same crucial technological competencies as LCTs [@leakey1971; @Cabanes2024; @Isaac1986], and this could explain why they often occur in Acheulean techno-complex. We now find that faceted spheroids occur at Qianshangying within the context of a small flake tool industry. This industry, based on a core and flake technology, has been attributed to Mode 1 in north China. The presence of faceted spheroids, however, suggests that this technocomplex was more complex and exhibited greater variability than previously thought.
 
-Similarly, we may need to reconsider the technological complexity implied by faceted spheroids, even when they occur in early cultural contexts traditionally regarded as simple. Faceted spheroids appear in what is considered the Late Oldowan, if a chronological boundary is set at 2.0 Ma to distinguish between Early and Late Oldowan [@gallotti2018emergence]. The growing recognition of technological diversity within the Oldowan has led to a broader consensus that the Late Oldowan includes signs of innovation, such as more complex flaking patterns and decreased morphological variability in flakes [@braun2019; @gallotti2018emergence]. Faceted spheroids, we propose here, may represent one of the key indicators of this increasing technological complexity during the Late Oldowan [@tittonSubspheroidsLithicAssemblage2020].
+Similarly, we may need to reconsider the technological complexity implied by faceted spheroids. Faceted spheroids appear in what is considered the Late Oldowan, if a chronological boundary is set at 2.0 Ma to distinguish between Early and Late Oldowan [@gallotti2018emergence]. The growing recognition of technological diversity within the Oldowan has led to a broader consensus that the Late Oldowan includes signs of innovation, such as more complex flaking patterns and decreased morphological variability in flakes [@braun2019; @gallotti2018emergence]. Faceted spheroids, we propose here, may represent one of the key indicators of this increasing technological complexity during the Late Oldowan [@tittonSubspheroidsLithicAssemblage2020].
 
 In particular, if future research can demonstrate that these faceted spheroids also represent a deliberate shaping strategy, this may indicate a level of technical skill approaching that of the earliest Acheulean, or perhaps even foreshadowing its emergence. After all, faceted spheroids already embody one of the key innovation characteristics of the Acheulean, that is, the imposition of a specific mental template onto blanks in order to produce tools with broadly similar overall forms [@Isaac1986; @de2016origins].
 
@@ -1976,7 +1950,7 @@ By applying a range of quantitative methods, we conducted an integrated morpholo
 
 This paper also presents one of the first systematic overviews of the spatial and temporal distribution and technological variability of spheroids within East Asia. We found that East Asian spheroids display considerable diversity in raw materials, production techniques, and morphology. Some assemblages contain spheroids that may be comparable to those from Qianshangying and tend to appear within Acheulean or shaping-oriented techno-complexes, often dated later than Qianshangying. This highlights the particular significance of the Qianshangying spheroids. However, the current dataset remains limited, and many sites lack detailed morphological and technological studies of spheroids, hampering broader inferences about hominin technological behaviors. We therefore emphasize the need for site-specific analysis of spheroids in future research.
 
-Given the limitations of traditional typology in capturing the functional, morphological, and technological variability of spheroids across sites, we argue that multiple method approaches are essential. From the perspective of typology, spheroids have often been dismissed as poor marker of hominin behavior due to their wide spatial and temporal distribution. However, more recent studies increasingly reveal their diversity and potential as markers of hominin technological behavior [@tittonSubspheroidsLithicAssemblage2020; @vaquero2018]. For example, distinctions between flaking-based and battering-based spheroids, along with patterns of raw material selection, production goals, and associations with specific subsistence strategies or environmental adaptations, may prove meaningful [@Cabanes2024]. Beyond the methods of morphological and technological analysis used here, future studies incorporating functional analysis and experimental replication will further enhance our understanding.
+Given the limitations of traditional typology in capturing the functional, morphological, and technological variability of spheroids across sites, we argue that multiple method approaches are essential. From the perspective of typology, spheroids have often been dismissed as poor marker of hominin behavior due to their wide spatial and temporal distribution. However, more recent studies increasingly reveal their diversity and potential as markers of hominin technological behavior [@tittonSubspheroidsLithicAssemblage2020; @vaquero2018; @de2017early; @Cabanes2024]. For example, distinctions between flaking-based and battering-based spheroids, along with patterns of raw material selection, production goals, and associations with specific subsistence strategies or environmental adaptations, may prove meaningful [@Cabanes2024]. Beyond the methods of morphological and technological analysis used here, future studies incorporating functional analysis and experimental replication will further enhance our understanding.
 
 # CRediT authorship contribution statement
 
@@ -2023,9 +1997,4 @@ This report was generated on `r Sys.time()` using the following computational en
 if ("devtools" %in% installed.packages()) devtools::session_info()
 ```
 
-The current Git commit details are:
 
-```{r}
-# what commit is this file at? 
-if ("git2r" %in% installed.packages() & git2r::in_repository(path = ".")) git2r::repository(here::here())  
-```

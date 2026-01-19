@@ -3,4 +3,18 @@
 .RData
 .Ruserdata
 **/*.stl
-**/__pycache__
+
+#  python ignores
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore the virtual environments
+py_SPHARM/spharm/
+.conda/
+.venv/
+
+# Ignore R library folders (renv takes care of this)
+renv/library/
+renv/staging/
