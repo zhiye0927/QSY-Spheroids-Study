@@ -3,3 +3,4 @@
 .RData
 .Ruserdata
 **/*.stl
+**/__pycache__
