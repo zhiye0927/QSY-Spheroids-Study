@@ -387,6 +387,36 @@ library(stringr)
 file_path <- here("analysis/data/derived_data/core_typology_morphological_parameters.xlsx")
 data_raw <- read_excel(file_path)
 
+# get Sphericity and SHE values from the Python workflow and join them on 
+sphericity_results <- 
+  here("analysis/data/raw_data/SPHARM_sphericity_curvature_result/sphericity_iso.csv") %>%  
+  read_csv %>% 
+  mutate(ID = str_replace_all(ID, "-", "_"))
+
+she_results <- 
+  here("analysis/data/raw_data/SPHARM_sphericity_curvature_result/SHE.csv") %>%  
+  read_csv() %>% 
+  mutate(ID = str_replace_all(filename, "-", "_"))
+
+# import excel sheet with lithology, typology, etc.
+file_path <- here("analysis/data/derived_data/core_typology_morphological_parameters.xlsx")
+data_raw_0 <- read_excel(file_path)
+
+# join with data from Python workflow (we never want to do this by hand and break the workflow)
+data_raw <- 
+data_raw_0 %>% 
+  left_join(sphericity_results, by = "ID") %>% 
+  left_join(she_results, by = "ID") %>% 
+  select(ID, 
+         Rock_type,
+         `Blank type`,
+         `Final morphology`,
+          Typology = `Typology.x`,
+         `typology by SPHARM`,
+          Sphericity = sphericity,
+          SHE)
+
+
 
 data_clean <- data_raw |>
   mutate(across(
