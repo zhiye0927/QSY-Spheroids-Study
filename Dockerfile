@@ -49,8 +49,13 @@ RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkg
 # Note: rocker/geospatial already has tidyverse and sf, so renv will likely 
 # just link to existing high-speed binaries.
 RUN R -e "install.packages('renv', repos='https://cloud.r-project.org')"
-  
-  
+
+#  Actually restore the packages from renv.lock
+RUN R -e "renv::restore(prompt = FALSE)"
+
+# Set proper permissions for the renv library so RStudio can access it
+RUN chown -R rstudio:rstudio /project/renv
+
 RUN echo "source /opt/conda/etc/profile.d/conda.sh" >> /home/rstudio/.bashrc
 RUN git config --global --add safe.directory /project
 

@@ -142,10 +142,17 @@ docker build -t spharm .
 
  to build the container on your computer, it will take a few minutes and require a fast internet connection.
  
-4.  Run in your terminal:
+4.  Run in your terminal (linux and OSX):
 
 ```
 docker run -d -p 8787:8787 -v $(pwd):/project -w /project -e PASSWORD=rstudio spharm
+```
+
+For Windows:
+
+```
+MSYS_NO_PATHCONV=1 docker run -d -p 8787:8787 -v $(pwd):/project -w /p
+roject -e PASSWORD=rstudio spharm
 ```
 
 to start the container on your computer
