@@ -2,6 +2,8 @@
 
 # Spherical harmonic analysis of faceted spheroids identifies shaping strategies and standardisation at Qianshangying (North China)
 
+[![](https://github.com/zhiye0927/QSY-Spheroids-Study/actions/workflows/reproducibility.yml/badge.svg)](https://github.com/zhiye0927/QSY-Spheroids-Study/actions/workflows/reproducibility.yml)
+
 This repository contains the data and code for our paper:
 
 > Ye Zhi, Ben Marwick, Li Hao, Shuwen Pei (2025). Spherical harmonic
@@ -161,11 +163,15 @@ following these steps:
 to build the container on your computer, it will take a few minutes and
 require a fast internet connection.
 
-4.  Run in your terminal:
+4.  Run in your terminal (linux and OSX):
 
 <!-- -->
 
-    docker run -d -p 8787:8787 -v $(pwd):/project -w /project -e PASSWORD=rstudio spharm
+    docker run -d -p 8787:8787 -v $(pwd):/project  -w /project -e PASSWORD=rstudio spharm
+
+For Windows (Git Bash):
+
+    MSYS_NO_PATHCONV=1 docker run -d -p 8787:8787 -v $(pwd):/project -w /project -e PASSWORD=rstudio spharm
 
 to start the container on your computer
 
@@ -174,15 +180,14 @@ to start the container on your computer
 
 6.  In RStudio, open this README file and follow the steps above in the
     section ‘How to download and run locally’. You can run
-    `rmarkdown::render("analysis/paper/paper.qmd", output_dir='/tmp')`
-    to render the Quarto document that is the manuscript submitted for
-    publication
+    `quarto::quarto_render("analysis/paper/paper.qmd")` to render the
+    Quarto document that is the manuscript submitted for publication
 
 7.  After the code has executed, view the rendered output document by
-    running `browseURL("/tmp/paper.docx")`
+    running `browseURL("analysis/paper/paper.docx")`
 
-8.  When finished, to delete the Docker container from your computer,
-    run this in the terminal on your desktop:
+8.  When finished, to delete all the Docker containers from your
+    computer, run this in the terminal on your desktop:
     `docker ps -aq | xargs docker stop | xargs docker rm`
 
 ### Licenses

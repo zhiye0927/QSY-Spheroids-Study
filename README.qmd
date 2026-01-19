@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 
 # Spherical harmonic analysis of faceted spheroids identifies shaping strategies and standardisation at Qianshangying (North China)
 
+[![Reproducibility Check](https://github.com/zhiye0927/QSY-Spheroids-Study/actions/workflows/reproducibility.yml/badge.svg)](https://github.com/zhiye0927/QSY-Spheroids-Study/actions/workflows/reproducibility.yml)
 
 This repository contains the data and code for our paper:
 
