@@ -17,22 +17,36 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-# 2. Download STL files from OSF
-      # We use wget to download the project zip directly because osfclient is buggy.
-      # URL format: https://files.osf.io/v1/resources/<PROJECT_ID>/providers/osfstorage/?zip=
+# 2. Download and Extract Data (Smart Search)
       - name: Download Data from OSF
         run: |
-          # 1. Download the entire project storage as a zip
-          wget -O project_data.zip "https://files.osf.io/v1/resources/ctne9/providers/osfstorage/?zip="
+          # 1. Download
+          wget -q -O project_data.zip "https://files.osf.io/v1/resources/ctne9/providers/osfstorage/?zip="
           
-          # 2. Unzip into a temporary directory
+          # 2. Unzip
           unzip -q project_data.zip -d temp_osf_data
           
-          # 3. Move the specific target folder to the destination
-          # We use 'find' to locate the folder because zip root structures can vary
-          find temp_osf_data -name "3d_models_QSY_spheroids_multi_poly" -type d -exec mv {} py_SPHARM/SPHARM_main/ \;
+          # 3. Find where the STL files are hiding
+          # We look for the first file ending in .stl to locate the directory
+          STL_FILE=$(find temp_osf_data -name "*.stl" | head -n 1)
           
-          # 4. Cleanup
+          if [ -z "$STL_FILE" ]; then
+            echo "ERROR: No STL files found in the zip!"
+            # Debug: List all files so we can see what happened
+            find temp_osf_data
+            exit 1
+          fi
+          
+          # Get the directory containing that STL file
+          SOURCE_DIR=$(dirname "$STL_FILE")
+          echo "Found STL files in: $SOURCE_DIR"
+          
+          # 4. Move and Rename
+          # We move the found directory to where the Python script expects it
+          # and ensure it has the specific name the script requires
+          mv "$SOURCE_DIR" py_SPHARM/SPHARM_main/3d_models_QSY_spheroids_multi_poly
+          
+          # Cleanup
           rm project_data.zip
           rm -rf temp_osf_data
 
