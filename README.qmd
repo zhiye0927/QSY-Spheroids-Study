@@ -148,7 +148,7 @@ docker build -t spharm .
 docker run -d -p 8787:8787 -v $(pwd):/project  -w /project -e PASSWORD=rstudio spharm
 ```
 
-For Windows:
+For Windows (Git Bash):
 
 ```
 MSYS_NO_PATHCONV=1 docker run -d -p 8787:8787 -v $(pwd):/project -w /project -e PASSWORD=rstudio spharm
@@ -158,9 +158,9 @@ to start the container on your computer
  
 5.  Go to <http://localhost:8787/> with your browser and enter `rstudio` in both fields to start RStudio in your browser
     
-6.  In RStudio, open this README file and follow the steps above in the section 'How to download and run locally'. You can run `rmarkdown::render("analysis/paper/paper.qmd", output_dir='/tmp')` to render the Quarto document that is the manuscript submitted for publication
+6.  In RStudio, open this README file and follow the steps above in the section 'How to download and run locally'. You can run `quarto::quarto_render("analysis/paper/paper.qmd")` to render the Quarto document that is the manuscript submitted for publication
 
-8.  After the code has executed, view the rendered output document by running `browseURL("/tmp/paper.docx")`
+8.  After the code has executed, view the rendered output document by running `browseURL("analysis/paper/paper.docx")`
 
 9.  When finished, to delete all the Docker containers from your computer, run this in the terminal on your desktop:  `docker ps -aq | xargs docker stop | xargs docker rm`
 

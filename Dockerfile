@@ -33,16 +33,17 @@ COPY . /project
 # --- 5. RENV RESTORE ---
 
 # A. Set RENV paths to location OUTSIDE /project 
-# This ensures your volume mount (-v) doesn't hide the installed packages.
 ENV RENV_PATHS_LIBRARY=/opt/renv/library
 ENV RENV_PATHS_CACHE=/opt/renv/cache
 
-# B. Create directories and give 'rstudio' user permission to write to them
-# This allows you to install more packages inside RStudio if needed.
+# B. Create directories and give 'rstudio' user permission
 RUN mkdir -p /opt/renv && chown -R rstudio:rstudio /opt/renv
 
-# C. Install renv and restore
-# We disable symlinks because they often break when using Docker on Windows
+# C. Remove the pre-installed system ggplot2 (v3.5.1)
+# This forces R to use the v4.0.1 version that renv installs below.
+RUN rm -rf /usr/local/lib/R/site-library/ggplot2
+
+# D. Install renv and restore
 RUN R -e "install.packages('renv', repos='https://cloud.r-project.org')" && \
     R -e "options(renv.config.cache.symlinks = FALSE); renv::restore(prompt = FALSE)"
 
@@ -53,4 +54,3 @@ RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkg
     conda env create -f py_SPHARM/environment.yml --solver=libmamba
   
 RUN git config --global --add safe.directory /project
-
