@@ -1,232 +1,112 @@
-name: Test Quarto Rendering
+name: Reproducibility Check
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ "main", "master" ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ "main", "master" ]
+  # Allow running manually from the Actions tab
   workflow_dispatch:
 
 jobs:
-  render-quarto:
+  build-and-run:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-    
-    - name: Setup R
-      uses: r-lib/actions/setup-r@v2
-      with:
-        r-version: '4.3'
-        use-public-rspm: true
-    
-    - name: Install system dependencies for Quarto
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y curl jq
-        
-    - name: Setup Quarto
-      uses: quarto-dev/quarto-actions/setup@v2
-    
-    - name: Cache R packages
-      uses: actions/cache@v3
-      with:
-        path: |
-          /usr/local/lib/R/site-library
-          /usr/lib/R/site-library
-          ~/.cache/R
-          ~/.local/share/quarto
-        key: ${{ runner.os }}-r-quarto-${{ hashFiles('**/*.qmd', 'DESCRIPTION', 'requirements.R') }}
-        restore-keys: |
-          ${{ runner.os }}-r-quarto-
-  
-    
-    - name: Install base R packages for Quarto
-      run: |
-        Rscript -e "
-          base_packages <- c('knitr', 'rmarkdown', 'tinytex', 'stringr')
-          installed <- rownames(installed.packages())
-          needed <- setdiff(base_packages, installed)
-          if (length(needed) > 0) {
-            install.packages(needed, repos = 'https://cloud.r-project.org')
-          }
-        "
-    
-    - name: Install R packages from quarto files
-      run: |
-        Rscript -e "
-          # Function to extract package names
-          extract_packages <- function(content) {
-            packages <- c()
-            
-            # Find library() and require() calls
-            lib_lines <- grep('library\\(|require\\(', content, value = TRUE)
-            for(line in lib_lines) {
-              # Remove comments
-              line <- gsub('#.*$', '', line)
-              # Extract package name
-              pkg <- gsub('.*library\\(|require\\(', '', line)
-              pkg <- gsub('\\).*', '', pkg)
-              pkg <- gsub('[\"\\']', '', pkg)
-              pkg <- trimws(pkg)
-              if(nchar(pkg) > 0) {
-                packages <- c(packages, pkg)
-              }
-            }
-            
-            # Find pkg::function calls (simplified)
-            pkgref_lines <- grep('::', content, value = TRUE)
-            for(line in pkgref_lines) {
-              # Remove comments
-              line <- gsub('#.*$', '', line)
-              # Extract package names before ::
-              matches <- regmatches(line, gregexpr('[a-zA-Z0-9.]+::', line))[[1]]
-              for(match in matches) {
-                pkg <- gsub('::$', '', match)
-                if(nchar(pkg) > 0 && !grepl('^[0-9]', pkg)) {
-                  packages <- c(packages, pkg)
-                }
-              }
-            }
-            
-            unique(packages)
-          }
+      # 1. Checkout the repository code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+# 2. Download and Extract Data (Smart Search)
+      - name: Download Data from OSF
+        run: |
+          # 1. Download
+          wget -q -O project_data.zip "https://files.osf.io/v1/resources/ctne9/providers/osfstorage/?zip="
           
-          # Find and parse qmd files
-          files <- list.files(pattern = '\\\\.qmd$', recursive = TRUE, full.names = TRUE, ignore.case = TRUE)
-          files <- files[!grepl('\\\\.git|_freeze|renv', files)]
+          # 2. Unzip
+          unzip -q project_data.zip -d temp_osf_data
           
-          all_packages <- c()
+          # 3. Find where the STL files are hiding
+          # We look for the first file ending in .stl to locate the directory
+          STL_FILE=$(find temp_osf_data -name "*.stl" | head -n 1)
           
-          if(length(files) > 0) {
-            cat('Found', length(files), 'Quarto files\\n')
-            for(file in files[1:min(20, length(files))]) { # Limit to 20 files to avoid long parsing
-              tryCatch({
-                content <- readLines(file, warn = FALSE)
-                packages <- extract_packages(content)
-                all_packages <- c(all_packages, packages)
-                if(length(packages) > 0) {
-                  cat('  ', basename(file), '->', paste(packages, collapse = ', '), '\\n')
-                }
-              }, error = function(e) {
-                cat('  Error reading', file, ':', e$message, '\\n')
-              })
-            }
-            
-            all_packages <- unique(all_packages)
-            all_packages <- all_packages[!all_packages %in% c('base', 'utils', 'stats', 'graphics', 'grDevices', 'methods', 'datasets')]
-            
-            if(length(all_packages) > 0) {
-              cat('\\nInstalling packages from Quarto files:', paste(all_packages, collapse = ', '), '\\n')
-              
-              # Check which are already installed
-              installed <- rownames(installed.packages())
-              needed <- setdiff(all_packages, installed)
-              
-              if(length(needed) > 0) {
-                cat('Need to install:', paste(needed, collapse = ', '), '\\n')
-                for(pkg in needed) {
-                  tryCatch({
-                    install.packages(pkg, repos = 'https://cloud.r-project.org', quiet = TRUE)
-                    cat('  ✓', pkg, '\\n')
-                  }, error = function(e) {
-                    cat('  ✗ Failed to install', pkg, ':', e$message, '\\n')
-                  })
-                }
-              } else {
-                cat('All packages already installed\\n')
-              }
-            } else {
-              cat('No packages found in Quarto files\\n')
-            }
-          } else {
-            cat('No .qmd files found\\n')
-          }
-        "
-    
-    - name: Create freeze directory for caching
-      run: |
-        mkdir -p _freeze
-    
-    - name: List quarto files
-      run: |
-        echo "=== Quarto files found ==="
-        find . -name "*.qmd" -type f ! -path "./.git/*" ! -path "*/_freeze/*" ! -path "*/renv/*" | sort
-        echo ""
-    
-    - name: Test render quarto files
-      run: |
-        echo "=== Rendering Quarto files ==="
-        
-        # Find all qmd files
-        QMD_FILES=$(find . -name "*.qmd" -type f ! -path "./.git/*" ! -path "*/_freeze/*" ! -path "*/renv/*" | sort || true)
-        
-        if [ -z "$QMD_FILES" ]; then
-          echo "No .qmd files found"
-          exit 0
-        fi
-        
-        echo "Found $(echo "$QMD_FILES" | wc -l) files to render"
-        echo ""
-        
-        FAILED_FILES=""
-        SUCCESS_COUNT=0
-        TOTAL_FILES=0
-        
-        # Render each file
-        for file in $QMD_FILES; do
-          TOTAL_FILES=$((TOTAL_FILES + 1))
-          echo "--- [$TOTAL_FILES] Rendering: $file ---"
-          
-          # Create output directory
-          OUTPUT_DIR="$(dirname "$file")"
-          OUTPUT_FILE="${OUTPUT_DIR}/$(basename "$file" .qmd).html"
-          
-          # Try to render
-          if quarto render "$file" --to html --output "$OUTPUT_FILE"; then
-            echo "✅ Success: $(basename "$file")"
-            SUCCESS_COUNT=$((SUCCESS_COUNT + 1))
-            
-            # Check if output was created
-            if [ -f "$OUTPUT_FILE" ]; then
-              echo "   Output: $OUTPUT_FILE"
-            else
-              echo "   Warning: No output file created"
-            fi
-          else
-            echo "❌ Failed: $(basename "$file")"
-            FAILED_FILES="${FAILED_FILES}\n- ${file}"
-            
-            # Try to get more info
-            echo "   Trying with debug output..."
-            quarto render "$file" --to html --debug || true
+          if [ -z "$STL_FILE" ]; then
+            echo "ERROR: No STL files found in the zip!"
+            # Debug: List all files so we can see what happened
+            find temp_osf_data
+            exit 1
           fi
           
-          echo ""
-        done
-        
-        # Summary
-        echo "=== Rendering Summary ==="
-        echo "Total files processed: $TOTAL_FILES"
-        echo "Successfully rendered: $SUCCESS_COUNT"
-        
-        if [ -n "$FAILED_FILES" ]; then
-          echo "::error::Some Quarto files failed to render"
-          echo "Failed files ($((TOTAL_FILES - SUCCESS_COUNT))):"
-          echo -e "$FAILED_FILES"
-          exit 1
-        else
-          echo "✅ All Quarto files rendered successfully!"
-        fi
-    
-    - name: Upload rendered HTML as artifact
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: rendered-html
-        path: |
-          **/*.html
-          !**/.git/
-          !**/node_modules/
-        retention-days: 7
+          # Get the directory containing that STL file
+          SOURCE_DIR=$(dirname "$STL_FILE")
+          echo "Found STL files in: $SOURCE_DIR"
+          
+          # 4. Move and Rename
+          # We move the found directory to where the Python script expects it
+          # and ensure it has the specific name the script requires
+          mv "$SOURCE_DIR" py_SPHARM/SPHARM_main/3d_models_QSY_spheroids_multi_poly
+          
+          # Cleanup
+          rm project_data.zip
+          rm -rf temp_osf_data
+
+      # 3. Build the Docker Image
+      # We build it here using your Dockerfile
+      - name: Build Docker Image
+        run: docker build -t spharm .
+
+      # 4. Run Python Analysis (Batch Operation)
+      # We use 'conda run -n spharm' to execute inside the conda env defined in your Dockerfile
+      # We mount the current directory (${PWD}) to /project so outputs are saved to the runner
+      - name: Run SPHARM Batch Operation
+        run: |
+          docker run --rm \
+          -v ${{ github.workspace }}:/project \
+          -w /project/py_SPHARM \
+          spharm \
+          conda run -n spharm python -m SPHARM_main."batch operation"
+
+      # 5. Run Curvature Script
+      - name: Run Curvature Script
+        run: |
+          docker run --rm \
+          -v ${{ github.workspace }}:/project \
+          -w /project/py_SPHARM \
+          spharm \
+          conda run -n spharm python SPHARM_modules/curvature.py
+
+      # 6. Run Sphericity Script
+      - name: Run Sphericity Script
+        run: |
+          docker run --rm \
+          -v ${{ github.workspace }}:/project \
+          -w /project/py_SPHARM \
+          spharm \
+          conda run -n spharm python SPHARM_modules/sphericity.py
+
+      # 7. Render Quarto Paper
+      # The Renv packages are already restored in the Docker build step.
+      # We just need to trigger the render.
+      - name: Render Quarto Paper
+        run: |
+          docker run --rm \
+          -v ${{ github.workspace }}:/project \
+          -w /project \
+          spharm \
+          quarto render analysis/paper/paper.qmd --to docx
+
+      # 8. Upload the Resulting Paper
+      # This allows you to download the .docx from the GitHub Actions Summary page
+      - name: Upload Artifact (Paper)
+        uses: actions/upload-artifact@v4
+        with:
+          name: research-paper
+          path: analysis/paper/paper.docx
+          
+      # 9. Upload Data Results (Optional)
+      # Uploads the CSVs generated by Python so you can inspect them
+      - name: Upload Data Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: analysis-data
+          path: analysis/data/raw_data/SPHARM_sphericity_curvature_result/
