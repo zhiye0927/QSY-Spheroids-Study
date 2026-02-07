@@ -55,7 +55,7 @@ execute:
   warning: false
   message: false
   comment: "#>"
-  fig-dpi: 600
+  fig-dpi: 1000
 filters:
   - ../templates/scholarly-metadata.lua
   - ../templates/author-info-blocks.lua
@@ -462,7 +462,7 @@ Our work builds on previous archaeological applications of SPHARM to present an 
 
 ```{r, echo=FALSE}
 #| label: fig-SPHARM-steps
-#| fig-cap: 'Schematic summary of the key steps of 3D spherical harmonics analysis. ① Spherical harmonic expansion: $f(\theta, \phi) = \sum_{l=0}^{\infty} \sum_{m=-l}^{l} \hat{f}(l, m) Y_l^m(\theta, \phi)$; ② Rotation-invariant power spectrum: $F(l) = \sum_{m=-l}^{l} \hat{f}_n^2(l, m)$; ③ Spherical harmonic energy (SHE): $E = \sum_{l=0}^{\infty} \sum_{m=-l}^{l} \hat{f}_n^2(l, m)$'
+#| fig-cap: 'Schematic summary of the key steps of 3D spherical harmonics analysis. First, raw 3D scans of stone artifacts are processed by mapping their surface points onto a standardized spherical grid. The object’s complex geometry is then mathematically decomposed into a series of fundamental shape components (Spherical Harmonics), ranging from general forms to fine details. From this decomposition, we extract numerical fingerprints of the shape, specifically the rotation-invariant power spectrum and total energy, which allow for objective comparison regardless of the object’s orientation. Finally, these quantitative features are used to statistically cluster similar artifacts into groups (using UMAP) and to visually reconstruct shape models for interpretation.'
     
 library(here)
 knitr::include_graphics(here("analysis/paper/figures/SPHARM_steps.png"))
